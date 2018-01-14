@@ -1,0 +1,1062 @@
+//
+//  RoomViewController.m
+//  SmartHome
+//
+//  Created by Apple on 3/20/17.
+//  Copyright © 2017 Apple. All rights reserved.
+//
+
+#import "RoomViewController.h"
+#import "FavViewCell.h"
+#import "BaseViewCell.h"
+#import "UIImage+Color.h"
+#import <QRCodeReader.h>
+#import <QRCodeReaderViewController.h>
+#import <QRCodeReaderDelegate.h>
+//#import "SCSkypeActivityIndicatorView.h"
+@interface RoomViewController ()<UITableViewDataSource, UITableViewDelegate,UIGestureRecognizerDelegate,EditDeviceDelegate,DeviceCellDelegate,MQTTServiceDelegate,QRCodeReaderDelegate>
+{
+    NSMutableArray *typeArr;
+    NSMutableArray *dataArray;
+    NSMutableArray *displayArray;
+    
+    CGSize screenSize;
+    QRCodeReader *reader;
+    
+    // Instantiate the view controller
+    QRCodeReaderViewController *vc;
+}
+@property (assign, nonatomic) NSInteger selectedDeviceId;
+@property (assign, nonatomic) NSInteger curType;
+@property (assign, nonatomic) NSInteger retry;
+@property (assign, nonatomic) BOOL firstTime;
+@property (strong, nonatomic) Device *addDevice;
+@property (strong, nonatomic) Device *delDevice;
+
+@property (strong, nonatomic) NSString *lastQRCode;
+//@property (nonatomic, strong)  SCSkypeActivityIndicatorView *activityIndicatorView;
+
+//@property (strong, nonatomic) MQTTSession *session;
+@end
+
+@implementation RoomViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view.
+    [self initData];
+    [self setupUI];
+    self.activityIndicatorView = [[SCSkypeActivityIndicatorView alloc] initWithFrame:CGRectMake((self.view.frame.size.width - LOADING_SIZE)/2, (self.view.frame.size.height - LOADING_SIZE)/2 - 64, LOADING_SIZE, LOADING_SIZE)];
+    self.activityIndicatorView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
+    self.activityIndicatorView.layer.cornerRadius = LOADING_SIZE * 0.5;
+    self.activityIndicatorView.layer.masksToBounds = true;
+    self.activityIndicatorView.hidden = YES;
+    [self.view addSubview:self.activityIndicatorView];
+    // [MQTTService sharedInstance].delegate = self;
+    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(mqttBecomeActive) name:@"mqttapplicationDidBecomeActive" object:nil];
+}
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [MQTTService sharedInstance].delegate = self;
+//    if (vc.qrType == QRCodeTypeDevice) {
+//        if (self.lastQRCode== nil) {
+//   ÷  @"B000263D" , @"B0000C03" , @"B00026A1",*/, nil];
+//    String[] curtains = {"CT1710000001","CT1710000003"};
+
+//    [self showQRResult:@"2;B00026A1"];
+//
+//        [self readTopicFromQRcode:@"QA_HCL_123"];
+
+}
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    if ( [[MQTTService sharedInstance] isConnected] == false) {
+        [self showLoadingView];
+        
+        [[MQTTService sharedInstance].session connectAndWaitTimeout:30];
+    }else{
+        if (self.firstTime == false) {
+            
+            if (dataArray && dataArray.count > 0) {
+                [self showLoadingView];
+                [[MQTTService sharedInstance] setListDevices:dataArray];
+            }
+        }
+    }
+    self.firstTime = true;
+    
+    
+    [self setTitle:self.room.name connected:[MQTTService sharedInstance].isConnect];
+}
+
+-(void)initData{
+    _curType = 0;
+    _retry = 0;
+    NSSortDescriptor *imageSort = [NSSortDescriptor sortDescriptorWithKey:@"order" ascending:NO];
+    dataArray = [[[self.room.devices allObjects] sortedArrayUsingDescriptors:@[imageSort]] mutableCopy];
+    
+    displayArray = [dataArray mutableCopy];
+    screenSize = [UIScreen mainScreen].bounds.size;
+    typeArr = [[NSMutableArray alloc] init];
+    
+}
+-(void)setupUI{
+    self.tableView.separatorStyle = UITableViewCellSelectionStyleDefault;
+    UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc]
+                                               initWithTarget:self action:@selector(longPressGestureRecognized:)];
+    [self.tableView addGestureRecognizer:longPress];
+    [self setupNavigator];
+//    
+//    UILongPressGestureRecognizer *lpgr = [[UILongPressGestureRecognizer alloc]
+//                                          initWithTarget:self action:@selector(handleLongPress:)];
+//    lpgr.minimumPressDuration = 1.0; //seconds
+//    lpgr.delegate = self;
+//    [self.tableView addGestureRecognizer:lpgr];
+    
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    [self.tableView registerNib:[UINib nibWithNibName:@"LightOnOffViewCell" bundle:nil] forCellReuseIdentifier:@"lightOnOffViewCell"];
+    [self.tableView registerNib:[UINib nibWithNibName:@"RemViewCell" bundle:nil] forCellReuseIdentifier:@"remViewCell"];
+
+    [self initFilterView];
+    
+    reader = [QRCodeReader readerWithMetadataObjectTypes:@[AVMetadataObjectTypeQRCode]];
+    
+    // Instantiate the view controller
+    vc = [QRCodeReaderViewController readerWithCancelButtonTitle:@"Cancel" codeReader:reader startScanningAtLoad:YES showSwitchCameraButton:YES showTorchButton:YES];
+}
+
+-(void)initFilterView{
+    NSMutableArray *types = [[NSMutableArray alloc] init];
+    [types addObject:@"0"];//all
+    
+    for (Device *device in dataArray) {
+        NSString *type = [NSString stringWithFormat:@"%ld",device.type];
+        if ([types containsObject:type] == false) {
+            [types addObject:type];
+        }
+    }
+    if (types.count == typeArr.count) {
+        return;
+    }
+    typeArr = [[NSMutableArray alloc] initWithArray:types];
+    for (int i = 0; i < 10; i++) {
+        NSInteger tag = i + 10;
+        UIButton *btn = [self.filterView viewWithTag:tag];
+        if ( btn != nil) {
+            [btn removeFromSuperview];
+        }
+    }
+    CGFloat width = screenSize.width / typeArr.count;
+    CGFloat height = self.filterView.frame.size.height;
+
+    for (int i = 0; i < typeArr.count; i++) {
+        UIView *fillterView = [UIView new];
+        //fillterView.backgroundColor = [UIColor redColor];
+        fillterView.frame = CGRectMake(i * width , 0, width, height);
+        fillterView.tag = [[typeArr objectAtIndex:i] integerValue] + 10;
+        fillterView.backgroundColor = [UIColor clearColor];
+        UIButton *btn  = [[UIButton alloc] initWithFrame:CGRectMake(5+ (width - height)/2 , 0, height - 10 , height - 15)];
+        //        [btn setTitle:@"a" forState:UIControlStateNormal];
+        [btn setImage:[UIImage imageNamed:[NSString stringWithFormat:@"ic_type_%@",[typeArr objectAtIndex:i]]] forState:UIControlStateNormal];
+        btn.imageEdgeInsets = UIEdgeInsetsMake(5, 10, 10, 10);
+        btn.tag = fillterView.tag;
+        btn.imageView.contentMode = UIViewContentModeScaleAspectFit;
+        [btn addTarget:self action:@selector(pressedFillter:) forControlEvents:UIControlEventTouchUpInside];
+        [btn setBackgroundImage:[Helper imageFromColor:[[UIColor clearColor] colorWithAlphaComponent:0.3]]  forState:UIControlStateSelected];
+        NSInteger index = [[typeArr objectAtIndex:i] integerValue];
+        if (index == _curType) {
+            btn.selected = true;
+        }else{
+            btn.selected = false;
+        }
+        UILabel *nameLabel = [UILabel new];
+        nameLabel.frame = CGRectMake(0, height - 15, width, 13);
+        nameLabel.textAlignment = NSTextAlignmentCenter;
+        nameLabel.font = [UIFont systemFontOfSize:12];
+        nameLabel.tag = [[typeArr objectAtIndex:i] integerValue] + 20;
+        if (index == _curType) {
+            nameLabel.textColor = [Helper colorFromHexString:@"#cc9933"];
+        }else{
+            nameLabel.textColor = [UIColor whiteColor];
+
+        }
+        if (index == 0) {
+            nameLabel.text = @"Tất cả thiết bị";
+        }else if(index == DeviceTypeCurtain){
+            nameLabel.text = @"Rèm";
+        }else if(index == DeviceTypeLightOnOff){
+            nameLabel.text = @"Đèn";
+        }
+        [fillterView addSubview:btn];
+        [fillterView addSubview:nameLabel];
+        [self.filterView addSubview:fillterView];
+    }
+    if ([self.filterView viewWithTag:99] == nil) {
+        UIView *separate = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 1)];
+        separate.tag = 99;
+        separate.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
+        [self.filterView addSubview:separate];
+        
+    }
+    self.filterView.backgroundColor = [UIColor whiteColor];
+    [self.tableView reloadData];
+}
+-(void)setupNavigator{
+    self.rightButton = [[UIButton alloc] init];
+    self.rightButton.frame = CGRectMake(0, 0, 40, 40);
+    self.rightButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
+    [self.rightButton setImage:[UIImage imageNamed:@"ic_add_device"] forState:UIControlStateNormal];
+    [self.rightButton addTarget:self action:@selector(pressedRight:) forControlEvents:UIControlEventTouchUpInside];
+    self.rightButton.backgroundColor = [UIColor clearColor];
+    self.rightButton.layer.cornerRadius = 3;
+    self.rightButton.layer.masksToBounds = YES;
+    self.rightButton.imageEdgeInsets = UIEdgeInsetsMake(5, 5, 5, 5);
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithCustomView:self.rightButton];
+    self.navigationItem.rightBarButtonItem = rightItem;
+    //
+
+    self.leftButton = [[UIButton alloc] init];
+    self.leftButton.frame = CGRectMake(0, 0, 40, 40);
+    self.leftButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
+    [self.leftButton setImage:[UIImage imageNamed:@"ic_back"] forState:UIControlStateNormal];
+    [self.leftButton addTarget:self action:@selector(pressedLeft:) forControlEvents:UIControlEventTouchUpInside];
+    self.leftButton.backgroundColor = [UIColor clearColor];
+    self.leftButton.layer.cornerRadius = 3;
+    self.leftButton.layer.masksToBounds = YES;
+    self.leftButton.imageEdgeInsets = UIEdgeInsetsMake(5, 5, 5, 5);
+    UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithCustomView:self.leftButton];
+    self.navigationItem.leftBarButtonItem = leftItem;
+    self.navigationItem.title = self.room.name;
+    [self.navigationController.navigationBar setTitleTextAttributes:
+     @{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    
+}
+
+-(void)setTitle:(NSString *)title connected:(BOOL)connected{
+    self.navigationItem.title = title;
+
+    if (connected) {
+        [self.navigationController.navigationBar setTitleTextAttributes:
+         @{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    }else{
+        [self.navigationController.navigationBar setTitleTextAttributes:
+         @{NSForegroundColorAttributeName:[UIColor grayColor]}];
+//        [Helper colorFromHexString:@"D3D3D3"]
+    }
+}
+
+-(void)mqttBecomeActive{
+    NSLog(@"becomeActive");
+    if ([MQTTService sharedInstance].isConnect == false && _retry == 0) {
+        _retry = 1;
+        [self showLoadingView];
+        [[MQTTService sharedInstance].session connectAndWaitTimeout:30];
+    
+    }
+}
+/*
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
+-(CGFloat )tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    Device *device = [displayArray objectAtIndex:indexPath.row];
+    if (device.type == DeviceTypeLightOnOff) {
+        return 100.0;
+    }else if (device.type == DeviceTypeCurtain){
+        return 130.0;
+    }
+    return 100;
+}
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+
+    return 1;
+}
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    if (displayArray == nil){
+        return 0;
+    }
+    return [displayArray count];
+//    return 2;
+}
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    Device *device = [displayArray objectAtIndex:indexPath.row];
+    if(device.type  == 1){
+        LightValueViewCell *cell = (LightValueViewCell *)[tableView dequeueReusableCellWithIdentifier:@"lightViewCell" forIndexPath:indexPath];
+        UIView *bg = [cell viewWithTag:1];
+        bg.backgroundColor = [UIColor clearColor];
+        cell.selectionStyle = UITableViewRowActionStyleDefault;
+        [cell setContentView:device type:0];
+        cell.delegate = self;
+        
+        return cell;
+    }else if (device.type == 2){
+        LightStateViewCell *cell = (LightStateViewCell *)[tableView dequeueReusableCellWithIdentifier:@"lightOnOffViewCell" forIndexPath:indexPath];
+        UIView *bg = [cell viewWithTag:1];
+        bg.backgroundColor = [UIColor clearColor];
+        cell.selectionStyle = UITableViewRowActionStyleDefault;
+        [cell setContentView:device type:0];
+        cell.delegate = self;
+        return cell;
+        
+    }else{
+        RemViewCell *cell = (RemViewCell *)[tableView dequeueReusableCellWithIdentifier:@"remViewCell" forIndexPath:indexPath];
+        UIView *bg = [cell viewWithTag:1];
+        bg.backgroundColor = [UIColor clearColor];
+        cell.selectionStyle = UITableViewRowActionStyleDefault;
+        [cell setContentView:device type:0];
+        cell.delegate = self;
+        return cell;
+        
+    }
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    return 0.01;
+}
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    return 0.01;
+}
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+//    if (typeArr.count == 1) {
+        return [UIView new];
+//    }
+//    CGRect frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 40);
+//
+//    UIView *header =  [[UIView alloc] initWithFrame:frame];
+//    header.backgroundColor = [UIColor blackColor];
+//    UILabel *titleLable = [[UILabel alloc] initWithFrame:CGRectMake(30, 0, frame.size.width - 30 * 2, 40)];
+//    titleLable.textColor = [UIColor whiteColor];
+//    [header addSubview:titleLable];
+//    NSInteger index = section + 1;
+//    NSInteger type = [[typeArr objectAtIndex:index] integerValue];
+//    if(type == DeviceTypeLightOnOff){
+//        titleLable.text = @"Đèn";
+//
+//    }else if (type == DeviceTypeCurtain){
+//        titleLable.text = @"Rèm";
+//
+//    }else{
+//        titleLable.text = @"CC gi day";
+//
+//    }
+//    return header;
+}
+- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath
+{
+    Device *from = [dataArray objectAtIndex:sourceIndexPath.row];
+    NSInteger order = from.order;
+
+    Device *to = [dataArray objectAtIndex:destinationIndexPath.row];
+    from.order = to.order;
+    to.order = order;
+    [[CoredataHelper sharedInstance] save];
+    
+    [dataArray exchangeObjectAtIndex:sourceIndexPath.row withObjectAtIndex:destinationIndexPath.row];
+//    NSSortDescriptor *imageSort = [NSSortDescriptor sortDescriptorWithKey:@"order" ascending:NO];
+//    NSArray *sortedImages = [[self.room.devices allObjects] sortedArrayUsingDescriptors:@[imageSort]];
+//    
+//    //    [[[CoredataHelper sharedInstance] getListDevice] mutableCopy];
+    displayArray = [dataArray mutableCopy];
+    NSLog(@"kdjkfjdkfjk ");
+}
+#
+#pragma mark
+//- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+//    return typeArr.count;
+//}
+//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    CGFloat width = (screenSize.width - 10 * typeArr.count)/ typeArr.count;
+//    CGFloat height = 50;
+//    return CGSizeMake(width, height);
+//}
+//
+//- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
+//    static NSString *identifier = @"xxCell";
+//
+//    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
+//
+//    return cell;
+//}
+//
+//-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+//
+//}
+
+#pragma mark
+
+-(void)pressedLeft:(UIButton *)button{
+    [[MQTTService sharedInstance] clearPublishDevice];
+    [self.navigationController popViewControllerAnimated:true];
+}
+
+-(void)pressedRight:(UIButton *)button{
+    if ([User sharedInstance].accountType == 2) {
+        [self showAlert:@"" message:@"Bạn không có quyền thực hiện chức năng này"];
+    }else{
+        [self showQRCodeReaderScreen:QRCodeTypeDevice];
+    }
+}
+
+-(void)pressedSetup:(UIButton *)sender{
+
+}
+-(void)handleLongPress:(UILongPressGestureRecognizer *)gestureRecognizer
+{
+    CGPoint p = [gestureRecognizer locationInView:self.tableView];
+    
+    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:p];
+    if (indexPath == nil) {
+        NSLog(@"long press on table view but not on a row");
+    } else if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
+        NSLog(@"long press on table view at row %ld", indexPath.row);
+        self.selectedDeviceId = indexPath.row;
+        [self showEditDeviceMenu];
+    } else {
+        NSLog(@"gestureRecognizer.state = %ld", gestureRecognizer.state);
+    }
+}
+
+-(void)pressedFillter:(UIButton *)sender{
+    NSInteger tag = sender.tag - 10;
+    _curType = tag;
+    [self filterWithTag:tag];
+    [self setSelectedFiler];
+}
+-(void)filterWithTag:(NSInteger )tag{
+    [displayArray removeAllObjects];
+    if (tag == 0) {
+        [displayArray addObjectsFromArray:dataArray];
+    }else{
+        for (int i = 0; i < dataArray.count; i++) {
+            Device *dv = [dataArray objectAtIndex:i];
+            if (dv.type == tag) {
+                [displayArray addObject:dv];
+            }
+        }
+    }
+    if (displayArray.count == 0) {
+        _curType = 0;
+    }
+    [self.tableView reloadData];
+}
+
+-(void)setSelectedFiler{
+    for (int i = 0 ; i < typeArr.count; i++) {
+        NSInteger index = [[typeArr objectAtIndex:i] integerValue];
+        
+        NSInteger tag = index + 10;
+        UIView *view = [self.filterView viewWithTag:tag];
+        for (UIView *sub in view.subviews) {
+            if ([sub isKindOfClass:[UIButton class]]) {
+                UIButton *btn  =  (UIButton *)sub;
+                if (btn) {
+                    if (index == _curType) {
+                        btn.selected = true;
+                    }else{
+                        btn.selected = false;
+                    }
+                }
+
+            }
+        }
+        UILabel *label = [view viewWithTag:tag + 10];
+        if (label) {
+            if (index == _curType) {
+                label.textColor = [UIColor yellowColor];
+            }else{
+                label.textColor = [UIColor whiteColor];
+            }
+        }
+        
+    }
+}
+
+-(void)setStateValueForDevice:(NSString *)topic value:(float)value{
+    for (Device *device in displayArray) {
+        if ([topic containsString:device.requestId]) {
+            device.value = value;
+            [[CoredataHelper sharedInstance] save];
+            [self.tableView reloadData];
+            break;
+            
+        }
+    }
+}
+-(void)setStateValueForLight:(NSString *)message{
+    if ([message containsString:@"value"]) {
+        NSArray *tmp = [message componentsSeparatedByString:@"'"];
+        for (Device *device in displayArray) {
+            //            device.value = value;
+            NSString *_id = tmp[1];
+            if (_id && [_id isEqualToString:device.requestId]) {
+                
+                NSString *value = tmp[5];
+                if (value && value.length == @"1,2,1".length) {
+                    if ([value isEqualToString:@"1,2,1"]) {
+                        device.state = NO;
+                    }else if([value isEqualToString:@"1,2,0"]){
+                        device.state = YES;
+                        
+                    }
+                    [[CoredataHelper sharedInstance] save];
+                    [self.tableView reloadData];
+
+                    break;
+                }else if([value isNumber]){
+                    //rem
+                    
+                    device.value = [value floatValue];
+                    [[CoredataHelper sharedInstance] save];
+                    [self.tableView reloadData];
+                    break;
+
+
+                }
+               
+            }
+            
+            
+            
+        }
+        
+    }
+}
+#pragma mark
+-(void)didChangeCellState:(NSInteger)deviceId value:(BOOL)value{
+    for (int i = 0; i < displayArray.count; i++) {
+        Device *device = [displayArray objectAtIndex:i];
+        if (device.id == deviceId) {
+            device.state = value;
+            break;
+        }
+    }
+    [[CoredataHelper sharedInstance] save];
+}
+-(void)didChangeCell:(NSInteger)deviceId value:(CGFloat)value{
+    for (int i = 0; i < displayArray.count; i++) {
+        Device *device = [displayArray objectAtIndex:i];
+        if (device.id == deviceId) {
+            device.value = value;
+            [self showLoadingView];
+            NSString *msg = [NSString stringWithFormat:@"id='%@' cmd='OPEN' value='%d'",device.requestId,(NSInteger)value];
+            [[MQTTService sharedInstance] publishControl:device.requestId message:msg type:device.type count:1];
+            break;
+        }
+    }
+    [[CoredataHelper sharedInstance] save];
+    //    [self.tableView reloadData];
+}
+
+-(void)didPressedButton:(NSInteger)deviceId value:(ButtonType)value{
+    if (self.isProcessing) {
+        return;
+    }
+    for (int i = 0; i < displayArray.count; i++) {
+        Device *device = [displayArray objectAtIndex:i];
+        if (device.id == deviceId) {
+            if (value == ButtonTypeClose) {
+                [self showLoadingView];
+                self.isProcessing = true;
+
+                [[MQTTService sharedInstance] publishControl:device.requestId message:@"CLOSE" type:device.type count:1];
+            }else if (value == ButtonTypeStop){
+                [self showLoadingView];
+                self.isProcessing = true;
+
+
+                [[MQTTService sharedInstance] publishControl:device.requestId message:@"STOP" type:device.type count:1];
+
+            }else if (value == ButtonTypeOpen){
+                [self showLoadingView];
+                self.isProcessing = true;
+
+                [[MQTTService sharedInstance] publishControl:device.requestId message:@"OPEN" type:device.type count:1];
+
+            }
+            break;
+        }
+    }
+
+}
+
+-(void)didPressedControl:(NSInteger)deviceId{
+    self.selectedDeviceId = deviceId;
+
+    [self showEditDeviceMenu];
+
+}
+
+-(Device *)deviceById:(NSInteger)deviceId{
+    for (Device *device in displayArray) {
+        if (device.id == deviceId) {
+            return device;
+        }
+    }
+    return nil;
+}
+#pragma mark
+#pragma mark - EditMenuDelegate
+-(void)selectMenuAtIndex:(NSInteger)index{
+    Device *device = nil;
+    for (Device *dv in displayArray) {
+        if (dv.id == self.selectedDeviceId) {
+            device = dv;
+            break;
+        }
+    }
+    if (device == nil) {
+        return;
+    }
+    
+    switch (index) {
+        case 0:
+            //heng io
+//            UIStoryboard *storyboard = [UIStoryboard st]
+            [self showAddTimeViewController];
+            break;
+        case 1:
+            //khoa thiet bi
+            device.control = !device.control;
+            [[CoredataHelper sharedInstance] save];
+            [[FirebaseHelper sharedInstance] updateDevice:device roomId:self.room.id];
+            break;
+        case 2:
+            //doi ten thiet bi
+
+            if (device != nil) {
+                [self showChangeDeviceNameAlert:device];
+            }
+
+            break;
+        case 3:
+            //thay bieu tuong
+
+            break;
+        case 4:
+            //thong tin thiet bi
+            if (device != nil) {
+                self.delDevice = device;
+            }
+
+            break;
+        case 5:
+            //xoa thiet bi
+            if (device != nil) {
+                self.delDevice = device;
+                [[MQTTService sharedInstance] delMQTTDevice:device];
+            }
+            
+            break;
+        default:
+            break;
+    }
+}
+
+
+-(void)removeDevieWithId:(NSInteger )_id{
+    NSInteger index = NSNotFound;
+    for (int i = 0 ; i < displayArray.count; i++) {
+        Device *dv = [displayArray objectAtIndex:i];
+        if (dv.id == _id) {
+            index =  i;
+            break;
+        }
+    }
+    if (index != NSNotFound) {
+        [displayArray removeObjectAtIndex:index];
+    }
+    
+}
+
+-(Device *)getSelectedDevice{
+    for (Device *device in displayArray) {
+        if (device.id == self.selectedDeviceId) {
+            return device;
+        }
+    }
+    return nil;
+}
+
+-(void)showAddTimeViewController{
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    ListTimerViewController *_vc = [storyboard instantiateViewControllerWithIdentifier:@"ListTimerViewController"];
+    _vc.device = [self getSelectedDevice];
+    [self.navigationController pushViewController:_vc animated:YES];
+}
+-(void)showEditDeviceMenu{
+    EditDeviceMenuViewController *_vc = [self.storyboard instantiateViewControllerWithIdentifier:@"EditDeviceMenuViewController"];
+    _vc.delegate = self;
+    _vc.device = [self deviceById:self.selectedDeviceId];
+    [self presentViewController:_vc animated:true completion:nil];
+}
+
+
+-(void)mqttConnected{
+    [self.activityIndicatorView stopAnimating];
+    self.activityIndicatorView.hidden = YES;
+
+    [[MQTTService sharedInstance] setListDevices:dataArray];
+    [self setTitle:self.room.name connected:YES];
+
+}
+
+-(void)mqttDisConnect{
+    UIApplicationState state = [[UIApplication sharedApplication] applicationState];
+    if (state == UIApplicationStateActive) {
+        if (_retry == 0 ) {
+            
+            _retry = 1;
+            [[MQTTService sharedInstance].session connectAndWaitTimeout:30];
+        }else{
+            [[MQTTService sharedInstance] removeListDevices:dataArray];
+            [self setTitle:self.room.name connected:NO];
+            [self hideLoadingView];
+            [self showMessageView:@"" message:@"Không có kết nối mạng" autoHide:false complete:^(NSInteger index) {
+                if (index == 1) {
+                    [self.navigationController popViewControllerAnimated:YES];
+                }
+            }];
+        }
+
+    }
+}
+-(void)mqttAddSuccess{
+    self.lastQRCode =  nil;
+
+    if (self.addDevice) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self showInputNameAlert:self.addDevice];
+
+        });
+    }
+}
+-(void)mqttDelSuccess{
+    if (self.delDevice) {
+        [[FirebaseHelper sharedInstance] delleteDeviceInSystem:self.delDevice.requestId];
+        [[FirebaseHelper sharedInstance] delleteDevice:self.delDevice.key];
+        [[CoredataHelper sharedInstance] deleteTimerByDeviceId:self.delDevice.requestId];
+        [[CoredataHelper sharedInstance] deleteDevice:self.delDevice];
+        [self.room removeDevicesObject:self.delDevice];
+        [dataArray removeObject:self.delDevice];
+        [displayArray removeObject:self.delDevice];
+        [self removeDevieWithId:self.delDevice.id];
+        [self initFilterView];
+        [self filterWithTag:_curType];
+        self.delDevice  =  nil;
+    }
+
+}
+-(void)mqttFinishedProcess{
+    [self hideLoadingView];
+}
+
+-(void)mqttPublishFail{
+    [self hideLoadingView];
+    self.isProcessing = false;
+    
+    [self showMessageView:nil message:@"Thiết bị không phản hồi" autoHide:YES complete:nil];
+
+}
+-(void)mqttSetStateValueForDevice:(NSString *)topic value:(float)value{
+    self.isProcessing = false;
+
+    [self setStateValueForDevice:topic value:value];
+    [self hideLoadingView];
+
+}
+-(void)mqttSetStateValueForLight:(NSString *)message{
+    self.isProcessing = false;
+
+    [self setStateValueForLight:message];
+    [self hideLoadingView];
+
+}
+
+
+#pragma mark
+#pragma mark - QRCode
+
+-(void)showQRCodeReaderScreen:(QRCodeType)type{
+    
+    __weak RoomViewController *weakSelf = self;
+    
+    vc.modalPresentationStyle = UIModalPresentationFormSheet;
+    
+    // Define the delegate receiver
+    vc.delegate = self;
+    vc.qrType = type;
+    // Or use blocks
+    [reader setCompletionWithBlock:^(NSString *resultAsString) {
+        NSLog(@"%@", resultAsString);
+        [weakSelf dismissViewControllerAnimated:true completion:nil];
+        if (vc.qrType == QRCodeTypeDevice) {
+            if (self.lastQRCode== nil) {
+                [weakSelf showQRResult:resultAsString];
+
+            }
+        }else if(vc.qrType == QRCodeTypeTopic){
+            [weakSelf readTopicFromQRcode:resultAsString];
+        }
+    }];
+    [self presentViewController:vc animated:YES completion:NULL];
+
+}
+- (void)reader:(QRCodeReaderViewController *)reader didScanResult:(NSString *)result{
+    if (vc) {
+        [vc dismissViewControllerAnimated:YES completion:nil];
+    }
+}
+- (void)readerDidCancel:(QRCodeReaderViewController *)reader{
+    if (vc) {
+        [vc dismissViewControllerAnimated:YES completion:nil];
+    }
+}
+-(void)readTopicFromQRcode:(NSString *)qrcode{
+    [Utils setTopic:qrcode];
+    self.lastQRCode = nil;
+    [self showMessageView:@"" message:@"Đã thêm bộ điều khiển" autoHide:YES complete:^(NSInteger index) {
+        
+    }];
+}
+-(void)showQRResult:(NSString *)message{
+    NSArray * result =  [message componentsSeparatedByString:@";"];
+    __weak RoomViewController *wSelf = self;
+    if (result && result.count >= 1) {
+        if ([result[0] isNumber]) {
+            self.lastQRCode =  message;
+
+            NSInteger type = [result[0] integerValue];
+            NSString *topic = [result[1] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+
+            if (type == DeviceTypeLightOnOff || [topic containsString:@"B000"]) {
+                if (![Utils hasTopic]) {
+                    self.lastQRCode =  nil;
+
+                    [self showMessageView:@"Thông báo" message:@"Bạn chưa nhập bộ điều khiển! Vui lòng nhập bộ điều khiển" autoHide:NO complete:^(NSInteger index) {
+                        if (index == 1) {
+                            [self showQRCodeReaderScreen:QRCodeTypeTopic];
+                        }
+                    }];
+                    return;
+                    
+                }
+            }
+            Device *device = [[CoredataHelper sharedInstance] getDeviceByTopic:topic type:type];
+            if (device) {
+//                [self.room addDevicesObject:device];
+
+                [self showAlert:@"" message:@"Thiết bị này đã tồn tại."];
+                self.lastQRCode =  nil;
+
+            }else{
+                [[FirebaseHelper sharedInstance] hasDeviceInSystem:topic completion:^(BOOL exist) {
+                    if (exist) {
+                        [wSelf showAlert:@"Thông báo" message:@"Thiết bị này đã được người khác xử dụng"];
+                    }else{
+                        NSInteger deviceId = [[CoredataHelper sharedInstance] countDevice] ;
+                        Device *newDevice = [[CoredataHelper sharedInstance] addNewDevice:@"abc" name:topic deviceId:deviceId state:NO value:0 topic:topic type:type complete:^(Device *device) {
+                            if (device) {
+                                [[FirebaseHelper sharedInstance] addDeviceToSystem:device.requestId];
+                                [[FirebaseHelper sharedInstance] addDevice:device roomId:self.room.id];
+                                [[MQTTService sharedInstance] publicRequestStatus:device.requestId];
+                            }
+                        }];
+                        [wSelf.room addDevicesObject:newDevice];
+                        [[CoredataHelper sharedInstance] save];
+                        
+                        
+                        wSelf.addDevice =  newDevice;
+                        if (type == DeviceTypeLightOnOff) {
+                            [[MQTTService sharedInstance] addMQTTDevice:newDevice];
+                            
+                        }else{
+                            wSelf.lastQRCode = nil;
+                            [wSelf showInputNameAlert:newDevice];
+                            
+                        }
+                    }
+                }];
+                
+            }
+        }
+    }
+}
+
+-(void)showInputNameAlert:(Device *)device{
+    self.lastQRCode = nil;
+
+    NSString *title = @"Thêm thành công... " ;
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleAlert];
+    [alert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+        textField.placeholder = @"Nhập tên thiết bị";
+    }];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"Đồng ý" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        //        <#code#>
+        UITextField *tf = alert.textFields.firstObject;
+        NSString *roomName = tf.text;
+        device.name = roomName;
+        [[CoredataHelper sharedInstance] save];
+        dataArray = [[self.room.devices allObjects] mutableCopy];
+        displayArray = [dataArray mutableCopy];
+        [self.tableView reloadData];
+    }];
+//    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+//        //        <#code#>
+//        self.selectedIndex = NSNotFound;
+//        
+//    }];
+    [alert addAction:okAction];
+//    [alert addAction:cancelAction];
+    [self presentViewController:alert animated:true completion:nil];
+}
+-(void)showChangeDeviceNameAlert:(Device *)device{
+    
+    NSString *title = @"Đổi tên thiết bị" ;
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleAlert];
+    [alert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+        textField.placeholder = @"Nhập tên thiết bị";
+    }];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"Đồng ý" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        //        <#code#>
+        UITextField *tf = alert.textFields.firstObject;
+        NSString *roomName = tf.text;
+        device.name = roomName;
+        [[CoredataHelper sharedInstance] save];
+        [[FirebaseHelper sharedInstance] updateDevice:device roomId:self.room.id];
+        [self.tableView reloadData];
+    }];
+    [alert addAction:okAction];
+    //    [alert addAction:cancelAction];
+    [self presentViewController:alert animated:true completion:nil];
+}
+- (IBAction)longPressGestureRecognized:(id)sender {
+    
+    UILongPressGestureRecognizer *longPress = (UILongPressGestureRecognizer *)sender;
+    UIGestureRecognizerState state = longPress.state;
+    
+    CGPoint location = [longPress locationInView:self.tableView];
+    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:location];
+    
+    // More coming soon...
+    static UIView       *snapshot = nil;        ///< A snapshot of the row user is moving.
+    static NSIndexPath  *sourceIndexPath = nil; ///< Initial index path, where gesture begins.
+    
+    switch (state) {
+        case UIGestureRecognizerStateBegan: {
+            if (indexPath) {
+                sourceIndexPath = indexPath;
+                
+                UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+                
+                // Take a snapshot of the selected row using helper method.
+                snapshot = [self customSnapshotFromView:cell];
+                
+                // Add the snapshot as subview, centered at cell's center...
+                __block CGPoint center = cell.center;
+                snapshot.center = center;
+                snapshot.alpha = 0.0;
+                [self.tableView addSubview:snapshot];
+                [UIView animateWithDuration:0.25 animations:^{
+                    
+                    // Offset for gesture location.
+                    center.y = location.y;
+                    snapshot.center = center;
+                    snapshot.transform = CGAffineTransformMakeScale(1.05, 1.05);
+                    snapshot.alpha = 0.98;
+                    
+                    // Fade out.
+                    cell.alpha = 0.0;
+                    
+                } completion:^(BOOL finished) {
+                    
+                    cell.hidden = YES;
+                    
+                }];
+            }
+            break;
+        }
+            // More coming soon...
+        case UIGestureRecognizerStateChanged: {
+            CGPoint center = snapshot.center;
+            center.y = location.y;
+            snapshot.center = center;
+            
+            // Is destination valid and is it different from source?
+            if (indexPath && ![indexPath isEqual:sourceIndexPath]) {
+                
+                // ... update data source.
+//                [dataArray exchangeObjectAtIndex:indexPath.row withObjectAtIndex:sourceIndexPath.row];
+                Device *from = [dataArray objectAtIndex:sourceIndexPath.row];
+                NSInteger order = from.order;
+                
+                Device *to = [dataArray objectAtIndex:indexPath.row];
+                from.order = to.order;
+                to.order = order;
+                [[CoredataHelper sharedInstance] save];
+                
+                [dataArray exchangeObjectAtIndex:sourceIndexPath.row withObjectAtIndex:indexPath.row];
+       
+                displayArray = [dataArray mutableCopy];
+                // ... move the rows.
+                [self.tableView moveRowAtIndexPath:sourceIndexPath toIndexPath:indexPath];
+                
+                // ... and update source so it is in sync with UI changes.
+                sourceIndexPath = indexPath;
+            }
+            break;
+        }
+            // More coming soon...
+        default: {
+            // Clean up.
+            UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:sourceIndexPath];
+            cell.hidden = NO;
+            cell.alpha = 0.0;
+            [UIView animateWithDuration:0.25 animations:^{
+                
+                snapshot.center = cell.center;
+                snapshot.transform = CGAffineTransformIdentity;
+                snapshot.alpha = 0.0;
+                
+                // Undo fade out.
+                cell.alpha = 1.0;
+                
+            } completion:^(BOOL finished) {
+                
+                sourceIndexPath = nil;
+                [snapshot removeFromSuperview];
+                snapshot = nil;
+                
+            }];
+            break;
+        }
+    }
+}
+- (UIView *)customSnapshotFromView:(UIView *)inputView {
+    
+    // Make an image from the input view.
+    UIGraphicsBeginImageContextWithOptions(inputView.bounds.size, NO, 0);
+    [inputView.layer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    // Create an image view.
+    UIView *snapshot = [[UIImageView alloc] initWithImage:image];
+    snapshot.layer.masksToBounds = NO;
+    snapshot.layer.cornerRadius = 0.0;
+    snapshot.layer.shadowOffset = CGSizeMake(-5.0, 0.0);
+    snapshot.layer.shadowRadius = 5.0;
+    snapshot.layer.shadowOpacity = 0.4;
+    
+    return snapshot;
+}
+@end
