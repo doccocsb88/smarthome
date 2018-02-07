@@ -259,7 +259,7 @@ didDisconnectWithUser:(GIDGoogleUser *)user
     NSManagedObjectContext *context = self.persistentContainer.viewContext;
 
     [rooms enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        [[CoredataHelper sharedInstance] addNewRoom:[NSString stringWithFormat:@"%ld",idx] name:[obj objectForKey:@"name"] parentId:[obj objectForKey:@"parentid"] complete:^(BOOL complete,Room *room) {
+        [[CoredataHelper sharedInstance] addNewRoom:[NSString stringWithFormat:@"%ld",idx + 1] name:[obj objectForKey:@"name"] parentId:[obj objectForKey:@"parentid"] complete:^(BOOL complete,Room *room) {
             
         }];
         NSError *error;

@@ -129,16 +129,16 @@
     self.leftButton.imageEdgeInsets = UIEdgeInsetsMake(5, 5, 5, 5);
     UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithCustomView:self.leftButton];
     self.navigationItem.leftBarButtonItem = leftItem;
-    self.navigationItem.title = @"Hen gio";
+    self.navigationItem.title = @"Hẹn giờ";
     [self.navigationController.navigationBar setTitleTextAttributes:
-     @{NSForegroundColorAttributeName:[Helper colorFromHexString:@"3fb2b5"]}];
+     @{NSForegroundColorAttributeName:[UIColor whiteColor]}];
     
     //
     self.rightButton = [[UIButton alloc] init];
     self.rightButton.frame = CGRectMake(0, 0, 40, 40);
     self.rightButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
-//    [self.rightButton setImage:[UIImage imageNamed:@"ic_add_device"] forState:UIControlStateNormal];
-    [self.rightButton setTitle:@"Save" forState:UIControlStateNormal];
+    [self.rightButton setImage:[UIImage imageNamed:@"ic_add_device"] forState:UIControlStateNormal];
+//    [self.rightButton setTitle:@"Save" forState:UIControlStateNormal];
     [self.rightButton addTarget:self action:@selector(pressedRight:) forControlEvents:UIControlEventTouchUpInside];
     self.rightButton.backgroundColor = [UIColor clearColor];
     self.rightButton.layer.cornerRadius = 3;

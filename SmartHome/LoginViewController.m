@@ -26,6 +26,9 @@
     if([[FirebaseHelper sharedInstance] isLogin])
     [self openWellComeScreen];
 }
+-(BOOL)prefersStatusBarHidden{
+    return true;
+}
 -(BOOL)hidesBottomBarWhenPushed
 {
     return YES;

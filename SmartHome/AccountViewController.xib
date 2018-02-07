@@ -93,7 +93,7 @@
                         <action selector="pressedShare:" destination="-1" eventType="touchUpInside" id="KG7-yA-ztl"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9pM-RC-Vxe">
+                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9pM-RC-Vxe">
                     <rect key="frame" x="40" y="400" width="294" height="40"/>
                     <color key="backgroundColor" red="0.25882352939999997" green="0.70196078429999997" blue="0.56078431370000004" alpha="1" colorSpace="calibratedRGB"/>
                     <state key="normal" title="Test Firebase">

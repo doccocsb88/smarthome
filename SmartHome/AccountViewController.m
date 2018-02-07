@@ -317,8 +317,12 @@ didCompleteWithResult:(FBSDKLoginManagerLoginResult *)result
   
     [[FirebaseHelper sharedInstance] logout];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        NSUserDefaults *pref = [NSUserDefaults standardUserDefaults];
+        [pref removeObjectForKey:@"login_first_time"];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"kNotificationbackToHome" object:nil userInfo:nil];
         [self updateUI];
-
+        [self.navigationController popToRootViewControllerAnimated:YES];
+        
     });
 }
 - (IBAction)pressedShare:(id)sender {

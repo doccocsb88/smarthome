@@ -30,6 +30,8 @@
 @property (assign, nonatomic) NSInteger selectedIndex;
 @property (assign, nonatomic) NSInteger nuberOfPage;
 @property (assign, nonatomic) NSInteger curIndex;
+@property (assign, nonatomic) BOOL firstTime;
+
 
 @end
 
@@ -47,11 +49,7 @@
     [self initPageViewController];
     [self setupPageControl];
     //
-    NSUserDefaults *pref = [NSUserDefaults standardUserDefaults];
-    if ([pref boolForKey:@"login_first_time"] == false) {
-        LoginViewController *vc = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
-        [self.navigationController pushViewController:vc animated:YES];
-    }
+   
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -59,13 +57,22 @@
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    NSUserDefaults *pref = [NSUserDefaults standardUserDefaults];
+    if ([pref boolForKey:@"login_first_time"] == false) {
+        LoginViewController *vc = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
     [self.view bringSubviewToFront:self.stageView];
     self.navigationController.navigationBarHidden = NO;
 }
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
 //    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    if (self.firstTime) {
+        self.firstTime = false;
         [MQTTService sharedInstance];
+
+    }
 
 //    });
     [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(mqttBecomeActive) name:@"mqttapplicationDidBecomeActive" object:nil];
@@ -83,6 +90,7 @@
 }
 -(void)initData{
 //    dataArray = [[NSMutableArray alloc] init];
+    self.firstTime = true;
     self.selectedIndex = NSNotFound;
     vcs = [[NSMutableArray alloc] init];
     [self loadRoomFromDB];

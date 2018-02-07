@@ -12,17 +12,21 @@
 
 #define CHECK_PUBLISH_TIME 2
 #define REQUEST_STATUS_TIME 0.5
+static MQTTService *instance = nil;
+
 @interface MQTTService() <MQTTSessionDelegate>
 @property (assign, nonatomic) NSInteger countProcess;
 @end
 @implementation MQTTService
 + (instancetype)sharedInstance
 {
-    static MQTTService *instance = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        instance = [[MQTTService alloc] _init];
-    });
+    if (instance == nil) {
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            instance = [[MQTTService alloc] _init];
+        });
+    }
+ 
     return instance;
 }
 
@@ -51,7 +55,7 @@
         _session.delegate = self;
         _isConnecting = true;
         [_session connectAndWaitTimeout:30];
-        
+        NSLog(@"aabbccddeeff");
         //
         self.publishedTopic = [[NSMutableArray alloc] init];
         self.publishingTopic = [[NSMutableArray alloc] init];

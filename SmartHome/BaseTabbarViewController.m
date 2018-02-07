@@ -20,11 +20,19 @@
     for (UITabBarItem *tbi in self.tabBar.items) {
         tbi.image = [tbi.image imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     }
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeToHomePage) name:@"kNotificationbackToHome" object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+-(void)changeToHomePage{
+    [self selectedPageAtIndex:0];
+}
+-(void)selectedPageAtIndex:(NSInteger)index{
+    self.selectedViewController=[self.viewControllers objectAtIndex:0];//or whichever index you want
+
 }
 
 /*

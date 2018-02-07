@@ -37,6 +37,7 @@
     dataArray = [NSMutableArray new];
     
     [self.tableView registerNib:[UINib nibWithNibName:@"MemberViewCell" bundle:nil] forCellReuseIdentifier:@"MemberViewCell"];
+    self.tableView.backgroundColor = [UIColor clearColor];
     
 }
 -(void)setupUI{
@@ -64,6 +65,9 @@
     // Pass the selected object to the new view controller.
 }
 */
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    return 0.1;
+}
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
 }
@@ -79,6 +83,9 @@
     cell.displayNameLabel.text = member.displayname;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
+}
+-(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
+    return [UIView new];
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     MemberDetailViewController *vc = [[MemberDetailViewController alloc]
