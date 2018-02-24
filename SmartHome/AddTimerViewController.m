@@ -136,14 +136,17 @@
     //
     self.rightButton = [[UIButton alloc] init];
     self.rightButton.frame = CGRectMake(0, 0, 40, 40);
-    self.rightButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
-    [self.rightButton setImage:[UIImage imageNamed:@"ic_add_device"] forState:UIControlStateNormal];
-//    [self.rightButton setTitle:@"Save" forState:UIControlStateNormal];
+//    self.rightButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
+//    [self.rightButton setImage:[UIImage imageNamed:@"ic_add_device"] forState:UIControlStateNormal];
+    [self.rightButton setTitle:@"Lưu" forState:UIControlStateNormal];
     [self.rightButton addTarget:self action:@selector(pressedRight:) forControlEvents:UIControlEventTouchUpInside];
     self.rightButton.backgroundColor = [UIColor clearColor];
     self.rightButton.layer.cornerRadius = 3;
     self.rightButton.layer.masksToBounds = YES;
     self.rightButton.imageEdgeInsets = UIEdgeInsetsMake(5, 5, 5, 5);
+    self.rightButton.layer.borderColor = [UIColor whiteColor].CGColor;
+    self.rightButton.layer.borderWidth = 1.0;
+    [self.rightButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithCustomView:self.rightButton];
     self.navigationItem.rightBarButtonItem = rightItem;
 }

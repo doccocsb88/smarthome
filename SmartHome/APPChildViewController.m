@@ -203,13 +203,18 @@
         //        <#code#>
         UITextField *tf = alert.textFields.firstObject;
         NSString *roomName = tf.text;
-        if (self.selectedIndex != NSNotFound && self.selectedIndex < self.dataArray.count){
-            Room *room = [_dataArray objectAtIndex:self.selectedIndex];
-            room.name = roomName;
-            [[CoredataHelper sharedInstance] save];
-            [[FirebaseHelper sharedInstance] updateRoom:room];
-            [self.collectionView reloadData];
+        if (roomName && roomName.length > 0) {
+            if (self.selectedIndex != NSNotFound && self.selectedIndex < self.dataArray.count){
+                Room *room = [_dataArray objectAtIndex:self.selectedIndex];
+                room.name = roomName;
+                [[CoredataHelper sharedInstance] save];
+                [[FirebaseHelper sharedInstance] updateRoom:room];
+                [self.collectionView reloadData];
+            }
+        }else{
+            //
         }
+       
     }];
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Bỏ qua" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         //        <#code#>

@@ -65,7 +65,7 @@
     }
 }
 - (IBAction)pressedControl:(id)sender {
-    if ([[User sharedInstance] canControlDevice:self.device.requestId]) {
+    if ([[User sharedInstance] canControlDevice:self.device.requestId] ) {
         if (self.delegate && [self.delegate respondsToSelector:@selector(didPressedControl:)]) {
             [self.delegate didPressedControl:self.device.id];
         }

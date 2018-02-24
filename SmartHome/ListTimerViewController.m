@@ -19,6 +19,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [MQTTService sharedInstance].delegate = self;
+    self.tableView.delegate= self;
+    self.tableView.dataSource = self;
+    self.tableView.userInteractionEnabled = YES;
+
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
@@ -104,6 +108,7 @@
     if (timerLabel) {
         timerLabel.text = [NSString stringWithFormat:@"%@ : %@",timer.timer,timer.status ? @"Mở" : @"Đóng"];
     }
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
 
@@ -147,7 +152,13 @@
     AddTimerViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"AddTimerViewController"];
     vc.device = self.device;
     vc.order = dataArray.count;
-    [self.navigationController pushViewController:vc animated:YES];
+    if (dataArray.count <= 10) {
+        [self.navigationController pushViewController:vc animated:YES];
+    }else{
+        [self showMessageView:@"Thông báo" message:@"Bạn được thêm tối đa 10 timers" autoHide:false complete:^(NSInteger index) {
+            
+        }];
+    }
 }
 
 -(void)pressedLeft:(UIButton *)button{

@@ -68,7 +68,7 @@
         NSString *deviceList = [dict objectForKey:@"device"];
         self.devices = [deviceList componentsSeparatedByString:@";"];
     }else{
-        self.devices = @"";
+       // self.devices = [NSArray new];
     }
 }
 -(BOOL)isAdmin{
@@ -87,7 +87,10 @@
     if (self.accountType == AccountTypeAdmin) {
         return true;
     }else if (self.accountType == AccountTypeMember){
-        return [self.devices containsObject:mqttId];
+        if (mqttId && mqttId.length > 0) {
+            
+            return [self.devices containsObject:mqttId];
+        }
     }
     return false;
 }

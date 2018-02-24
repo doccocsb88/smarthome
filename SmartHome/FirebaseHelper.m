@@ -306,8 +306,9 @@
                     code = [info objectForKey:@"timer_code"];
                 }
                 SHTimer *timer = [[CoredataHelper sharedInstance] getTimerByCode:code];
+                BOOL hasTimer = NO;
                 if (timer) {
-                    
+                    hasTimer = YES;
                 }else{
                     timer = [[CoredataHelper sharedInstance] addTimer];
                     //                    self.timer.enable = YES;
@@ -315,6 +316,7 @@
                     timer.type = device.type;
                     timer.topic = device.topic;
                     timer.deviceId = deviceId;
+                    timer.code = code;
                 }
                 if ([info objectForKey:@"enable"]) {
                     timer.enable = [[info objectForKey:@"enable"] boolValue];
@@ -374,8 +376,9 @@
                     }
                 }
                 [[CoredataHelper sharedInstance] save];
-                [[MQTTService sharedInstance] setTimer:timer];
-                
+                if (!hasTimer && [[User sharedInstance] isAdmin]) {
+                    [[MQTTService sharedInstance] setTimer:timer];
+                }
             }
         }
     }];
