@@ -9,7 +9,7 @@
 #import "LoginViewController.h"
 #import "WellComeViewController.h"
 @interface LoginViewController ()<GIDSignInUIDelegate,GIDSignInDelegate,QRCodeReaderDelegate,RequestPopupDelegate>
-
+@property (assign, nonatomic) Boolean isNew;
 @end
 
 @implementation LoginViewController
@@ -71,7 +71,8 @@
              }
              [User sharedInstance].active = true;
              [User sharedInstance].accountType = AccountTypeAdmin;
-             [[FirebaseHelper sharedInstance] loginWithCredential:credential loginType:LoginTypeFacebook completion:^(FIRUser *user) {
+             [[FirebaseHelper sharedInstance] loginWithCredential:credential loginType:LoginTypeFacebook completion:^(FIRUser *user, Boolean isNew) {
+                 self.isNew = isNew;
                  [self hideLoadingView];
                  [self updateUI];
                  [self openWellComeScreen];
@@ -113,8 +114,9 @@ didSignInForUser:(GIDGoogleUser *)user
         [User sharedInstance].username = [email componentsSeparatedByString:@"@"][0];
         [User sharedInstance].accountType = AccountTypeAdmin;
         
-        [[FirebaseHelper sharedInstance] loginWithCredential:credential loginType:LoginTypeGoogle completion:^(FIRUser *user) {
+        [[FirebaseHelper sharedInstance] loginWithCredential:credential loginType:LoginTypeGoogle completion:^(FIRUser *user, Boolean isNew) {
 //            [self updateUI];
+            self.isNew = isNew;
             [self hideLoadingView];
             [self openWellComeScreen];
         }];
@@ -180,6 +182,7 @@ dismissViewController:(UIViewController *)viewController {
 }
 -(void)openWellComeScreen{
     WellComeViewController *popupContent = [WellComeViewController new];
+    popupContent.isNew = self.isNew;
     popupContent.completion = ^(BOOL finished) {
         NSUserDefaults *pref = [NSUserDefaults standardUserDefaults];
         [pref setBool:YES forKey:@"login_first_time"];

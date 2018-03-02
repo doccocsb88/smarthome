@@ -275,6 +275,21 @@
     return [arr firstObject];
     
 }
+-(void)deleteDetailByDeviceId:(NSInteger)deviceId{
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"SceneDetail" inManagedObjectContext:self.context];
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    [request setEntity:entity];
+    // Fetch the records and handle an error
+    NSError *error;
+    NSArray *arr  = [[self.context executeFetchRequest:request error:&error] mutableCopy];
+    if (arr != nil ) {
+        for (SceneDetail *detail in arr) {
+            if (detail.device && detail.device.id == deviceId) {
+                [self.context deleteObject:detail];
+            }
+        }
+    }
+}
 #pragma mark
 -(Device *)addNewDevice:(NSString *)token name:(NSString *) name deviceId:(NSInteger )_id state:(BOOL)state value:(NSInteger)value topic:(NSString *)requestId type:(NSInteger)type complete:(void(^)(Device * device))complete{
     Device *device = (Device *)[NSEntityDescription insertNewObjectForEntityForName:@"Device" inManagedObjectContext:self.context];

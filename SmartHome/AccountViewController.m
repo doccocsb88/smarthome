@@ -124,7 +124,7 @@
              }
              [User sharedInstance].active = true;
              [User sharedInstance].accountType = AccountTypeAdmin;
-             [[FirebaseHelper sharedInstance] loginWithCredential:credential loginType:LoginTypeFacebook completion:^(FIRUser *user) {
+             [[FirebaseHelper sharedInstance] loginWithCredential:credential loginType:LoginTypeFacebook completion:^(FIRUser *user,Boolean isNew) {
                  [self updateUI];
              }] ;
          }
@@ -163,7 +163,7 @@ didSignInForUser:(GIDGoogleUser *)user
         [User sharedInstance].username = [email componentsSeparatedByString:@"@"][0];
         [User sharedInstance].accountType = AccountTypeAdmin;
         
-        [[FirebaseHelper sharedInstance] loginWithCredential:credential loginType:LoginTypeGoogle completion:^(FIRUser *user) {
+        [[FirebaseHelper sharedInstance] loginWithCredential:credential loginType:LoginTypeGoogle completion:^(FIRUser *user, Boolean isNew) {
             [self updateUI];
         }];
         // ...
@@ -295,11 +295,13 @@ didCompleteWithResult:(FBSDKLoginManagerLoginResult *)result
 }
 - (IBAction)pressedSigninDemo:(id)sender {
     [self showLoadingView];
-    [[FirebaseHelper sharedInstance] loginDemo:^(FIRUser *user) {
+    [[FirebaseHelper sharedInstance] loginDemo:^(FIRUser *user,Boolean isNew) {
         [self hideLoadingView];
         if(user){
             NSLog(@"signInDemo : %@",[user uid]);
-            [[FirebaseHelper sharedInstance] getProfileInfo];
+            [[FirebaseHelper sharedInstance] getProfileInfo:^(FIRUser *user, Boolean isNew) {
+                
+            }];
         }else{
             NSLog(@"signInDemo : ");
 

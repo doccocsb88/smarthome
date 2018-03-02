@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "User.h"
-#import "Member.h"
+#import "SHMember.h"
 #import "CoredataHelper.h"
 #import "MQTTService.h"
 #import "Utils.h"
@@ -19,7 +19,7 @@ typedef enum LoginType : NSUInteger {
     LoginTypeGoogle
 } LoginType;
 @interface FirebaseHelper : NSObject
-typedef void (^FirebaseLoginCallback)(FIRUser * user);
+typedef void (^FirebaseLoginCallback)(FIRUser * user, Boolean isNew);
 typedef void (^FirebaseMemberCallback)(NSArray * members);
 typedef void (^FirebaseCallback)(BOOL exist);
 
@@ -34,16 +34,21 @@ typedef void (^FirebaseCallback)(BOOL exist);
 -(NSString *)getUid;
 -(BOOL)isLogin;
 -(BOOL)isAdmin;
--(void)getProfileInfo;
+-(void)getProfileInfo:(nullable FirebaseLoginCallback)completion;
 -(void)synMemberList:(nullable FirebaseMemberCallback)completion;
 -(void)shareDevice:(NSString *)mqttId forUser:(NSString *)key;
+-(void)updateMemberShareStatus:(BOOL)status name:(NSString *)name devices:(NSString *)device uid:(NSString *)uid key:(NSString *)key;
 -(void)addRoom:(Room *)room;
 -(void)updateRoom:(Room *)room;
 //
 -(void)addScene:(Scene *)scene;
+-(void)deleteScene:(NSString *)code;
 //
 -(void)addSceneDetail:(SceneDetail *)sceneDetail sceneId:(NSInteger )sceneId;
 -(void)updateSceneDetail:(SceneDetail *)sceneDetail sceneId:(NSInteger )sceneId;
+-(void)deleteSceneDetail:(NSInteger )sceneId;
+-(void)deleteSceneDetailByDeviceId:(NSInteger )deviceId;
+//
 -(void)addDevice:(Device *)device roomId:(NSInteger)roomId;
 -(void)updateDevice:(Device *)device roomId:(NSInteger)roomId;
 //

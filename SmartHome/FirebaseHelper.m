@@ -91,7 +91,7 @@
 }
 -(void)loginDemo:(nullable FirebaseLoginCallback)completion{
     [[FIRAuth auth] signInWithEmail:@"anhhai@a.com" password:@"aaaaaa" completion:^(FIRUser * _Nullable user, NSError * _Nullable error) {
-        completion(user);
+        completion(user,true);
     }];
 }
 -(void)loginWithCredential:(FIRAuthCredential *)credential loginType:(LoginType)loginType completion:(nullable FirebaseLoginCallback)completion{
@@ -99,8 +99,10 @@
     [[FIRAuth auth] signInWithCredential:credential completion:^(FIRUser * _Nullable user, NSError * _Nullable error) {
         if (user) {
             wSelf.loginType = loginType;
-            [wSelf getProfileInfo];
-            completion(user);
+            [wSelf getProfileInfo:^(FIRUser *user, Boolean isNew) {
+                completion(user,isNew);
+
+            }];
         }
     }];
 }
@@ -109,7 +111,7 @@
                                password:password
                              completion:^(FIRUser *_Nullable user, NSError *_Nullable error) {
                                  // ...
-                                 completion(user);
+                                 completion(user,true);
                              }];
     
 }
@@ -141,7 +143,7 @@
     }
     return NO;
 }
--(void)getProfileInfo{
+-(void)getProfileInfo:(nullable FirebaseLoginCallback)completion{
     if ([FIRAuth auth].currentUser) {
         // User is signed in.
         // ...
@@ -158,10 +160,13 @@
                     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                         [self synSceneData];
                     });
+                    completion(_user,false);
+
                 }
             }else{
                 NSLog(@"writeUser");
                 [self writeUser];
+                completion(_user,true);
             }
             
            
@@ -400,10 +405,12 @@
                 
                 NSLog(@"synMemberList : %@ %@",data.key,data.value);
                 NSDictionary *info = data.value;
-                Member *member = [[Member alloc] init];
+                SHMember *member = [[SHMember alloc] init];
                 member.key = data.key;
                 if ([info objectForKey:@"name"]) {
                     member.displayname = [info objectForKey:@"name"];
+                }else{
+                    member.displayname = @"Thành viên";
                 }
                 if ([info objectForKey:@"uid"]) {
                     member.uid = [info objectForKey:@"uid"];
@@ -414,8 +421,11 @@
                 if ([info objectForKey:@"rooms"]) {
                     member.rooms = [info objectForKey:@"rooms"];
                 }
+            
                 if ([info objectForKey:@"device"]) {
                     member.devices = [info objectForKey:@"device"];
+                }else{
+                    member.devices = @"";
                 }
                 [members addObject:member];
             }
@@ -518,6 +528,24 @@
     [_ref updateChildValues:childUpdates];
     
 }
+-(void)deleteScene:(NSString *)code{
+    //    var ref = firebase.database(); //root reference to your data
+//    ref.orderByChild('user_id').equalTo('-KTruPWrYO9WFj-TF8Ft')
+//    .once('value').then(function(snapshot) {
+//        snapshot.forEach(function(childSnapshot) {
+//            //remove each child
+//            ref.child(childSnapshot.key).remove();
+//        });
+//    });
+    NSString *keyPath = [NSString stringWithFormat:@"users/%@/scenes",self.user.uid];
+    [[[[self.ref child:keyPath] queryOrderedByChild:@"scene_code"] queryEqualToValue:code] observeEventType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * _Nonnull snapshot) {
+        if (snapshot && snapshot.childrenCount > 0) {
+            for(FIRDataSnapshot *data in [snapshot children]){
+                [[[self.ref child:keyPath] child:data.key] removeValue];
+            }
+        }
+    }];
+}
 -(void)addSceneDetail:(SceneDetail *)sceneDetail sceneId:(NSInteger )sceneId{
     NSString *key = [[[[self.ref child:@"users"] child:self.user.uid] child:@"scene_details"] childByAutoId].key;
     NSDictionary *dic = @{
@@ -545,6 +573,27 @@
                           };
     NSDictionary *childUpdates = @{[NSString stringWithFormat:@"/users/%@/scene_details/%@", self.user.uid, sceneDetail.key]: dic};
     [_ref updateChildValues:childUpdates];
+}
+-(void)deleteSceneDetail:(NSInteger )sceneId{
+    NSString *keyPath = [NSString stringWithFormat:@"users/%@/scene_details",self.user.uid];
+    [[[[self.ref child:keyPath] queryOrderedByChild:@"scene_detail_code"] queryEqualToValue:@(sceneId)] observeEventType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * _Nonnull snapshot) {
+        if (snapshot && snapshot.childrenCount > 0) {
+            for(FIRDataSnapshot *data in [snapshot children]){
+                [[[self.ref child:keyPath] child:data.key] removeValue];
+            }
+        }
+    }];
+}
+
+-(void)deleteSceneDetailByDeviceId:(NSInteger)deviceId{
+    NSString *keyPath = [NSString stringWithFormat:@"users/%@/scene_details",self.user.uid];
+    [[[[self.ref child:keyPath] queryOrderedByChild:@"device_id"] queryEqualToValue:@(deviceId)] observeEventType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * _Nonnull snapshot) {
+        if (snapshot && snapshot.childrenCount > 0) {
+            for(FIRDataSnapshot *data in [snapshot children]){
+                [[[self.ref child:keyPath] child:data.key] removeValue];
+            }
+        }
+    }];
 }
 -(void)addDevice:(Device *)device roomId:(NSInteger)roomId{
     NSString *key = [[[[self.ref child:@"users"] child:self.user.uid] child:@"devices"] childByAutoId].key;
@@ -633,8 +682,14 @@
 }
 -(void)hasDeviceInSystem:(NSString *)mqttId completion:(FirebaseCallback)completion{
     NSString *keypath  = [NSString stringWithFormat:@"/devices/%@",mqttId];
-    [[self.ref child:keypath] observeEventType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * _Nonnull snapshot) {
-        if (snapshot && snapshot.value) {
+//    [[self.ref child:keypath] observeEventType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * _Nonnull snapshot) {
+//        NSString *record = snapshot.value;
+//        NSLog(@"zbc : %@ --- %@",snapshot.key, snapshot.value);
+//
+//      
+//    }];
+    [[self.ref child:keypath] observeSingleEventOfType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * _Nonnull snapshot) {
+        if (snapshot && [snapshot.value isEqual:[NSNull null]] == false) {
             completion(YES);
         }else{
             completion(NO);
@@ -644,6 +699,16 @@
 -(void)shareDevice:(NSString *)mqttId forUser:(NSString *)key{
     NSString *keypath = [NSString stringWithFormat:@"users/%@/members/%@/device",self.user.uid,key];
     [[self.ref child:keypath] setValue:mqttId];
+}
+-(void)updateMemberShareStatus:(BOOL)status name:(NSString *)name devices:(NSString *)devices uid:(NSString *)uid key:(NSString *)key{
+
+NSDictionary *dic = @{@"accept":[NSNumber numberWithInteger:status],
+                          @"device":devices,
+                          @"name":name,
+                          @"uid":uid
+                          };
+    NSDictionary *childUpdates = @{[NSString stringWithFormat:@"/users/%@/members/%@", uid, key]: dic};
+    [self.ref updateChildValues:childUpdates];
 }
 -(void)clearData{
     NSString *devicesPath  = [NSString stringWithFormat:@"/users/%@/devices/",self.user.uid];

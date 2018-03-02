@@ -20,5 +20,13 @@
     }
     return count * 0.5;
 }
-
+-(NSArray *)getListSceneDetail{
+    NSMutableArray *arr = [NSMutableArray new];
+    for (SceneDetail *detail in [self.sceneDetail allObjects]) {
+        if (detail.device != nil) {
+            [arr addObject:detail];
+        }
+    }
+    return arr;
+}
 @end

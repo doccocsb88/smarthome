@@ -731,11 +731,15 @@
     }
 }
 -(void)mqttAddSuccess{
-    self.lastQRCode =  nil;
+//    self.lastQRCode =  nil;
 
     if (self.addDevice) {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [self showInputNameAlert:self.addDevice];
+            if (self.lastQRCode != nil) {
+                NSLog(@"showInputNameAlert a");
+                [self showInputNameAlert:self.addDevice];
+
+            }
 
         });
     }
@@ -744,8 +748,12 @@
     if (self.delDevice) {
         [[FirebaseHelper sharedInstance] delleteDeviceInSystem:self.delDevice.requestId];
         [[FirebaseHelper sharedInstance] delleteDevice:self.delDevice.key];
+        [[FirebaseHelper sharedInstance] deleteSceneDetailByDeviceId:self.delDevice.id];
+       
         [[CoredataHelper sharedInstance] deleteTimerByDeviceId:self.delDevice.requestId];
+        [[CoredataHelper sharedInstance] deleteDetailByDeviceId:self.delDevice.id];
         [[CoredataHelper sharedInstance] deleteDevice:self.delDevice];
+        
         [self.room removeDevicesObject:self.delDevice];
         [dataArray removeObject:self.delDevice];
         [displayArray removeObject:self.delDevice];
@@ -880,8 +888,16 @@
                             [[MQTTService sharedInstance] addMQTTDevice:newDevice];
                             
                         }else{
-                            wSelf.lastQRCode = nil;
-                            [wSelf showInputNameAlert:newDevice];
+                            if (wSelf.lastQRCode != nil){
+                                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                                    if (wSelf.lastQRCode != nil) {
+                                        NSLog(@"showInputNameAlert b");
+                                        [wSelf showInputNameAlert:wSelf.addDevice];
+
+                                    }
+                                    
+                                });
+                            }
                             
                         }
                     }
@@ -894,8 +910,8 @@
 
 -(void)showInputNameAlert:(Device *)device{
     self.lastQRCode = nil;
-
-    NSString *title = @"Thêm thành công... " ;
+    NSLog(@"showInputNameAlert");
+    NSString *title = @"Thêm thành công" ;
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleAlert];
     [alert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
         textField.placeholder = @"Nhập tên thiết bị";
@@ -904,11 +920,17 @@
         //        <#code#>
         UITextField *tf = alert.textFields.firstObject;
         NSString *roomName = tf.text;
-        device.name = roomName;
-        [[CoredataHelper sharedInstance] save];
-        dataArray = [[self.room.devices allObjects] mutableCopy];
-        displayArray = [dataArray mutableCopy];
-        [self.tableView reloadData];
+        if (roomName && roomName.length > 0) {
+//            Device *newDevice = [[CoredataHelper sharedInstance] getDeviceBycode:device.requestId];
+//
+            device.name = roomName;
+            [[FirebaseHelper sharedInstance] updateDevice:device roomId:self.room.id];
+            [[CoredataHelper sharedInstance] save];
+            dataArray = [[self.room.devices allObjects] mutableCopy];
+            displayArray = [dataArray mutableCopy];
+            [self.tableView reloadData];
+        }
+        
     }];
 //    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
 //        //        <#code#>

@@ -20,5 +20,13 @@
 
     // Configure the view for the selected state
 }
+- (IBAction)didPressedShare:(id)sender {
+    UISwitch *sharebutton = (UISwitch *)sender;
+    NSInteger tag = sharebutton.tag;
+    if(_simpleBlock){
+        _simpleBlock(tag);
+    }
+    
+}
 
 @end

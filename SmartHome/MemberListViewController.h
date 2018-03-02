@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Member.h"
+#import "SHMember.h"
 #import "MemberViewCell.h"
 #import "MemberDetailViewController.h"
 #import "BaseViewController.h"

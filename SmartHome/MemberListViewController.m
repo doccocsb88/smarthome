@@ -79,9 +79,16 @@
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     MemberViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MemberViewCell" forIndexPath:indexPath];
-    Member *member = [dataArray objectAtIndex:indexPath.row];
+    SHMember *member = [dataArray objectAtIndex:indexPath.row];
     cell.displayNameLabel.text = member.displayname;
+    [cell.shareButton setOn:member.accept];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    __weak MemberViewCell *weakCell = cell;
+    cell.simpleBlock = ^(NSInteger tag) {
+        member.accept = weakCell.shareButton.isOn;
+        [member updateShareStatus];
+        
+    };
     return cell;
 }
 -(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
@@ -90,7 +97,7 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     MemberDetailViewController *vc = [[MemberDetailViewController alloc]
                                     initWithNibName:@"MemberListViewController" bundle:nil];
-    Member *member = [dataArray objectAtIndex:indexPath.row];
+    SHMember *member = [dataArray objectAtIndex:indexPath.row];
     vc.member = member;
     [self.navigationController pushViewController:vc animated:YES];
 }

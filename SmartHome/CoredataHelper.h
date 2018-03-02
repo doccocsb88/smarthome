@@ -51,7 +51,7 @@
 -(SceneDetail *)addSceneDetail:(NSInteger)_id value:(NSInteger) value status:(BOOL)status device:(Device *)device complete:(void(^)(SceneDetail * detail))complete;
 -(SceneDetail *)addSceneDetailV2:(NSInteger)_id key:(NSString *)key value:(NSInteger) value status:(NSInteger)status device:(Device *)device code:(NSString *)code complete:(void(^)(SceneDetail * detail))complete;
 -(SceneDetail *)getSceneDetailByCode:(NSString *)code;
-
+-(void)deleteDetailByDeviceId:(NSInteger )deviceId;
 -(void)deleteTimerByDeviceId:(NSString *)requestId;
 -(void)deleteTimerByCode:(NSString *)code;
 -(void)deleteRoomByCode:(NSString *)code;

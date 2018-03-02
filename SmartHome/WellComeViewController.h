@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "BaseViewController.h"
 @interface WellComeViewController : BaseViewController
+@property (nonatomic, assign) Boolean isNew;
 @property (nonatomic, copy, ) void (^completion)(BOOL finished);
 @end

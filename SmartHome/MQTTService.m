@@ -9,7 +9,7 @@
 #import "MQTTService.h"
 #import "Utils.h"
 #import "NSString+Utils.h"
-
+#import "FirebaseHelper.h"
 #define CHECK_PUBLISH_TIME 2
 #define REQUEST_STATUS_TIME 0.5
 static MQTTService *instance = nil;
@@ -490,9 +490,15 @@ static MQTTService *instance = nil;
                     [self.delegate mqttAddSuccess];
                 }
             }else if ([message containsString:@"DELOK"]){
+                // id=‘xxxx’ cmd=‘DELOK’
                 if (self.delegate && [self.delegate respondsToSelector:@selector(mqttDelSuccess)]) {
                     NSArray *tmp = [message componentsSeparatedByString:@"'"];
-                    if (tmp.count > 5) {
+                    NSString *mqttId = tmp[1];
+                    if (mqttId && mqttId.length > 0) {
+                        [[FirebaseHelper sharedInstance] delleteDevice:mqttId];
+                        [[FirebaseHelper  sharedInstance] delleteDeviceInSystem:mqttId];
+                    }
+                    if ([tmp containsObject:@"DELOK"]) {
                         [self.delegate mqttDelSuccess];
                     }
                 }

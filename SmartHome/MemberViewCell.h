@@ -10,5 +10,6 @@
 
 @interface MemberViewCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UILabel *displayNameLabel;
-
+@property (weak, nonatomic) IBOutlet UISwitch *shareButton;
+@property (strong, nonatomic) void (^simpleBlock)(NSInteger);
 @end

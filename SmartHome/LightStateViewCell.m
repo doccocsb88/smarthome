@@ -26,9 +26,7 @@
         //bgzView.image = xx;
         
     }
-
-    self.onOffButton.userInteractionEnabled = [[User sharedInstance] canControlDevice:self.device.requestId];
-    self.thumbnail.userInteractionEnabled = [[User sharedInstance] canControlDevice:self.device.requestId];
+    
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -65,6 +63,7 @@
     }
 }
 - (IBAction)pressedControl:(id)sender {
+    NSLog(@"pressedControl");
     if ([[User sharedInstance] canControlDevice:self.device.requestId] ) {
         if (self.delegate && [self.delegate respondsToSelector:@selector(didPressedControl:)]) {
             [self.delegate didPressedControl:self.device.id];
@@ -78,7 +77,9 @@
     self.device = detail.device;
     self.onOffButton.tag = detail.id;
     self.onOffButton.selected = detail.status == 1;
-    self.onOffButton.userInteractionEnabled = YES;
+    Boolean isSharedDevice = [[User sharedInstance] canControlDevice:self.device.requestId];
+    self.onOffButton.userInteractionEnabled = isSharedDevice;
+    self.thumbnail.userInteractionEnabled = isSharedDevice;
     
     self.lbDeviceName.text = detail.device.name;
     if (detail.isSelected) {
@@ -91,7 +92,9 @@
     self.device = device;
     self.onOffButton.tag = device.id;
     self.onOffButton.selected = device.state;
-    self.onOffButton.userInteractionEnabled = type == 0;
+    Boolean isSharedDevice = [[User sharedInstance] canControlDevice:self.device.requestId];
+    self.onOffButton.userInteractionEnabled = isSharedDevice;
+    self.thumbnail.userInteractionEnabled = isSharedDevice;
     if (device.name && device.name.length > 0) {
         self.lbDeviceName.text = device.name;
         

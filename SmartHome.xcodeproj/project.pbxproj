@@ -29,7 +29,7 @@
 		183F555B2003278600B072A9 /* MemberListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 183F55592003278600B072A9 /* MemberListViewController.xib */; };
 		183F55622003285D00B072A9 /* MemberViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F55602003285D00B072A9 /* MemberViewCell.m */; };
 		183F55632003285D00B072A9 /* MemberViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 183F55612003285D00B072A9 /* MemberViewCell.xib */; };
-		183F556720032D1800B072A9 /* Member.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F556620032D1800B072A9 /* Member.m */; };
+		183F556720032D1800B072A9 /* SHMember.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F556620032D1800B072A9 /* SHMember.m */; };
 		183F556B2003308000B072A9 /* MemberDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F55692003308000B072A9 /* MemberDetailViewController.m */; };
 		183F556C2003308000B072A9 /* MemberDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 183F556A2003308000B072A9 /* MemberDetailViewController.xib */; };
 		183F5570200330D000B072A9 /* MemberDetailViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F556E200330D000B072A9 /* MemberDetailViewCell.m */; };
@@ -155,8 +155,8 @@
 		183F555F2003285D00B072A9 /* MemberViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MemberViewCell.h; sourceTree = "<group>"; };
 		183F55602003285D00B072A9 /* MemberViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MemberViewCell.m; sourceTree = "<group>"; };
 		183F55612003285D00B072A9 /* MemberViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MemberViewCell.xib; sourceTree = "<group>"; };
-		183F556520032D1800B072A9 /* Member.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Member.h; sourceTree = "<group>"; };
-		183F556620032D1800B072A9 /* Member.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Member.m; sourceTree = "<group>"; };
+		183F556520032D1800B072A9 /* SHMember.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SHMember.h; sourceTree = "<group>"; };
+		183F556620032D1800B072A9 /* SHMember.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SHMember.m; sourceTree = "<group>"; };
 		183F55682003308000B072A9 /* MemberDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MemberDetailViewController.h; sourceTree = "<group>"; };
 		183F55692003308000B072A9 /* MemberDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MemberDetailViewController.m; sourceTree = "<group>"; };
 		183F556A2003308000B072A9 /* MemberDetailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MemberDetailViewController.xib; sourceTree = "<group>"; };
@@ -413,8 +413,8 @@
 		183F5564200328B300B072A9 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				183F556520032D1800B072A9 /* Member.h */,
-				183F556620032D1800B072A9 /* Member.m */,
+				183F556520032D1800B072A9 /* SHMember.h */,
+				183F556620032D1800B072A9 /* SHMember.m */,
 				183054AA2003966A0015A7EE /* ShareDevice.h */,
 				183054AB2003966A0015A7EE /* ShareDevice.m */,
 			);
@@ -939,7 +939,7 @@
 				5F2D4B181F239E09007B7D13 /* HTKSampleCollectionViewCell.m in Sources */,
 				5F09E96C1F23631F00B3AD47 /* SortRoomViewCell.m in Sources */,
 				183F556B2003308000B072A9 /* MemberDetailViewController.m in Sources */,
-				183F556720032D1800B072A9 /* Member.m in Sources */,
+				183F556720032D1800B072A9 /* SHMember.m in Sources */,
 				183F5570200330D000B072A9 /* MemberDetailViewCell.m in Sources */,
 				188A92AA2007EE2300143E26 /* KLCPopup.m in Sources */,
 				184000A11E841B6E000A7ECB /* AddMenuViewCell.m in Sources */,

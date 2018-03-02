@@ -9,10 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "MemberDetailViewCell.h"
 #import "CoredataHelper.h"
-#import "Member.h"
+#import "SHMember.h"
 #import "BaseViewController.h"
 @interface MemberDetailViewController : BaseViewController
-@property (strong, nonatomic) Member *member;
+@property (strong, nonatomic) SHMember *member;
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 

@@ -6,9 +6,9 @@
 //  Copyright © 2018 Apple. All rights reserved.
 //
 
-#import "Member.h"
+#import "SHMember.h"
 
-@implementation Member
+@implementation SHMember
 -(void)shareDevice:(NSString *)mqttId{
     NSLog(@"shareDevice : %@",mqttId);
     if (!self.devices) {
@@ -40,6 +40,9 @@
 
 -(void)updateShareDeviceForMember{
     [[FirebaseHelper sharedInstance] shareDevice:self.devices forUser:self.key];
+}
+-(void)updateShareStatus{
+    [[FirebaseHelper sharedInstance] updateMemberShareStatus:self.accept name:self.displayname devices:self.devices uid:self.uid key:self.key];
 
 }
 @end

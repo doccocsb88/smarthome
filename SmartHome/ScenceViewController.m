@@ -86,7 +86,7 @@
     if ([des isEqualToString:@"sceneDetailSegue"]) {
         Scene *scene = [dataArray objectAtIndex:self.selectedIndex];
         SceneDetailViewController *vc = segue.destinationViewController;
-        vc.dataArray = [[scene.sceneDetail allObjects] mutableCopy];
+        vc.dataArray = [[scene getListSceneDetail] mutableCopy];
         vc.title = scene.name;
         vc.scene = scene;
         NSLog(@"detail: %ld",vc.dataArray.count);
@@ -354,11 +354,17 @@
 
     }];
     
-    UIAlertAction *defaultAction = [UIAlertAction actionWithTitle:@"Xoa" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *defaultAction = [UIAlertAction actionWithTitle:@"Xoá" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         //        <#code#>
         if (self.selectedIndex < dataArray.count) {
             Scene *scene = [dataArray objectAtIndex:self.selectedIndex];
             [dataArray removeObject:scene];
+            [[FirebaseHelper sharedInstance] deleteScene:scene.code];
+            [[FirebaseHelper sharedInstance] deleteSceneDetail:scene.id];
+            for (SceneDetail *detail in [scene.sceneDetail allObjects]){
+                [[CoredataHelper sharedInstance].context deleteObject:detail];
+
+            }
             [[CoredataHelper sharedInstance].context deleteObject:scene];
             self.selectedIndex = NSNotFound;
             [self.tableView reloadData];

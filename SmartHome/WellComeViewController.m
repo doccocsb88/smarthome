@@ -51,7 +51,12 @@
     //
     self.startButton = [UIButton new];
     self.startButton.frame = CGRectMake(20, self.contentSizeInPopup.height - 100, self.contentSizeInPopup.width - 40, 40);
-    [self.startButton setTitle:@"Cài đặt mới" forState:UIControlStateNormal];
+    if (self.isNew){
+        [self.startButton setTitle:@"Cài đặt mới" forState:UIControlStateNormal];
+    }else{
+        [self.startButton setTitle:@"Sử dụng dữ liệu cũ" forState:UIControlStateNormal];
+
+    }
     self.startButton.backgroundColor = [Helper colorFromHexString:@"42B38F"];
     [self.startButton addTarget:self action:@selector(pressedStart:) forControlEvents:UIControlEventTouchUpInside];
     //

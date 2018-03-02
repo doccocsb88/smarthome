@@ -49,7 +49,11 @@
     [self initPageViewController];
     [self setupPageControl];
     //
-   
+    NSString *value = @"id='xxxx' cmd='DELOK'";
+    NSArray *arrs = [value componentsSeparatedByString:@"'"];
+    for (NSString *x in arrs){
+        NSLog(@"cc : %@",x);
+    }
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -79,7 +83,9 @@
     
     
     
-    [[FirebaseHelper sharedInstance] getProfileInfo];
+    [[FirebaseHelper sharedInstance] getProfileInfo:^(FIRUser *user, Boolean isNew) {
+        
+    }];
     
 }
 -(void)initNotification{
