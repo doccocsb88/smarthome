@@ -44,6 +44,10 @@
 		185E78731E96A8C50048B450 /* SceneDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 185E78721E96A8C50048B450 /* SceneDetail.m */; };
 		186DADFC1EAB503A00D00206 /* UIImage+Color.m in Sources */ = {isa = PBXBuildFile; fileRef = 186DADFB1EAB503A00D00206 /* UIImage+Color.m */; };
 		188A92AA2007EE2300143E26 /* KLCPopup.m in Sources */ = {isa = PBXBuildFile; fileRef = 188A92A82007EE2200143E26 /* KLCPopup.m */; };
+		188E61D9204E365C008DD7DD /* TouchSwitchViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 188E61D6204E365C008DD7DD /* TouchSwitchViewCell.m */; };
+		188E61DA204E365C008DD7DD /* TouchSwitchViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 188E61D8204E365C008DD7DD /* TouchSwitchViewCell.xib */; };
+		188E61DE204E78EE008DD7DD /* ChannelViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 188E61DC204E78EE008DD7DD /* ChannelViewCell.m */; };
+		188E61DF204E78EE008DD7DD /* ChannelViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 188E61DD204E78EE008DD7DD /* ChannelViewCell.xib */; };
 		18AD101E2004D2CF000DC410 /* ShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AD101C2004D2CF000DC410 /* ShareViewController.m */; };
 		18AD101F2004D2CF000DC410 /* ShareViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18AD101D2004D2CF000DC410 /* ShareViewController.xib */; };
 		18AD102620052D1B000DC410 /* FirebaseTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AD102420052D1B000DC410 /* FirebaseTestViewController.m */; };
@@ -183,6 +187,12 @@
 		186DADFB1EAB503A00D00206 /* UIImage+Color.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Color.m"; sourceTree = "<group>"; };
 		188A92A82007EE2200143E26 /* KLCPopup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KLCPopup.m; path = "../../../Downloads/KLCPopup-master/KLCPopup/KLCPopup.m"; sourceTree = "<group>"; };
 		188A92A92007EE2300143E26 /* KLCPopup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KLCPopup.h; path = "../../../Downloads/KLCPopup-master/KLCPopup/KLCPopup.h"; sourceTree = "<group>"; };
+		188E61D6204E365C008DD7DD /* TouchSwitchViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TouchSwitchViewCell.m; sourceTree = "<group>"; };
+		188E61D7204E365C008DD7DD /* TouchSwitchViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchSwitchViewCell.h; sourceTree = "<group>"; };
+		188E61D8204E365C008DD7DD /* TouchSwitchViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TouchSwitchViewCell.xib; sourceTree = "<group>"; };
+		188E61DB204E78EE008DD7DD /* ChannelViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChannelViewCell.h; sourceTree = "<group>"; };
+		188E61DC204E78EE008DD7DD /* ChannelViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChannelViewCell.m; sourceTree = "<group>"; };
+		188E61DD204E78EE008DD7DD /* ChannelViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChannelViewCell.xib; sourceTree = "<group>"; };
 		18AD101B2004D2CF000DC410 /* ShareViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShareViewController.h; sourceTree = "<group>"; };
 		18AD101C2004D2CF000DC410 /* ShareViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShareViewController.m; sourceTree = "<group>"; };
 		18AD101D2004D2CF000DC410 /* ShareViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShareViewController.xib; sourceTree = "<group>"; };
@@ -465,9 +475,17 @@
 			name = Popup;
 			sourceTree = "<group>";
 		};
+		188E61D5204E354B008DD7DD /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
 		18AD10202004FE5D000DC410 /* Room */ = {
 			isa = PBXGroup;
 			children = (
+				188E61D5204E354B008DD7DD /* Model */,
 				18AD10222004FE69000DC410 /* View */,
 				18AD10212004FE63000DC410 /* Controller */,
 			);
@@ -486,6 +504,12 @@
 		18AD10222004FE69000DC410 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				188E61D7204E365C008DD7DD /* TouchSwitchViewCell.h */,
+				188E61D6204E365C008DD7DD /* TouchSwitchViewCell.m */,
+				188E61D8204E365C008DD7DD /* TouchSwitchViewCell.xib */,
+				188E61DB204E78EE008DD7DD /* ChannelViewCell.h */,
+				188E61DC204E78EE008DD7DD /* ChannelViewCell.m */,
+				188E61DD204E78EE008DD7DD /* ChannelViewCell.xib */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -801,6 +825,7 @@
 				18CBD2C11E87B33D002635D8 /* LightViewCell.xib in Resources */,
 				18CBD2C51E87B383002635D8 /* RemViewCell.xib in Resources */,
 				18B6DD381F6046BA00225B32 /* Assets.xcassets in Resources */,
+				188E61DA204E365C008DD7DD /* TouchSwitchViewCell.xib in Resources */,
 				18AD102720052D1B000DC410 /* FirebaseTestViewController.xib in Resources */,
 				18AD101F2004D2CF000DC410 /* ShareViewController.xib in Resources */,
 				18EFAD701E756F8900637669 /* Main.storyboard in Resources */,
@@ -808,6 +833,7 @@
 				181885D41E9019D500F5609D /* EspTouchDemo-Info.plist in Resources */,
 				18F133632001DE80008A5E55 /* GoogleService-Info.plist in Resources */,
 				183F556C2003308000B072A9 /* MemberDetailViewController.xib in Resources */,
+				188E61DF204E78EE008DD7DD /* ChannelViewCell.xib in Resources */,
 				18C8DFD61E896CBC00DC5330 /* SmartHome.json in Resources */,
 				18F1336D2001E73E008A5E55 /* AccountViewController.xib in Resources */,
 				18CC8B9D1E7E499F007FD291 /* TypeRoomViewCell.xib in Resources */,
@@ -875,6 +901,7 @@
 				18B010D01E758E78001834FB /* FavViewCell.m in Sources */,
 				18AD102620052D1B000DC410 /* FirebaseTestViewController.m in Sources */,
 				185E786D1E95E9150048B450 /* AbtractObject.m in Sources */,
+				188E61DE204E78EE008DD7DD /* ChannelViewCell.m in Sources */,
 				181885D11E9019D500F5609D /* ESPDataCode.m in Sources */,
 				18EFAD831E75791C00637669 /* FavoriteViewController.m in Sources */,
 				18CBD2BE1E87B223002635D8 /* ListDeviceViewController.m in Sources */,
@@ -920,6 +947,7 @@
 				183F555A2003278600B072A9 /* MemberListViewController.m in Sources */,
 				5F3187941F2B8E6D00090F4A /* SHTimer+CoreDataClass.m in Sources */,
 				18EFAD671E756F8900637669 /* main.m in Sources */,
+				188E61D9204E365C008DD7DD /* TouchSwitchViewCell.m in Sources */,
 				5F5B2C811F2466E60081CD4B /* ControlRoomPopup.m in Sources */,
 				18DBF42E1E8EA65C00311D72 /* LightValueViewCell.m in Sources */,
 				18F133612001DBF9008A5E55 /* FirebaseHelper.m in Sources */,

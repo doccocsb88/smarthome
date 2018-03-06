@@ -26,6 +26,7 @@
 -(void)initLoadingView;
 -(void)showLoadingView;
 -(void)hideLoadingView;
+-(void)showConfirmDialog:(NSString *)title message:(NSString *)message complete:(void (^)(NSInteger index))block;
 
 -(void)showMessageView:(NSString *)title message:(NSString *)message autoHide:(BOOL)hide complete:(void (^)(NSInteger index))block;
 -(void)showAlert:(NSString *)title message:(NSString *)message;

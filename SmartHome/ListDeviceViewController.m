@@ -91,41 +91,72 @@
         NSArray *arrs = [[CoredataHelper sharedInstance] getListRoom];
         roomArray = [[NSMutableArray alloc] init];
         dataArray = [[NSMutableArray alloc] init];
-
-        for (Room *room in arrs) {
-            if ([self numberOfAvailableDevice:room.devices.allObjects] > 0) {
-                [roomArray addObject:room];
+            for (Room *room in arrs) {
+                if ([self numberOfAvailableDevice:room.devices.allObjects] > 0) {
+                    [roomArray addObject:room];
+                }
             }
-        }
-        for (Room *room in roomArray) {
-            
-            for (Device *device in room.devices.allObjects) {
-                SceneDetail *detail =[[CoredataHelper sharedInstance] addSceneDetail:1 value:1 status:ButtonTypeOpen device:device complete:^(SceneDetail *detail) {
-                    if (detail) {
-                        
+            for (Room *room in roomArray) {
+                
+                for (Device *device in room.devices.allObjects) {
+                 
+                    if ([[User sharedInstance] isAdmin]) {
+                        SceneDetail *detail =[[CoredataHelper sharedInstance] addSceneDetail:1 value:1 status:ButtonTypeOpen device:device complete:^(SceneDetail *detail) {
+                            if (detail) {
+                                
+                            }
+                        }];
+                        [dataArray addObject:detail];
+                    }else{
+                        if ([[User sharedInstance] isShared] && [[User sharedInstance].devices containsObject:device.requestId]) {
+                            SceneDetail *detail =[[CoredataHelper sharedInstance] addSceneDetail:1 value:1 status:ButtonTypeOpen device:device complete:^(SceneDetail *detail) {
+                                if (detail) {
+                                    
+                                }
+                            }];
+                            [dataArray addObject:detail];
+                            
+                            
+                        }
                     }
-                }];
-                [dataArray addObject:detail];
+                }
             }
-        }
-        
+      
     }else{
         NSArray *arrs = [[CoredataHelper sharedInstance] getListRoom];
         dataArray = [[NSMutableArray alloc] init];
-
-        for (Room *room in arrs) {
-            if ([self numberOfAvailableDevice:room.devices.allObjects] > 0) {
-                [dataArray addObject:room];
-            }
-        }
-        for (Room *room in dataArray) {
-            for (Device *device in room.devices.allObjects) {
-                NSString *type = [NSString stringWithFormat:@"%ld",device.type];
-                if ([typeArr containsObject:type] == false) {
-                    [typeArr addObject:type];
+        if ([[User sharedInstance] isAdmin]) {
+            for (Room *room in arrs) {
+                if ([self numberOfAvailableDevice:room.devices.allObjects] > 0) {
+                    [dataArray addObject:room];
                 }
             }
-            
+            for (Room *room in dataArray) {
+                for (Device *device in room.devices.allObjects) {
+                    NSString *type = [NSString stringWithFormat:@"%ld",device.type];
+                    if ([typeArr containsObject:type] == false) {
+                        [typeArr addObject:type];
+                    }
+                }
+                
+            }
+        }else{
+        if([User sharedInstance].isShared){
+            for (Room *room in arrs) {
+                if ([self numberOfAvailableDevice:room.devices.allObjects] > 0) {
+                    [dataArray addObject:room];
+                }
+            }
+            for (Room *room in dataArray) {
+                for (Device *device in room.devices.allObjects) {
+                    NSString *type = [NSString stringWithFormat:@"%ld",device.type];
+                    if ([typeArr containsObject:type] == false) {
+                        [typeArr addObject:type];
+                    }
+                }
+                
+            }
+        }
         }
     }
     
@@ -141,9 +172,13 @@
     self.navigationItem.leftBarButtonItem = leftItem;
     if (self.scene) {
         UIButton *saveButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
-        [saveButton setTitle:@"Save" forState:UIControlStateNormal];
-        [saveButton setTitleColor:[Helper colorFromHexString:@"3fb2b5"] forState:UIControlStateNormal];
+        [saveButton setTitle:@"Lưu" forState:UIControlStateNormal];
+        [saveButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [saveButton addTarget:self action:@selector(pressedRight:) forControlEvents:UIControlEventTouchUpInside];
+        saveButton.layer.cornerRadius = 3.0;
+        saveButton.layer.borderWidth = 1.0;
+        saveButton.layer.borderColor = [UIColor whiteColor].CGColor;
+        saveButton.layer.masksToBounds = YES;
         UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithCustomView:saveButton];
         self.navigationItem.rightBarButtonItem = rightItem;
         
@@ -177,8 +212,9 @@
         device = detail.device;
     }else{
         Room *room = [dataArray objectAtIndex:indexPath.section];
-        NSSortDescriptor *imageSort = [NSSortDescriptor sortDescriptorWithKey:@"order" ascending:NO];
-        NSArray *devices = [room.devices.allObjects sortedArrayUsingDescriptors:@[imageSort]];
+//        NSSortDescriptor *imageSort = [NSSortDescriptor sortDescriptorWithKey:@"order" ascending:NO];
+//        NSArray *devices = [room.devices.allObjects sortedArrayUsingDescriptors:@[imageSort]];
+        NSArray *devices  = [self getSharedDevice:room];
         device = [devices objectAtIndex:indexPath.row];
     }
     if (device.type == DeviceTypeLightOnOff) {
@@ -210,14 +246,14 @@
      if (!self.scene) {
         if ([dataArray objectAtIndex:section]) {
             Room *room = [dataArray objectAtIndex:section];
-            return room.devices.allObjects.count;
+            return [self getSharedDevice:room].count;
         }else{
             return 0;
         }
      }else{
          if (roomArray) {
              Room *room = [roomArray objectAtIndex:section];
-             return [self numberOfAvailableDevice:room.devices.allObjects];
+             return [self numberOfAvailableDevice:[self getSharedDevice:room]];
          }
          return 0;
      }
@@ -231,7 +267,7 @@
     }else{
         room = [roomArray objectAtIndex:section];
     }
-    if (room && room.devices.allObjects.count > 0) {
+    if (room && [self getSharedDevice:room] > 0) {
         return 30.0;
     }
     return 00.0;
@@ -345,6 +381,28 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
     return 0.01;
+}
+
+
+-(NSArray *)getSharedDevice:(Room *)room{
+    NSMutableArray *sharedDevices = [NSMutableArray new];
+    
+    
+    NSSortDescriptor *imageSort = [NSSortDescriptor sortDescriptorWithKey:@"order" ascending:NO];
+    NSArray *sortedDevices = [room.devices.allObjects sortedArrayUsingDescriptors:@[imageSort]];
+    if ([[User sharedInstance] isAdmin]) {
+        return sortedDevices;
+    }else{
+        if ([[User sharedInstance] isShared]) {
+            for (Device *device in sortedDevices) {
+                if ([[User sharedInstance].devices containsObject:device.requestId]) {
+                    [sharedDevices addObject:device];
+                }
+            }
+        }
+        return sharedDevices;
+
+    }
 }
 #pragma mark
 #pragma mark - EdidMenuDelegate

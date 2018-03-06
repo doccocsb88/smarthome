@@ -13,6 +13,7 @@ typedef enum{
     DeviceTypeLightAdjust = 1,
     DeviceTypeLightOnOff,
     DeviceTypeCurtain,
+    DeviceTypeTouchSwitch,
     DeviceTypeUnknow
 }DeviceType;
 @interface Device : NSManagedObject
@@ -36,4 +37,5 @@ typedef enum{
 -(NSString *)getAddMessage;
 -(NSString *)getDelMessage;
 -(NSString *)getTopic;
+-(NSInteger )numberOfSwitchChannel;
 @end

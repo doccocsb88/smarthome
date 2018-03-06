@@ -611,14 +611,16 @@
     //                    "device_value" = 0;
     //                    id = 5;
     //                    sceneId = 3;
-    NSDictionary *dic = @{@"id": [NSNumber numberWithInteger:device.id],
+    NSInteger deviceId = device.id;
+    
+    NSDictionary *dic = @{@"id": [NSNumber numberWithInteger:deviceId],
                           @"device_control":[NSNumber numberWithBool:device.control],
                           @"device_mqtt_id":device.requestId,
                           @"device_name":device.name,
                           @"device_order":[NSNumber numberWithInteger:device.order],
                           @"device_status":[NSNumber numberWithInteger:device.state],
                           @"device_value":[NSNumber numberWithInteger:device.value],
-                          @"device_topic":device.topic,
+                          @"device_topic":device.topic?device.topic:@"",
                           @"device_type":[NSNumber numberWithInteger:device.type],
                           @"deviceId":[NSNumber numberWithInteger:roomId]
                           

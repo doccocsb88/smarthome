@@ -303,7 +303,9 @@
     
     if (type == DeviceTypeCurtain) {
         device.topic = [NSString stringWithFormat:@"QA_CC_%@",requestId];
-    }else if (type == DeviceTypeLightOnOff){
+    }else if(type == DeviceTypeTouchSwitch){
+        device.topic = [NSString stringWithFormat:@"%@",requestId];
+    }else if (type == DeviceTypeLightOnOff ){
         device.topic = [Utils getTopic];
     }
     device.type = type;

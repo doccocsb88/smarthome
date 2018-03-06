@@ -13,6 +13,8 @@
 +(DeviceType)getDeviceType:(NSString *)topic{
     if ([topic containsString:@"QA_CC_CT"]) {
         return DeviceTypeCurtain;
+    }else if ([topic containsString:@"WT"]){
+        return DeviceTypeTouchSwitch;
     }else if ([topic containsString:[Utils getTopic]]){
         return DeviceTypeLightOnOff;
     }

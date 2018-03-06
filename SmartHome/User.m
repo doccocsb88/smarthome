@@ -70,6 +70,9 @@
     }else{
        // self.devices = [NSArray new];
     }
+    if([dict objectForKey:@"accept"]){
+        self.isShared = [[dict objectForKey:@"accept"] boolValue];
+    }
 }
 -(BOOL)isAdmin{
     if (self.accountType == AccountTypeAdmin) {

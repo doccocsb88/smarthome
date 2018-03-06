@@ -13,6 +13,7 @@
 #import "CoredataHelper.h"
 #import "LightStateViewCell.h"
 #import "LightValueViewCell.h"
+#import "TouchSwitchViewCell.h"
 #import "RemViewCell.h"
 #import "Utils.h"
 #import "MQTTService.h"

@@ -75,7 +75,27 @@
         
     }
 }
-
+-(void)showConfirmDialog:(NSString *)title message:(NSString *)message complete:(void (^)(NSInteger))block{
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
+    
+    
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"Đồng Ý" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        if (block) {
+            block(1);
+        }
+        [alert dismissViewControllerAnimated:YES completion:nil];
+    }];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Bỏ qua" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        if (block) {
+            block(0);
+        }
+        [alert dismissViewControllerAnimated:YES completion:nil];
+    }];
+    [alert addAction:okAction];
+    [alert addAction:cancelAction];
+    
+    [self presentViewController:alert animated:YES completion:nil];
+}
 -(void)showMessageView:(NSString *)title message:(NSString *)message autoHide:(BOOL)hide complete:(void (^)(NSInteger index))block{
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
     

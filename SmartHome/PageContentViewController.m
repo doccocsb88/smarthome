@@ -68,6 +68,7 @@
     }
     [self.view bringSubviewToFront:self.stageView];
     self.navigationController.navigationBarHidden = NO;
+
 }
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
@@ -86,7 +87,8 @@
     [[FirebaseHelper sharedInstance] getProfileInfo:^(FIRUser *user, Boolean isNew) {
         
     }];
-    
+    self.navigationController.navigationBarHidden = NO;
+
 }
 -(void)initNotification{
     [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(handleMqttConnectEvent:) name:@"kMqttConnectToServer" object:nil];

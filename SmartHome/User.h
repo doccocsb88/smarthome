@@ -20,6 +20,8 @@ typedef enum AccountType:NSInteger{
 @property (strong, nonatomic) NSString *password;
 @property (strong, nonatomic) NSString *node;
 @property (assign, nonatomic) BOOL active;
+@property (assign, nonatomic) BOOL isShared;
+
 @property (assign, nonatomic) AccountType accountType;
 //
 @property (strong, nonatomic) NSArray *devices;

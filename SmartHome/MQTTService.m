@@ -113,7 +113,7 @@ static MQTTService *instance = nil;
         for (Device *device in arrCopy) {
             NSString *topic = @"";
             
-            if (device.type == DeviceTypeCurtain) {
+            if (device.type == DeviceTypeCurtain || device.type == DeviceTypeTouchSwitch) {
                 topic = [device getTopic];
                 
                 

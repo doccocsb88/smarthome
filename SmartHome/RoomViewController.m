@@ -96,9 +96,23 @@
 -(void)initData{
     _curType = 0;
     _retry = 0;
+    dataArray = [NSMutableArray new];
+
     NSSortDescriptor *imageSort = [NSSortDescriptor sortDescriptorWithKey:@"order" ascending:NO];
-    dataArray = [[[self.room.devices allObjects] sortedArrayUsingDescriptors:@[imageSort]] mutableCopy];
-    
+    NSArray *allDevices =  [[[self.room.devices allObjects] sortedArrayUsingDescriptors:@[imageSort]] mutableCopy];
+    if ([[User sharedInstance] isAdmin]) {
+        dataArray = [allDevices mutableCopy];
+    }else{
+        if ([[User sharedInstance] isShared]) {
+            NSLog(@"sharedDevices : %@",[User sharedInstance].devices);
+            for(Device *dv in allDevices){
+                if ([[User sharedInstance].devices containsObject:dv.requestId] ) {
+                    [dataArray addObject:dv];
+                }
+            }
+        }
+    }
+
     displayArray = [dataArray mutableCopy];
     screenSize = [UIScreen mainScreen].bounds.size;
     typeArr = [[NSMutableArray alloc] init];
@@ -120,6 +134,7 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.tableView registerNib:[UINib nibWithNibName:@"LightOnOffViewCell" bundle:nil] forCellReuseIdentifier:@"lightOnOffViewCell"];
     [self.tableView registerNib:[UINib nibWithNibName:@"RemViewCell" bundle:nil] forCellReuseIdentifier:@"remViewCell"];
+    [self.tableView registerNib:[UINib nibWithNibName:@"TouchSwitchViewCell" bundle:nil] forCellReuseIdentifier:@"TouchSwitchViewCell"];
 
     [self initFilterView];
     
@@ -273,6 +288,8 @@
         return 100.0;
     }else if (device.type == DeviceTypeCurtain){
         return 130.0;
+    }else if (device.type == DeviceTypeTouchSwitch){
+        return 110 * [device numberOfSwitchChannel];
     }
     return 100;
 }
@@ -307,7 +324,7 @@
         cell.delegate = self;
         return cell;
         
-    }else{
+    }else if (device.type == 3){
         RemViewCell *cell = (RemViewCell *)[tableView dequeueReusableCellWithIdentifier:@"remViewCell" forIndexPath:indexPath];
         UIView *bg = [cell viewWithTag:1];
         bg.backgroundColor = [UIColor clearColor];
@@ -316,7 +333,16 @@
         cell.delegate = self;
         return cell;
         
+    }else if (device.type == DeviceTypeTouchSwitch){
+        TouchSwitchViewCell *cell = (TouchSwitchViewCell *)[tableView dequeueReusableCellWithIdentifier:@"TouchSwitchViewCell" forIndexPath:indexPath];
+        [cell setContentValue:device];
+        
+        return cell;
     }
+    
+    return [UITableViewCell new];
+    
+    
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
@@ -652,8 +678,17 @@
         case 5:
             //xoa thiet bi
             if (device != nil) {
-                self.delDevice = device;
-                [[MQTTService sharedInstance] delMQTTDevice:device];
+                [self showConfirmDialog:@"" message:@"Bạn có muốn xoá thiết bị này không?" complete:^(NSInteger index) {
+                    if(index == 1){
+                        self.delDevice = device;
+                        if(self.delDevice.type == DeviceTypeCurtain){
+                            [self mqttDelSuccess];
+                        }else{
+                            [[MQTTService sharedInstance] delMQTTDevice:device];
+                        }
+                    }
+                }];
+         
             }
             
             break;
@@ -762,7 +797,6 @@
         [self filterWithTag:_curType];
         self.delDevice  =  nil;
     }
-
 }
 -(void)mqttFinishedProcess{
     [self hideLoadingView];
@@ -926,7 +960,22 @@
             device.name = roomName;
             [[FirebaseHelper sharedInstance] updateDevice:device roomId:self.room.id];
             [[CoredataHelper sharedInstance] save];
-            dataArray = [[self.room.devices allObjects] mutableCopy];
+            NSSortDescriptor *imageSort = [NSSortDescriptor sortDescriptorWithKey:@"order" ascending:NO];
+            NSArray *allDevices =  [[[self.room.devices allObjects] sortedArrayUsingDescriptors:@[imageSort]] mutableCopy];
+            dataArray = [NSMutableArray new];
+
+            if ([[User sharedInstance] isAdmin]) {
+                dataArray = [allDevices mutableCopy];
+            }else{
+                if ([[User sharedInstance] isShared]) {
+                    for(Device *dv in allDevices){
+                        if ([[User sharedInstance].devices containsObject:dv.requestId] ) {
+                            [dataArray addObject:dv];
+                        }
+                    }
+                }else{
+                }
+            }
             displayArray = [dataArray mutableCopy];
             [self.tableView reloadData];
         }
