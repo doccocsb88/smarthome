@@ -235,6 +235,15 @@ static MQTTService *instance = nil;
         [_session publishData:[msg dataUsingEncoding:NSUTF8StringEncoding] onTopic:[NSString stringWithFormat:@"QA_CC_%@",topic] retain:NO qos:2 publishHandler:^(NSError *error) {
 
         }];
+    }else if (type == DeviceTypeTouchSwitch){
+       
+        [self.publishingTopic addObject:topic];
+        [NSTimer scheduledTimerWithTimeInterval:CHECK_PUBLISH_TIME target:self selector:@selector(checkPublishSucess:) userInfo:@{@"topic":topic,@"message":message,@"type":[NSString stringWithFormat:@"%ld",type],@"count":[NSString stringWithFormat:@"%d",count]} repeats:NO];
+        NSLog(@"publishControl message %@",message);
+
+        [_session publishData:[message dataUsingEncoding:NSUTF8StringEncoding] onTopic:topic retain:NO qos:2 publishHandler:^(NSError *error) {
+            
+        }];
     }else if (type == DeviceTypeLightOnOff){
         NSString *msg = @"";
         if ([message isEqualToString:@"CLOSE"]) {
@@ -454,7 +463,7 @@ static MQTTService *instance = nil;
             }
         }
     }else{
-        if([Utils getDeviceType:topic] == DeviceTypeLightOnOff || [Utils getDeviceType:topic] == DeviceTypeCurtain){
+        if([Utils getDeviceType:topic] == DeviceTypeLightOnOff || [Utils getDeviceType:topic] == DeviceTypeCurtain || [Utils getDeviceType:topic] == DeviceTypeTouchSwitch){
             if ([message containsString:@"TIMERSTATUS"]) {
                 if (self.delegate && [self.delegate respondsToSelector:@selector(mqttSetStateValueForTimer:)]) {
                     [self.delegate mqttSetStateValueForTimer:message];
@@ -465,12 +474,25 @@ static MQTTService *instance = nil;
                     NSArray *tmp = [message componentsSeparatedByString:@"'"];
                     if (tmp.count > 5) {
                         NSString *value = tmp[5];
+                    
                         if ([value isEqualToString:@"1,2,0"] || [value isEqualToString:@"1,2,1"]) {
+                            //curtain
                             [self.publishingTopic removeObject:tmp[1]];
                             if (self.delegate && [self.delegate respondsToSelector:@selector(mqttSetStateValueForLight:)]) {
                                 isValue = true;
                                 [self.delegate mqttSetStateValueForLight:message];
                                 
+                            }
+                        }else if ([value containsString:@"W"]){
+                            //touch switch
+                            if([tmp[1] containsString:@"/"]){
+                                NSString *topic = [tmp[1] componentsSeparatedByString:@"/"].firstObject;
+                                [self.publishingTopic removeObject:topic];
+
+                            }
+                            
+                            if (self.delegate && [self.delegate respondsToSelector:@selector(mqttSetStateValueForLight:)]) {
+                                [self.delegate mqttSetStateValueForLight:message];
                             }
                         }else if([value isNumber])
                         {

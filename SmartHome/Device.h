@@ -38,4 +38,6 @@ typedef enum{
 -(NSString *)getDelMessage;
 -(NSString *)getTopic;
 -(NSInteger )numberOfSwitchChannel;
+-(NSString *)switchChancelMessage:(int)chanel status:(Boolean)status;
+-(void)updateStatusForChanel:(int)chanel value:(NSString *)value;
 @end

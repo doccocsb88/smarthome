@@ -58,8 +58,8 @@
                                     <constraint firstAttribute="width" secondItem="Ogn-r2-Yhy" secondAttribute="height" multiplier="256:151" id="T81-9u-gJY"/>
                                     <constraint firstAttribute="width" constant="75" id="aCg-hE-vVA"/>
                                 </constraints>
-                                <state key="normal" image="ic_light_on"/>
-                                <state key="selected" image="ic_light_off"/>
+                                <state key="normal" image="ic_light_off"/>
+                                <state key="selected" image="ic_light_on"/>
                                 <variation key="default">
                                     <mask key="constraints">
                                         <exclude reference="aCg-hE-vVA"/>

@@ -28,6 +28,7 @@
 
 -(void)setContentValue:(Device *)device{
     self.device = device;
+    self.deviceNameLabel.text = self.device.name;
 }
 -(NSInteger )numberOfSectionsInTableView:(UITableView *)tableView{
     
@@ -80,10 +81,12 @@
     NSInteger tag = sender.tag;
     if (tag > 0) {
 //        id=’WT3-0000000003/1’ cmd=’ON’ value=’W3,2,1’
+        BOOL cmd = false;
         if (tag == 1) {
             //chenal 1
             if ((int)self.device.value % 2 == 0) {
                 self.device.value += 1;
+                cmd = true;
             }else{
                 self.device.value -= 1;
             }
@@ -93,6 +96,8 @@
                 self.device.value -= 2;
             }else{
                 self.device.value += 2;
+                cmd = true;
+
             }
         }else if (tag == 3){
             //chenal 3
@@ -100,8 +105,12 @@
                 self.device.value -= 4;
             }else{
                 self.device.value += 4;
+                cmd = true;
+
             }
         }
+        [[MQTTService sharedInstance] publishControl:self.device.requestId message:[self.device switchChancelMessage:(int)tag status:cmd] type:self.device.type count:0];
+
     }
     [[CoredataHelper sharedInstance] save];
     [self.tableView reloadData];

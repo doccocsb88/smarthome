@@ -289,7 +289,7 @@
     }else if (device.type == DeviceTypeCurtain){
         return 130.0;
     }else if (device.type == DeviceTypeTouchSwitch){
-        return 110 * [device numberOfSwitchChannel];
+        return 110 * [device numberOfSwitchChannel] + 30;
     }
     return 100;
 }
@@ -524,6 +524,9 @@
         for (Device *device in displayArray) {
             //            device.value = value;
             NSString *_id = tmp[1];
+            if ([_id containsString:@"/"]){
+                _id = [_id componentsSeparatedByString:@"/"][0];
+            }
             if (_id && [_id isEqualToString:device.requestId]) {
                 
                 NSString *value = tmp[5];
@@ -537,6 +540,21 @@
                     [[CoredataHelper sharedInstance] save];
                     [self.tableView reloadData];
 
+                    break;
+                }else if([value containsString:@"W"]){
+                    //touch switch
+                    NSString *chanel = @"";
+                    if([tmp[1] containsString:@"/"]){
+                        chanel = [tmp[1] componentsSeparatedByString:@"/"][1];
+                    }
+                    if (chanel.length > 0 && [chanel isNumber]) {
+                        int numberIndex = [chanel intValue];
+                        [device updateStatusForChanel:numberIndex value:value];
+                        
+                    }
+                    [[CoredataHelper sharedInstance] save];
+                    [self.tableView reloadData];
+                    
                     break;
                 }else if([value isNumber]){
                     //rem
