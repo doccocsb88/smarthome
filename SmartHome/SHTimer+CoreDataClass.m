@@ -54,9 +54,10 @@
             chanel =  [[self.requestId componentsSeparatedByString:@"/"][1] intValue];
         }
         if (self.enable) {
-            return [NSString stringWithFormat:@"id='%@' cmd='SETTIMER' value='%ld,%ld,1, %@/%@, %@'",self.requestId,self.order + 1,chanel,self.timer,self.status? @"1":@"0",[self getRepeatString]];
+            NSString *message =  [NSString stringWithFormat:@"id='%@' cmd='SETTIMER' value='%ld,%@, %@%@, %@'",self.requestId,self.order ,self.enable ? @"1":@"0",self.timer,self.status? @"1":@"0",[self getRepeatString]];
+            return message;
         }
-        return [NSString stringWithFormat:@"id='%@' cmd='SETTIMER' value='%ld,%ld,0'",self.requestId,self.order + 1,chanel];
+        return [NSString stringWithFormat:@"id='%@' cmd='SETTIMER' value='%ld,0'",self.requestId,self.order];
     }else {
         if (self.enable) {
             return [NSString stringWithFormat:@"id='%@' cmd='SETTIMER' value='%ld,UNABLE, %@/%@, %@'",self.requestId,self.order + 1,self.timer,self.status? @"ON":@"OFF",[self getRepeatString]];

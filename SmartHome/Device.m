@@ -22,6 +22,7 @@
 @dynamic control;
 @synthesize isSubcrible;
 @synthesize key;
+@dynamic chanelInfo;
 -(NSString *)getAddMessage{
     return [NSString stringWithFormat:@"id='%@' cmd='ADDDEV'",self.requestId];
 }

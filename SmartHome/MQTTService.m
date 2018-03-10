@@ -197,23 +197,28 @@ static MQTTService *instance = nil;
 -(void)publicRequestStatus:(NSString *)topic{
     Device *device = [self getDeviceByTopic:topic];
     if (device) {
-        if (device.type == DeviceTypeCurtain) {
-            NSString *msg = [NSString stringWithFormat:@"id='%@' cmd='GETSTATUS'",device.requestId];
-            [_session publishData:[msg dataUsingEncoding:NSUTF8StringEncoding] onTopic:[device getTopic] retain:NO qos:2 publishHandler:^(NSError *error) {
-                self.countProcess--;
-                [self checkFinishedProcess];
+        NSString *msg = @"";
+        NSString *topic = @"";
+        if (device.type == DeviceTypeCurtain || device.type == DeviceTypeTouchSwitch) {
+          msg = [NSString stringWithFormat:@"id='%@' cmd='GETSTATUS'",device.requestId];
+        topic = [device getTopic];
+//            [_session publishData:[msg dataUsingEncoding:NSUTF8StringEncoding] onTopic:[device getTopic] retain:NO qos:2 publishHandler:^(NSError *error) {
+//                self.countProcess--;
+//                [self checkFinishedProcess];
+//
+//            }];
 
-            }];
         }else if(device.type == DeviceTypeLightOnOff){
-            NSString *msg = [NSString stringWithFormat:@"id='%@' cmd='GETSTATUS'",device.requestId];
+            msg = [NSString stringWithFormat:@"id='%@' cmd='GETSTATUS'",device.requestId];
+            topic = [Utils getTopic];
             NSLog(@"requestStatus: %@",msg);
   
-            [_session publishData:[msg dataUsingEncoding:NSUTF8StringEncoding] onTopic:[Utils getTopic] retain:false qos:2 publishHandler:^(NSError *error) {
-                self.countProcess--;
-                [self checkFinishedProcess];
-            }];
+           
         }
-        
+        [_session publishData:[msg dataUsingEncoding:NSUTF8StringEncoding] onTopic:topic retain:false qos:2 publishHandler:^(NSError *error) {
+            self.countProcess--;
+            [self checkFinishedProcess];
+        }];
         
     }
 }

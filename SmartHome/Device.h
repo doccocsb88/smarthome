@@ -32,6 +32,7 @@ typedef enum{
 @property (nonatomic, assign) float value;
 @property (nonatomic, assign) BOOL isSubcrible;
 @property (nonatomic, strong) NSString *key;
+@property (nonatomic, strong) NSString *chanelInfo;
 
 //@property (nonatomic, assign) BOOL isSelected;
 -(NSString *)getAddMessage;
