@@ -17,4 +17,5 @@
 
 @property (assign, nonatomic) BOOL isSelected;
 @property (strong, nonatomic) Device *device;
+-(BOOL)isChanelOn:(int)chanel;
 @end

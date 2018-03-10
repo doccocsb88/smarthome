@@ -238,7 +238,12 @@
     if (self.timer == nil) {
         self.timer = [[CoredataHelper sharedInstance] addTimer];
         self.timer.enable = YES;
-        self.timer.requestId = self.device.requestId;
+        if([self.device.requestId containsString:@"WT"] && self.chanel > 0){
+            self.timer.requestId = [NSString stringWithFormat:@"%@/%d",self.device.requestId,self.chanel];
+        }else{
+            self.timer.requestId = self.device.requestId;
+
+        }
         self.timer.type = self.device.type;
         self.timer.topic = self.device.topic;
     }

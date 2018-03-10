@@ -16,4 +16,6 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *marginTop;
 @property (strong, nonatomic) Device *device;
+@property (assign, nonatomic) NSInteger chanel;
+
 @end

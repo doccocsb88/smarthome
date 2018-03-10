@@ -19,9 +19,11 @@
     CGSize screenSize;
     NSMutableArray *selectedArray;
 }
+@property (strong, nonatomic) UIButton *saveButton;
 @property (assign, nonatomic) NSInteger selectedIndex;
 @property (assign, nonatomic) NSInteger numberOfType;
 
+@property (assign, nonatomic) NSInteger chanel;
 
 @end
 
@@ -171,15 +173,17 @@
     UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithCustomView:titleLabel];
     self.navigationItem.leftBarButtonItem = leftItem;
     if (self.scene) {
-        UIButton *saveButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
-        [saveButton setTitle:@"Lưu" forState:UIControlStateNormal];
-        [saveButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [saveButton addTarget:self action:@selector(pressedRight:) forControlEvents:UIControlEventTouchUpInside];
-        saveButton.layer.cornerRadius = 3.0;
-        saveButton.layer.borderWidth = 1.0;
-        saveButton.layer.borderColor = [UIColor whiteColor].CGColor;
-        saveButton.layer.masksToBounds = YES;
-        UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithCustomView:saveButton];
+        self.saveButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 70, 40)];
+        [self.saveButton setTitle:@"Quay về" forState:UIControlStateNormal];
+        self.saveButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
+
+        [ self.saveButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [ self.saveButton addTarget:self action:@selector(pressedRight:) forControlEvents:UIControlEventTouchUpInside];
+//         self.saveButton.layer.cornerRadius = 3.0;
+//         self.saveButton.layer.borderWidth = 1.0;
+//         self.saveButton.layer.borderColor = [UIColor whiteColor].CGColor;
+//         self.saveButton.layer.masksToBounds = YES;
+        UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithCustomView: self.saveButton];
         self.navigationItem.rightBarButtonItem = rightItem;
         
     }
@@ -189,6 +193,9 @@
     [self.tableView registerNib:[UINib nibWithNibName:@"LightViewCell" bundle:nil] forCellReuseIdentifier:@"lightViewCell"];
     [self.tableView registerNib:[UINib nibWithNibName:@"LightOnOffViewCell" bundle:nil] forCellReuseIdentifier:@"lightOnOffViewCell"];
     [self.tableView registerNib:[UINib nibWithNibName:@"RemViewCell" bundle:nil] forCellReuseIdentifier:@"remViewCell"];
+    [self.tableView registerNib:[UINib nibWithNibName:@"TouchSwitchViewCell" bundle:nil] forCellReuseIdentifier:@"TouchSwitchViewCell"];
+
+    
     [self setupNavigator];
     
     UILongPressGestureRecognizer *lpgr = [[UILongPressGestureRecognizer alloc]
@@ -221,6 +228,8 @@
         return 100.0;
     }else if (device.type == DeviceTypeCurtain){
         return 140.0;
+    }else if (device.type == DeviceTypeTouchSwitch){
+        return 110 * [device numberOfSwitchChannel] + 30;
     }
     return 100;
 }
@@ -340,7 +349,23 @@
         cell.delegate = self;
         return cell;
         
-    }else{
+    }else if (device.type == DeviceTypeTouchSwitch){
+        TouchSwitchViewCell *cell = (TouchSwitchViewCell *)[tableView dequeueReusableCellWithIdentifier:@"TouchSwitchViewCell" forIndexPath:indexPath];
+        cell.selectionStyle = UITableViewRowActionStyleDefault;
+
+        if (self.scene) {
+            [cell setContentView:detail];
+            cell.completionHandler = ^(NSString *value, NSInteger chanel) {
+                detail.value = [value floatValue];
+                [[CoredataHelper sharedInstance] save];
+                [self.tableView reloadData];
+            };
+        }else{
+            [cell setContentView:device type:self.scene? 1 : 0 ];
+        }
+  
+        return cell;
+    }else if(device.type == DeviceTypeCurtain){
         RemViewCell *cell = (RemViewCell *)[tableView dequeueReusableCellWithIdentifier:@"remViewCell" forIndexPath:indexPath];
         UIView *bg = [cell viewWithTag:1];
         bg.backgroundColor = [UIColor clearColor];
@@ -352,7 +377,10 @@
             [cell setContentView:device type:self.scene? 1 : 0 ];
         }
         cell.delegate = self;
+        
         return cell;
+    }else{
+        return [UITableViewCell new];
         
     }
 }
@@ -370,6 +398,14 @@
             [selectedArray addObject:detail];
         }else{
             [selectedArray removeObject:detail];
+        }
+        if (self.saveButton) {
+            if (selectedArray && selectedArray.count > 0) {
+                [self.saveButton setTitle:@"Lưu" forState:UIControlStateNormal];
+            }else{
+                [self.saveButton setTitle:@"Quay về" forState:UIControlStateNormal];
+
+            }
         }
         [self.tableView beginUpdates];
         [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
@@ -481,15 +517,18 @@
 }
 
 -(void)pressedRight:(UIButton *)button{
-    if (self.delegate && [self.delegate respondsToSelector:@selector(didSelectedListDevces:)]) {
-        for (SceneDetail *detail in dataArray) {
-            if (detail.isSelected == false) {
-                [[CoredataHelper sharedInstance] deleteDetail:detail];
+    if (selectedArray && selectedArray.count > 0) {
+        if (self.delegate && [self.delegate respondsToSelector:@selector(didSelectedListDevces:)]) {
+            for (SceneDetail *detail in dataArray) {
+                if (detail.isSelected == false) {
+                    [[CoredataHelper sharedInstance] deleteDetail:detail];
+                }
             }
+            [self.delegate didSelectedListDevces:selectedArray];
         }
-        [self.delegate didSelectedListDevces:selectedArray];
-        [self.navigationController popViewControllerAnimated:true];
     }
+    [self.navigationController popViewControllerAnimated:true];
+
     
 }
 -(void)setStateValueForDevice:(NSString *)topic value:(float)value{

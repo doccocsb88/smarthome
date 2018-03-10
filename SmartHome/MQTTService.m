@@ -237,9 +237,9 @@ static MQTTService *instance = nil;
         }];
     }else if (type == DeviceTypeTouchSwitch){
        
-        [self.publishingTopic addObject:topic];
+//        [self.publishingTopic addObject:topic];
         [NSTimer scheduledTimerWithTimeInterval:CHECK_PUBLISH_TIME target:self selector:@selector(checkPublishSucess:) userInfo:@{@"topic":topic,@"message":message,@"type":[NSString stringWithFormat:@"%ld",type],@"count":[NSString stringWithFormat:@"%d",count]} repeats:NO];
-        NSLog(@"publishControl message %@",message);
+        NSLog(@"tư : 3 %@",message);
 
         [_session publishData:[message dataUsingEncoding:NSUTF8StringEncoding] onTopic:topic retain:NO qos:2 publishHandler:^(NSError *error) {
             

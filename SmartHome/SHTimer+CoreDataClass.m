@@ -48,7 +48,16 @@
             return [NSString stringWithFormat:@"id='%@' cmd='SETTIMER' value='%ld,UNABLE, %@/%@, %@'",self.requestId,self.order + 1,self.timer,cmd,[self getRepeatString]];
         }
         return [NSString stringWithFormat:@"id='%@' cmd='SETTIMER' value='%ld,DISABLE'",self.requestId,self.order + 1];
-    }else{
+    }else if(self.type == DeviceTypeTouchSwitch){
+        NSInteger chanel = 0;
+        if([self.requestId containsString:@"/"]){
+            chanel =  [[self.requestId componentsSeparatedByString:@"/"][1] intValue];
+        }
+        if (self.enable) {
+            return [NSString stringWithFormat:@"id='%@' cmd='SETTIMER' value='%ld,%ld,1, %@/%@, %@'",self.requestId,self.order + 1,chanel,self.timer,self.status? @"1":@"0",[self getRepeatString]];
+        }
+        return [NSString stringWithFormat:@"id='%@' cmd='SETTIMER' value='%ld,%ld,0'",self.requestId,self.order + 1,chanel];
+    }else {
         if (self.enable) {
             return [NSString stringWithFormat:@"id='%@' cmd='SETTIMER' value='%ld,UNABLE, %@/%@, %@'",self.requestId,self.order + 1,self.timer,self.status? @"ON":@"OFF",[self getRepeatString]];
         }

@@ -13,6 +13,7 @@
 #import "RemViewCell.h"
 #import "FirebaseHelper.h"
 #import "Scene.h"
+#import "TouchSwitchViewCell.h"
 @interface SceneDetailViewController : BaseViewController
 @property (strong, nonatomic) NSMutableArray *dataArray;
 @property (strong, nonatomic) NSString *title;

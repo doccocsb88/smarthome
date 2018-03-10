@@ -18,6 +18,7 @@
 @property (strong, nonatomic) SHTimer *timer;
 @property (assign, nonatomic) NSInteger order;
 @property (assign, nonatomic) NSInteger isSlide;
+@property (assign, nonatomic) NSInteger chanel;
 
 @property (weak, nonatomic) IBOutlet UIView *lightStatusView;
 @property (weak, nonatomic) IBOutlet UIView *curtainStatusView;

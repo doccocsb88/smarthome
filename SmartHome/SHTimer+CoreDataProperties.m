@@ -30,5 +30,6 @@
 @dynamic requestId;
 @dynamic topic;
 @dynamic type;
-    @dynamic code;
+@dynamic code;
+//@dynamic chanel;
 @end

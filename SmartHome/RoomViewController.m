@@ -1,4 +1,4 @@
-//
+  //
 //  RoomViewController.m
 //  SmartHome
 //
@@ -32,6 +32,7 @@
 @property (assign, nonatomic) BOOL firstTime;
 @property (strong, nonatomic) Device *addDevice;
 @property (strong, nonatomic) Device *delDevice;
+@property (assign, nonatomic) NSInteger chanel;
 
 @property (strong, nonatomic) NSString *lastQRCode;
 //@property (nonatomic, strong)  SCSkypeActivityIndicatorView *activityIndicatorView;
@@ -306,7 +307,7 @@
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     Device *device = [displayArray objectAtIndex:indexPath.row];
-    if(device.type  == 1){
+    if(device.type  == DeviceTypeLightAdjust){
         LightValueViewCell *cell = (LightValueViewCell *)[tableView dequeueReusableCellWithIdentifier:@"lightViewCell" forIndexPath:indexPath];
         UIView *bg = [cell viewWithTag:1];
         bg.backgroundColor = [UIColor clearColor];
@@ -315,7 +316,7 @@
         cell.delegate = self;
         
         return cell;
-    }else if (device.type == 2){
+    }else if (device.type == DeviceTypeLightOnOff){
         LightStateViewCell *cell = (LightStateViewCell *)[tableView dequeueReusableCellWithIdentifier:@"lightOnOffViewCell" forIndexPath:indexPath];
         UIView *bg = [cell viewWithTag:1];
         bg.backgroundColor = [UIColor clearColor];
@@ -324,7 +325,7 @@
         cell.delegate = self;
         return cell;
         
-    }else if (device.type == 3){
+    }else if (device.type == DeviceTypeCurtain){
         RemViewCell *cell = (RemViewCell *)[tableView dequeueReusableCellWithIdentifier:@"remViewCell" forIndexPath:indexPath];
         UIView *bg = [cell viewWithTag:1];
         bg.backgroundColor = [UIColor clearColor];
@@ -336,7 +337,10 @@
     }else if (device.type == DeviceTypeTouchSwitch){
         TouchSwitchViewCell *cell = (TouchSwitchViewCell *)[tableView dequeueReusableCellWithIdentifier:@"TouchSwitchViewCell" forIndexPath:indexPath];
         [cell setContentValue:device];
-        
+        cell.completionHandler = ^(NSString *value, NSInteger chanel) {
+            self.chanel = chanel;
+            [self didPressedControl:device.id];
+        };
         return cell;
     }
     
@@ -699,7 +703,7 @@
                 [self showConfirmDialog:@"" message:@"Bạn có muốn xoá thiết bị này không?" complete:^(NSInteger index) {
                     if(index == 1){
                         self.delDevice = device;
-                        if(self.delDevice.type == DeviceTypeCurtain){
+                        if(self.delDevice.type == DeviceTypeCurtain || self.delDevice.type == DeviceTypeTouchSwitch){
                             [self mqttDelSuccess];
                         }else{
                             [[MQTTService sharedInstance] delMQTTDevice:device];
@@ -744,12 +748,14 @@
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     ListTimerViewController *_vc = [storyboard instantiateViewControllerWithIdentifier:@"ListTimerViewController"];
     _vc.device = [self getSelectedDevice];
+    _vc.chanel = self.chanel;
     [self.navigationController pushViewController:_vc animated:YES];
 }
 -(void)showEditDeviceMenu{
     EditDeviceMenuViewController *_vc = [self.storyboard instantiateViewControllerWithIdentifier:@"EditDeviceMenuViewController"];
     _vc.delegate = self;
     _vc.device = [self deviceById:self.selectedDeviceId];
+    _vc.chanel = self.chanel ;
     [self presentViewController:_vc animated:true completion:nil];
 }
 

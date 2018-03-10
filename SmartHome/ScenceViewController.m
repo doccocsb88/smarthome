@@ -13,6 +13,8 @@
     NSMutableArray *dataArray;
 }
 @property (assign, nonatomic) NSInteger selectedIndex;
+@property (strong, nonatomic) NSTimer* publishTimer;
+
 @end
 
 @implementation ScenceViewController
@@ -87,7 +89,7 @@
         Scene *scene = [dataArray objectAtIndex:self.selectedIndex];
         SceneDetailViewController *vc = segue.destinationViewController;
         vc.dataArray = [[scene getListSceneDetail] mutableCopy];
-        vc.title = scene.name;
+        vc.title = scene.name ? scene.name : @"";
         vc.scene = scene;
         NSLog(@"detail: %ld",vc.dataArray.count);
     }
@@ -189,25 +191,43 @@
                     [[MQTTService sharedInstance] publishControl:device.requestId message:@"CLOSE" type:device.type count:1];
                     
                 }
+                
+            }else if (device.type == DeviceTypeTouchSwitch){
+                NSInteger numberOfChanel = [device numberOfSwitchChannel];
+                for (int i = 1; i <= numberOfChanel; i++) {
+                 
+                    NSString *requestId = device.requestId;
+                    NSString *message = [device switchChancelMessage:i status:[detail isChanelOn:i]];
+                    NSInteger type = device.type;
+                    NSDictionary *userInfo  = @{@"requestId":requestId, @"message":message,@"type":@(type)};
+                    NSLog(@"tư : 1 : %@",message);
+//                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.25*i * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//                          [[MQTTService sharedInstance] publishControl:device.requestId message:[device switchChancelMessage:i status:[detail isChanelOn:i]] type:device.type count:1];
+//                    });
+              
+                  NSTimer *timer  = [NSTimer scheduledTimerWithTimeInterval:0.25 * i target:self selector:@selector(publishTopic:) userInfo:userInfo repeats:NO];
 
+                }
+         
             }else{
-            if (value == ButtonTypeClose) {
-                [[MQTTService sharedInstance] publishControl:device.requestId message:@"CLOSE" type:device.type count:1];
-            }else if (value == ButtonTypeStop){
-//                [self showLoadingView];
-                
-                
-                [[MQTTService sharedInstance] publishControl:device.requestId message:@"STOP" type:device.type count:1];
-                
-            }else if (value == ButtonTypeOpen){
-                //            [self showLoadingView];
-                //            self.isProcessing = true;
-                
-                [[MQTTService sharedInstance] publishControl:device.requestId message:@"OPEN" type:device.type count:1];
-                
+                //curtain
+                if (value == ButtonTypeClose) {
+                    [[MQTTService sharedInstance] publishControl:device.requestId message:@"CLOSE" type:device.type count:1];
+                }else if (value == ButtonTypeStop){
+                    //                [self showLoadingView];
+                    
+                    
+                    [[MQTTService sharedInstance] publishControl:device.requestId message:@"STOP" type:device.type count:1];
+                    
+                }else if (value == ButtonTypeOpen){
+                    //            [self showLoadingView];
+                    //            self.isProcessing = true;
+                    
+                    [[MQTTService sharedInstance] publishControl:device.requestId message:@"OPEN" type:device.type count:1];
+                    
+                }
             }
-            }
-            });
+        });
         if ([Utils getDeviceType:detail.device.topic] == DeviceTypeLightOnOff ) {
             index ++;
         }else{
@@ -403,5 +423,16 @@
     UIGraphicsEndImageContext();
     
     return outImage;
+}
+
+-(void)publishTopic:(NSTimer *)timer{
+    NSDictionary *userInfo = timer.userInfo;
+    NSString *requestId = [userInfo objectForKey:@"requestId"];
+    NSString *message = [userInfo objectForKey:@"message"];
+    NSInteger type = [[userInfo objectForKey:@"type"] integerValue];
+    NSLog(@"tư : 2 : %@",message);
+
+    [[MQTTService sharedInstance] publishControl:requestId message:message type:type count:1];
+    
 }
 @end

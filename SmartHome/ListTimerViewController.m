@@ -26,7 +26,23 @@
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    dataArray = [[[CoredataHelper sharedInstance] getListTimerByDeviceId:self.device.id] mutableCopy];    // Do any additional setup after loading the view.
+    NSArray *tmp = [[CoredataHelper sharedInstance] getListTimerByDeviceId:self.device.id] ;    // Do any additional setup after loading the view.
+    
+    if (self.chanel > 0) {
+        dataArray = [NSMutableArray new];
+        for (SHTimer *timer in tmp ) {
+            NSString *requestId = timer.requestId;
+            if ([requestId containsString:@"/"]) {
+                NSString *strChanel = [timer.requestId componentsSeparatedByString:@"/"][1];
+                if ([strChanel integerValue] == self.chanel) {
+                    [dataArray addObject:timer];
+                }
+            }
+        }
+    }else{
+        dataArray = [tmp mutableCopy];
+    }
+
     [self.tableView reloadData];
     [self setupUI];
     
@@ -121,6 +137,7 @@
         vc.timer = timer;
         vc.timer.order = indexPath.row;
         vc.order = indexPath.row;
+        vc.chanel = self.chanel;
         [self.navigationController pushViewController:vc animated:YES];
 
     }
@@ -152,6 +169,7 @@
     AddTimerViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"AddTimerViewController"];
     vc.device = self.device;
     vc.order = dataArray.count;
+    vc.chanel = self.chanel;
     if (dataArray.count <= 10) {
         [self.navigationController pushViewController:vc animated:YES];
     }else{

@@ -16,6 +16,7 @@
 #import "BaseViewController.h"
 #import "MQTTService.h"
 #import "FirebaseHelper.h"
+#import "TouchSwitchViewCell.h"
 @protocol ListDeviceDelegate <NSObject>
 -(void)didSelectedDevce:(Device *)device;
 -(void)didSelectedListDevces:(NSArray *)selectedDevices;

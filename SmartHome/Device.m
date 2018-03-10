@@ -67,17 +67,20 @@
 
     
     }
-    return [NSString stringWithFormat:@"id='%@/%d' cmd='%@' value='%@'",self.requestId,chanel,stageString,valueString];
+    
+    NSString *message =  [NSString stringWithFormat:@"id='%@/%d' cmd='%@' value='%@'",self.requestId,chanel,stageString,valueString];
+    return message;
 }
 
 -(void)updateStatusForChanel:(int)chanel value :(NSString *)value{
     NSArray * values = [value componentsSeparatedByString:@","];
+    NSLog(@"updateStatusForChanel 1 %f",self.value);
     Boolean isON = [values.lastObject intValue] == 1;
     if (isON) {
         //        id=’WT3-0000000003/1’ cmd=’ON’ value=’W3,2,1’
         if (chanel == 1) {
             //chenal 1
-            if ((int)self.value % 2 == 0) {
+            if (self.value == 0 ||  self.value == 2 ||  self.value == 4 ||  self.value == 6){
                 //off
                 self.value += 1;
             }else{
@@ -85,11 +88,8 @@
             }
         }else if (chanel == 2){
             //chenal 2
-            if (self.value == 2 || self.value == 3 || self.value == 6 || self.value == 7) {
-//                self.value -= 2;
-                //on
-            }else{
-                //off
+            if (self.value == 0 || self.value == 1 || self.value == 4 || self.value == 5) {
+//
                 self.value += 2;
                 
             }
@@ -104,7 +104,7 @@
     }else{
         if (chanel == 1) {
             //chenal 1
-            if ((int)self.value % 2 == 1) {
+            if (self.value == 1 || self.value == 3 || self.value == 5 || self.value == 7) {
                 //on
                 self.value -= 1;
             }
@@ -116,11 +116,60 @@
             }
         }else if (chanel == 3){
             //chenal 3
-            if (self.value >= 4) {
+            if (self.value == 4 || self.value == 5 || self.value == 6 || self.value == 7) {
                 //on
                 self.value -= 4;
             }
         }
+    }
+    if (self.value < 0) {
+        self.value = 0;
+    }else if (self.value > [self maxPoint]){
+        self.value = [self maxPoint];
+    }
+    NSLog(@"updateStatusForChanel 2 %f",self.value);
+
+}
+
+-(BOOL)isChanelOn:(int)chanel{
+    if ([self numberOfSwitchChannel] > 0 && chanel > 0) {
+        if (chanel == 1) {
+            if ((int)self.value % 2 == 0) {
+                return false;
+            }else{
+                return true;
+            }
+        }else if (chanel == 2){
+            if (self.value == 2 || self.value == 3 || self.value == 6 || self.value == 7) {
+                return true;
+            }else{
+                return false;
+            }
+        }else if (chanel == 3){
+            if (self.value == 4 || self.value == 5 || self.value == 6 || self.value == 7) {
+                return true;
+            }else{
+                return false;
+            }
+        }
+    }
+    return false;
+}
+-(NSInteger)maxPoint{
+    NSInteger numberOfSwitch = [self numberOfSwitchChannel];
+    switch (numberOfSwitch) {
+        case 1:
+            return 1;
+            break;
+        case 2:
+            return 3;
+            break;
+        case 3:
+            return 7;
+            break;
+        default:
+            return 0;
+            break;
     }
 }
 @end

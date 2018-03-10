@@ -15,4 +15,5 @@
 @interface ListTimerViewController : BaseViewController <MQTTServiceDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) Device *device;
+@property (assign, nonatomic) NSInteger chanel;
 @end

@@ -447,6 +447,25 @@
 			name = Helper;
 			sourceTree = "<group>";
 		};
+		184E5C5B2052EC740028B003 /* Timer */ = {
+			isa = PBXGroup;
+			children = (
+				184E5C5C2052EC880028B003 /* Controller */,
+			);
+			name = Timer;
+			sourceTree = "<group>";
+		};
+		184E5C5C2052EC880028B003 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				5FF9608D1F2A3E2E00B210C6 /* AddTimerViewController.h */,
+				5FF9608E1F2A3E2E00B210C6 /* AddTimerViewController.m */,
+				5FF960901F2A4A4F00B210C6 /* ListTimerViewController.h */,
+				5FF960911F2A4A4F00B210C6 /* ListTimerViewController.m */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
 		187264EB20068FD700C2CF9B /* Scene */ = {
 			isa = PBXGroup;
 			children = (
@@ -606,10 +625,6 @@
 				5F2D4B161F239E09007B7D13 /* HTKSampleCollectionViewCell.m */,
 				5F5B2C7F1F2466E60081CD4B /* ControlRoomPopup.h */,
 				5F5B2C801F2466E60081CD4B /* ControlRoomPopup.m */,
-				5FF9608D1F2A3E2E00B210C6 /* AddTimerViewController.h */,
-				5FF9608E1F2A3E2E00B210C6 /* AddTimerViewController.m */,
-				5FF960901F2A4A4F00B210C6 /* ListTimerViewController.h */,
-				5FF960911F2A4A4F00B210C6 /* ListTimerViewController.m */,
 			);
 			name = Home;
 			sourceTree = "<group>";
@@ -671,6 +686,7 @@
 		18EFAD7F1E7578E900637669 /* Screen */ = {
 			isa = PBXGroup;
 			children = (
+				184E5C5B2052EC740028B003 /* Timer */,
 				187264EB20068FD700C2CF9B /* Scene */,
 				18AD10202004FE5D000DC410 /* Room */,
 				183F555C2003282900B072A9 /* Member */,

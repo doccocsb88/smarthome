@@ -62,6 +62,8 @@
     [self.tableView registerNib:[UINib nibWithNibName:@"LightViewCell" bundle:nil] forCellReuseIdentifier:@"lightViewCell"];
     [self.tableView registerNib:[UINib nibWithNibName:@"LightOnOffViewCell" bundle:nil] forCellReuseIdentifier:@"lightOnOffViewCell"];
     [self.tableView registerNib:[UINib nibWithNibName:@"RemViewCell" bundle:nil] forCellReuseIdentifier:@"remViewCell"];
+      [self.tableView registerNib:[UINib nibWithNibName:@"TouchSwitchViewCell" bundle:nil] forCellReuseIdentifier:@"TouchSwitchViewCell"];
+    
     [self setupNavigator];
     
     UILongPressGestureRecognizer *lpgr = [[UILongPressGestureRecognizer alloc]
@@ -82,6 +84,8 @@
         return 100.0;
     }else if (device.type == DeviceTypeCurtain){
         return 140.0;
+    }else if (device.type == DeviceTypeTouchSwitch){
+        return 110 * [device numberOfSwitchChannel] + 30;
     }
     return 100.0;
 }
@@ -110,7 +114,7 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     SceneDetail *detail = [dataArray objectAtIndex:indexPath.row];
     Device *device = detail.device;
-    if(device.type  == 1){
+    if(device.type  == DeviceTypeLightAdjust){
         LightValueViewCell *cell = (LightValueViewCell *)[tableView dequeueReusableCellWithIdentifier:@"lightViewCell" forIndexPath:indexPath];
         UIView *bg = [cell viewWithTag:1];
         bg.backgroundColor = [UIColor clearColor];
@@ -118,7 +122,7 @@
         [cell setContentView:device type:0];
         cell.delegate = self;
         return cell;
-    }else if (device.type == 2){
+    }else if (device.type == DeviceTypeLightOnOff){
         LightStateViewCell *cell = (LightStateViewCell *)[tableView dequeueReusableCellWithIdentifier:@"lightOnOffViewCell" forIndexPath:indexPath];
         UIView *bg = [cell viewWithTag:1];
         bg.backgroundColor = [UIColor clearColor];
@@ -127,7 +131,7 @@
         cell.delegate = self;
         return cell;
         
-    }else{
+    }else if(device.type == DeviceTypeCurtain){
         RemViewCell *cell = (RemViewCell *)[tableView dequeueReusableCellWithIdentifier:@"remViewCell" forIndexPath:indexPath];
         UIView *bg = [cell viewWithTag:1];
         bg.backgroundColor = [UIColor clearColor];
@@ -136,7 +140,19 @@
         cell.delegate = self;
         return cell;
         
+    }else if (device.type == DeviceTypeTouchSwitch){
+        TouchSwitchViewCell *cell = (TouchSwitchViewCell *)[tableView dequeueReusableCellWithIdentifier:@"TouchSwitchViewCell" forIndexPath:indexPath];
+        [cell setContentView:detail];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.completionHandler = ^(NSString *value, NSInteger chanel) {
+            detail.value = [value floatValue];
+            [[CoredataHelper sharedInstance] save];
+            [self.tableView reloadData];
+            
+        };
+        return cell;
     }
+    return [UITableViewCell new];
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
