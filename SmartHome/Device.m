@@ -21,6 +21,7 @@
 @dynamic order;
 @dynamic control;
 @synthesize isSubcrible;
+@synthesize isGetStatus;
 @synthesize key;
 @dynamic chanelInfo;
 -(NSString *)getAddMessage{
@@ -60,15 +61,12 @@
     NSString *prefix = [self.requestId componentsSeparatedByString:@"-"][0];
     if ([prefix isEqualToString:@"WT3"]) {
         valueString = status?@"W3,2,1":@"W3,2,0";
-    }else     if ([prefix isEqualToString:@"WT2"]) {
+    }else if ([prefix isEqualToString:@"WT2"]) {
         valueString = status?@"W2,2,1":@"W2,2,0";
 
-    }else     if ([prefix isEqualToString:@"WT1"]) {
+    }else if ([prefix isEqualToString:@"WT1"]) {
         valueString = status?@"W1,2,1":@"W1,2,0";
-
-    
     }
-    
     NSString *message =  [NSString stringWithFormat:@"id='%@/%d' cmd='%@' value='%@'",self.requestId,chanel,stageString,valueString];
     return message;
 }
@@ -96,7 +94,7 @@
             }
         }else if (chanel == 3){
             //chenal 3
-            if (self.value <= 4) {
+            if (self.value < 4) {
                 //off
                 self.value += 4;
             }
@@ -123,10 +121,11 @@
             }
         }
     }
+    NSInteger maxPoint = [self maxPoint];
     if (self.value < 0) {
         self.value = 0;
-    }else if (self.value > [self maxPoint]){
-        self.value = [self maxPoint];
+    }else if (self.value > maxPoint){
+        self.value = maxPoint;
     }
     NSLog(@"updateStatusForChanel 2 %f",self.value);
 

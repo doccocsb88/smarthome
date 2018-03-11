@@ -76,17 +76,18 @@
     if (self.firstTime) {
         self.firstTime = false;
         [MQTTService sharedInstance];
-
+        [[FirebaseHelper sharedInstance] getProfileInfo:^(FIRUser *user, Boolean isNew) {
+            
+        }];
+        [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(mqttBecomeActive) name:@"mqttapplicationDidBecomeActive" object:nil];
     }
 
 //    });
-    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(mqttBecomeActive) name:@"mqttapplicationDidBecomeActive" object:nil];
+ 
     
     
     
-    [[FirebaseHelper sharedInstance] getProfileInfo:^(FIRUser *user, Boolean isNew) {
-        
-    }];
+ 
     self.navigationController.navigationBarHidden = NO;
 
 }

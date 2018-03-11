@@ -843,9 +843,9 @@
 -(void)mqttSetStateValueForLight:(NSString *)message{
     self.isProcessing = false;
 
-    [self setStateValueForLight:message];
+//    [self setStateValueForLight:message];
     [self hideLoadingView];
-
+    [self.tableView reloadData];
 }
 
 
