@@ -479,9 +479,9 @@ static MQTTService *instance = nil;
                         NSString *value = tmp[5];
                     
                         if ([value isEqualToString:@"1,2,0"] || [value isEqualToString:@"1,2,1"]) {
-                            //curtain
+                            //den
                             [self.publishingTopic removeObject:tmp[1]];
-                            Device *getStatusDevice = [self getDeviceByTopic:topic];
+                            Device *getStatusDevice = [self getDeviceByTopic:tmp[1]];
                             if (getStatusDevice) {
                                 if ([value isEqualToString:@"1,2,1"]) {
                                     getStatusDevice.state = NO;
@@ -534,6 +534,17 @@ static MQTTService *instance = nil;
                             }
                             
                         }
+                    }else{
+                        //device is not respne
+                   
+                            Device *getStatusDevice = [self getDeviceByTopic:tmp[1]];
+                            if (getStatusDevice) {
+                                getStatusDevice.isGetStatus = true;
+                                [[CoredataHelper sharedInstance] save];
+                            }
+                        
+                            
+                        
                     }
                     
                     

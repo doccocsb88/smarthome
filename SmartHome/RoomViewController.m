@@ -337,9 +337,14 @@
     }else if (device.type == DeviceTypeTouchSwitch){
         TouchSwitchViewCell *cell = (TouchSwitchViewCell *)[tableView dequeueReusableCellWithIdentifier:@"TouchSwitchViewCell" forIndexPath:indexPath];
         [cell setContentValue:device];
+        __weak RoomViewController *wself = self;
         cell.completionHandler = ^(NSString *value, NSInteger chanel) {
-            self.chanel = chanel;
-            [self didPressedControl:device.id];
+            wself.chanel = chanel;
+            [wself didPressedControl:device.id];
+        };
+        cell.controlHandler = ^{
+            [wself showLoadingView];
+            wself.isProcessing = true;
         };
         return cell;
     }

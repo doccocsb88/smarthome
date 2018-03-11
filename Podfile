@@ -22,4 +22,6 @@ pod 'Firebase/Database'
 pod 'GoogleSignIn'
 pod 'Firebase/Auth'
 pod 'STPopup', '~> 1.8'
+pod 'SVProgressHUD'
+
 end

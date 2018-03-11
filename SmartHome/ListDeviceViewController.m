@@ -323,7 +323,7 @@
         NSArray *devices = [room.devices.allObjects sortedArrayUsingDescriptors:@[imageSort]];
         device = [devices objectAtIndex:indexPath.row];
     }
-    if(device.type  == 1){
+    if(device.type  == DeviceTypeLightAdjust){
         LightValueViewCell *cell = (LightValueViewCell *)[tableView dequeueReusableCellWithIdentifier:@"lightViewCell" forIndexPath:indexPath];
         UIView *bg = [cell viewWithTag:1];
         bg.backgroundColor = [UIColor clearColor];
@@ -335,7 +335,7 @@
         }
         cell.delegate = self;
         return cell;
-    }else if (device.type == 2){
+    }else if (device.type == DeviceTypeLightOnOff){
         LightStateViewCell *cell = (LightStateViewCell *)[tableView dequeueReusableCellWithIdentifier:@"lightOnOffViewCell" forIndexPath:indexPath];
         UIView *bg = [cell viewWithTag:1];
         bg.backgroundColor = [UIColor clearColor];
@@ -352,16 +352,21 @@
     }else if (device.type == DeviceTypeTouchSwitch){
         TouchSwitchViewCell *cell = (TouchSwitchViewCell *)[tableView dequeueReusableCellWithIdentifier:@"TouchSwitchViewCell" forIndexPath:indexPath];
         cell.selectionStyle = UITableViewRowActionStyleDefault;
-
+        __weak ListDeviceViewController *wSelf = self;
         if (self.scene) {
             [cell setContentView:detail];
             cell.completionHandler = ^(NSString *value, NSInteger chanel) {
                 detail.value = [value floatValue];
                 [[CoredataHelper sharedInstance] save];
-                [self.tableView reloadData];
+                [wSelf.tableView reloadData];
             };
+         
         }else{
             [cell setContentView:device type:self.scene? 1 : 0 ];
+            cell.controlHandler = ^{
+                wSelf.isProcessing = true;
+                [wSelf showLoadingView];
+            };
         }
   
         return cell;
@@ -712,6 +717,8 @@
     }
 }
 -(void)mqttFinishedProcess{
+    self.isProcessing = false;
+
     [self hideLoadingView];
 }
 
@@ -726,16 +733,18 @@
 -(void)mqttSetStateValueForDevice:(NSString *)topic value:(float)value{
     self.isProcessing = false;
     
-    [self setStateValueForDevice:topic value:value];
+//    [self setStateValueForDevice:topic value:value];
     [self hideLoadingView];
+    [self.tableView reloadData];
     
 }
 -(void)mqttSetStateValueForLight:(NSString *)message{
     self.isProcessing = false;
     
-    [self setStateValueForLight:message];
+//    [self setStateValueForLight:message];
     [self hideLoadingView];
-    
+    [self.tableView reloadData];
+
 }
 
 @end

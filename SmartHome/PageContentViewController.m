@@ -14,6 +14,7 @@
 #import "NSString+Utils.h"
 #import "FirebaseHelper.h"
 #import "LoginViewController.h"
+#import <SVProgressHUD.h>
 @interface PageContentViewController () <AddMenuDelegate,QRCodeReaderDelegate,SortRoomDelegate,UIScrollViewDelegate>
 {
     NSMutableArray *dataArray;
@@ -68,6 +69,8 @@
     }
     [self.view bringSubviewToFront:self.stageView];
     self.navigationController.navigationBarHidden = NO;
+    
+    
 
 }
 -(void)viewDidAppear:(BOOL)animated{
@@ -80,6 +83,21 @@
             
         }];
         [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(mqttBecomeActive) name:@"mqttapplicationDidBecomeActive" object:nil];
+        [SVProgressHUD setDefaultStyle:SVProgressHUDStyleDark];
+        [SVProgressHUD showWithStatus:@"Đang xử lý"];
+//        [SVProgressHUD setRingRadius:50];
+        [SVProgressHUD dismissWithDelay:3];
+        
+//        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//            // time-consuming task
+//            dispatch_async(dispatch_get_main_queue(), ^{
+//                [SVProgressHUD dismiss];
+//            });
+//        });
+//        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//            [SVProgressHUD dismiss];
+//
+//        });
     }
 
 //    });
