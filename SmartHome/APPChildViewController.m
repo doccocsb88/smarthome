@@ -274,9 +274,9 @@
     CGFloat delaInSecond  = 2;
     Room *room  = [Utils getRoomWithId:roomId in:self.dataArray];
     if (room) {
-        delaInSecond = [[room.devices allObjects] count] * 0.5;
+        delaInSecond = [room countAutocontrolDevice];
         delaInSecond = delaInSecond >= 2 ? delaInSecond : 2;
-       
+//        delaInSecond = 2;
         if ([room.devices allObjects].count > 0) {
             [self.controlPopup showWithDuration:delaInSecond];
             [self.controlPopup showAtCenter:self.view.center inView:self.view];
@@ -301,15 +301,27 @@
             NSInteger index = 0;
             //            [[MQTTService sharedInstance] setListDevices:[room.devices allObjects]];
             for (Device *device in [room.devices allObjects]) {
-                double delayInSeconds = index * 0.5;
-                
-                dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
-                dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-                    //code to be executed on the main queue after delay
-                    [[MQTTService sharedInstance] publishControl:device.requestId message:@"CLOSE" type:device.type count:1];
-                });
-                index ++;
-                NSLog(@"delayInSeconds %f",delayInSeconds);
+                if ([device numberOfSwitchChannel] > 0) {
+                    for (int i = 1; i <= [device numberOfSwitchChannel]; i++) {
+                        double delayInSeconds = index * 0.5;
+                        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+                        
+                        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                            
+                            [[MQTTService sharedInstance] publishControl:device.requestId message:[device switchChancelMessage:(int)i status:false] type:device.type count:0];
+                        });
+                        index ++;
+                    }
+                }else{
+                    double delayInSeconds = index * 0.5;
+                    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+                    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                        //code to be executed on the main queue after delay
+                        [[MQTTService sharedInstance] publishControl:device.requestId message:@"CLOSE" type:device.type count:1];
+                    });
+                    index ++;
+                }
+//                NSLog(@"delayInSeconds %f",delayInSeconds);
                 
             }
             break;
@@ -330,13 +342,25 @@
             //            [[MQTTService sharedInstance] setListDevices:arrs];
             index = 0;
             for (Device *device in arrs) {
-                
-                dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, index * 0.5 * NSEC_PER_SEC);
-                dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-                    
-                    [[MQTTService sharedInstance] publishControl:device.requestId message:@"OPEN" type:device.type count:1];
-                });
-                index ++;
+                if ([device numberOfSwitchChannel] > 0) {
+                    for (int i = 1; i <= [device numberOfSwitchChannel]; i++) {
+                        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, index * 0.5 * NSEC_PER_SEC);
+
+                        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                            
+                            [[MQTTService sharedInstance] publishControl:device.requestId message:[device switchChancelMessage:(int)i status:true] type:device.type count:0];
+                        });
+                        index ++;
+                    }
+                }else{
+                    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, index * 0.5 * NSEC_PER_SEC);
+                    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                        
+                        [[MQTTService sharedInstance] publishControl:device.requestId message:@"OPEN" type:device.type count:1];
+                    });
+                    index ++;
+
+                }
             }
             break;
         }

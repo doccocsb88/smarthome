@@ -155,6 +155,22 @@
     }
     return false;
 }
+-(BOOL)isAutoControl:(int)chanel{
+    if ([self numberOfSwitchChannel] > 0 && chanel > 0) {
+        NSString *jsonString = self.chanelInfo;
+        NSData *data = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+        id json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+        if (json) {
+            NSString *autoKey = [NSString stringWithFormat:@"control%d",chanel];
+            if ([json objectForKey:autoKey]) {
+                return [[json objectForKey:autoKey] boolValue];
+            }
+            
+        }
+        return false;
+    }
+    return self.control;
+}
 -(NSInteger)maxPoint{
     NSInteger numberOfSwitch = [self numberOfSwitchChannel];
     switch (numberOfSwitch) {
@@ -192,7 +208,8 @@
     }
     NSString *autoKey = [NSString stringWithFormat:@"control%d",chanel];
     if ([json objectForKey:autoKey]) {
-        [info setObject:[NSNumber  numberWithBool:![json objectForKey:autoKey]] forKey:autoKey];
+        
+        [info setObject:[NSNumber  numberWithBool:![[json objectForKey:autoKey] boolValue]] forKey:autoKey];
     }else{
         [info setObject:[NSNumber  numberWithBool:status] forKey:autoKey];
     }
@@ -224,8 +241,8 @@
         }
         
     }
-    NSString *autoKey = [NSString stringWithFormat:@"control%d",chanel];
-    [info setObject:name forKey:autoKey];
+    NSString *nameKey = [NSString stringWithFormat:@"name%d",chanel];
+    [info setObject:name forKey:nameKey];
     NSError *error;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:info
                                                        options:NSJSONWritingPrettyPrinted // Pass 0 if you don't care about the readability of the generated string

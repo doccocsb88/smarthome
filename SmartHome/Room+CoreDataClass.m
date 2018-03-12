@@ -10,5 +10,16 @@
 #import "Device.h"
 #import "SceneDetail.h"
 @implementation Room
-
+-(NSInteger)countAutocontrolDevice{
+    NSInteger count = 0;
+    for(Device *device in [self.devices allObjects]){
+        if ([device numberOfSwitchChannel] > 0) {
+            count += [device numberOfSwitchChannel];
+        }else{
+            count += 1;
+        }
+        
+    }
+    return count;
+}
 @end

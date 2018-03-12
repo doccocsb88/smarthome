@@ -209,6 +209,9 @@
             nameLabel.text = @"Rèm";
         }else if(index == DeviceTypeLightOnOff){
             nameLabel.text = @"Đèn";
+        }else if(index == DeviceTypeTouchSwitch){
+            nameLabel.text = @"Công tắc";
+
         }
         [fillterView addSubview:btn];
         [fillterView addSubview:nameLabel];

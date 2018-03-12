@@ -37,7 +37,7 @@
     [dataArray addObject:@"Hẹn giờ"];
     
     if (self.device) {
-        if (self.device.control) {
+        if ([self.device isAutoControl:(int)self.chanel]) {
             [dataArray addObject:@"Không cho phép tự động mở"];
         }else{
             [dataArray addObject:@"Cho phép tự động mở"];

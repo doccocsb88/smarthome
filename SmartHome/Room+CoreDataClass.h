@@ -13,7 +13,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface Room : NSManagedObject
-
+-(NSInteger)countAutocontrolDevice;
 @end
 
 NS_ASSUME_NONNULL_END

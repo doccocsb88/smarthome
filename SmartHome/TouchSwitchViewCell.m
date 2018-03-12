@@ -163,7 +163,7 @@
                 
             }
         }else{
-            self.device.value = self.value;
+//            self.device.value = self.value;
             [[MQTTService sharedInstance] publishControl:self.device.requestId message:[self.device switchChancelMessage:(int)tag status:cmd] type:self.device.type count:0];
             if (self.controlHandler) {
                 self.controlHandler();
