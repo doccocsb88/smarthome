@@ -172,4 +172,69 @@
             break;
     }
 }
+
+-(void)updateAutoControlForChanel:(int)chanel status:(Boolean)status{
+    NSMutableDictionary *info  = [NSMutableDictionary new];
+
+    NSString *jsonString = self.chanelInfo;
+    NSData *data = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+    id json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+    for (int i = 1; i <= [self numberOfSwitchChannel]; i++) {
+        NSString *key = [NSString stringWithFormat:@"name%d",i];
+        NSString *controlKey = [NSString stringWithFormat:@"control%d",i];
+        if([json objectForKey:key]){
+            [info setObject:[json objectForKey:key] forKey:key];
+        }
+        if([json objectForKey:controlKey]){
+            [info setObject:[json objectForKey:controlKey] forKey:controlKey];
+        }
+        
+    }
+    NSString *autoKey = [NSString stringWithFormat:@"control%d",chanel];
+    if ([json objectForKey:autoKey]) {
+        [info setObject:[NSNumber  numberWithBool:![json objectForKey:autoKey]] forKey:autoKey];
+    }else{
+        [info setObject:[NSNumber  numberWithBool:status] forKey:autoKey];
+    }
+    NSError *error;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:info
+                                                       options:NSJSONWritingPrettyPrinted // Pass 0 if you don't care about the readability of the generated string
+                                                         error:&error];
+    
+    if (! jsonData) {
+        NSLog(@"Got an error: %@", error);
+    } else {
+        self.chanelInfo = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    }
+}
+-(void)updateNameForChanel:(int)chanel name:(NSString *)name{
+    NSMutableDictionary *info  = [NSMutableDictionary new];
+    
+    NSString *jsonString = self.chanelInfo;
+    NSData *data = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+    id json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+    for (int i = 1; i <= [self numberOfSwitchChannel]; i++) {
+        NSString *key = [NSString stringWithFormat:@"name%d",i];
+        NSString *controlKey = [NSString stringWithFormat:@"control%d",i];
+        if([json objectForKey:key]){
+            [info setObject:[json objectForKey:key] forKey:key];
+        }
+        if([json objectForKey:controlKey]){
+            [info setObject:[json objectForKey:controlKey] forKey:controlKey];
+        }
+        
+    }
+    NSString *autoKey = [NSString stringWithFormat:@"control%d",chanel];
+    [info setObject:name forKey:autoKey];
+    NSError *error;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:info
+                                                       options:NSJSONWritingPrettyPrinted // Pass 0 if you don't care about the readability of the generated string
+                                                         error:&error];
+    
+    if (! jsonData) {
+        NSLog(@"Got an error: %@", error);
+    } else {
+        self.chanelInfo = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    }
+}
 @end

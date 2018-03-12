@@ -100,6 +100,18 @@
             cell.onOffButton.selected = false;
         }
     }
+    NSString *nameKey = [NSString stringWithFormat:@"name%ld",indexPath.row+1];
+    NSString *jsonString = self.device.chanelInfo;
+    NSData *data = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+    id json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+    
+    NSLog(@"change touch switch name  : %@", jsonString);
+    NSString *name = [json objectForKey:nameKey];
+    if (name && name.length > 0) {
+        cell.nameLabel.text = name;
+    }else{
+        cell.nameLabel.text = [NSString stringWithFormat:@"Đèn %ld",indexPath.row + 1];
+    }
     cell.controlButton.tag = indexPath.row + 1;
     [cell.controlButton addTarget:self action:@selector(didPressedControl:) forControlEvents:UIControlEventTouchUpInside];
     return cell;

@@ -11,5 +11,6 @@
 @interface ChannelViewCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UIButton *onOffButton;
 @property (weak, nonatomic) IBOutlet UIButton *controlButton;
+@property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 
 @end

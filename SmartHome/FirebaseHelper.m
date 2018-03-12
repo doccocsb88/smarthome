@@ -247,6 +247,8 @@
                     NSInteger value = [[info objectForKey:@"device_value"] integerValue];
                     NSInteger order = [[info objectForKey:@"device_order"] integerValue];
                     NSInteger roomId = [[info objectForKey:@"deviceId"] integerValue];
+                    NSString *chanelInfo = [info objectForKey:@"chanelInfo"];
+
                     if(![[CoredataHelper sharedInstance] hasDevice:mqttId]){
     
                         if (![Utils hasTopic]) {
@@ -257,6 +259,7 @@
                             if (device) {
                                 NSLog(@"AddDeviceFromFireBase : %@",device.name);
                                 device.key = data.key;
+                                device.chanelInfo = chanelInfo?chanelInfo:@"";
                                 if (room && device) {
                                     [room addDevicesObject:device];
                                 }
@@ -268,6 +271,8 @@
                         if (device) {
                             device.name = name;
                             device.control = control;
+                            device.chanelInfo = chanelInfo?chanelInfo:@"";
+
                             [[CoredataHelper sharedInstance] save];
                         }
                     }
@@ -622,8 +627,8 @@
                           @"device_value":[NSNumber numberWithInteger:device.value],
                           @"device_topic":device.topic?device.topic:@"",
                           @"device_type":[NSNumber numberWithInteger:device.type],
-                          @"deviceId":[NSNumber numberWithInteger:roomId]
-                          
+                          @"deviceId":[NSNumber numberWithInteger:roomId],
+                          @"chanelInfo":device.chanelInfo?device.chanelInfo:@""
                           };
     NSDictionary *childUpdates = @{[NSString stringWithFormat:@"/users/%@/devices/%@", self.user.uid, key]: dic};
     device.key = key;
@@ -641,8 +646,9 @@
                           @"device_value":[NSNumber numberWithInteger:device.value],
                           @"device_topic":device.topic,
                           @"device_type":[NSNumber numberWithInteger:device.type],
-                          @"deviceId":[NSNumber numberWithInteger:roomId]
-                          
+                          @"deviceId":[NSNumber numberWithInteger:roomId],
+                          @"chanelInfo":device.chanelInfo?device.chanelInfo:@""
+
                           };
     NSDictionary *childUpdates = @{[NSString stringWithFormat:@"/users/%@/devices/%@", self.user.uid, key]: dic};
     [_ref updateChildValues:childUpdates];

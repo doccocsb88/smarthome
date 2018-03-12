@@ -89,9 +89,12 @@
         }
     }
     self.firstTime = true;
-    
-    
     [self setTitle:self.room.name connected:[MQTTService sharedInstance].isConnect];
+    __weak RoomViewController *wSelf = self;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        wSelf.isProcessing = false;
+        [wSelf hideLoadingView];
+    });
 }
 
 -(void)initData{
@@ -680,6 +683,9 @@
         case 1:
             //khoa thiet bi
             device.control = !device.control;
+            if([device numberOfSwitchChannel] > 0){
+                [device updateAutoControlForChanel:self.chanel status:false];
+            }
             [[CoredataHelper sharedInstance] save];
             [[FirebaseHelper sharedInstance] updateDevice:device roomId:self.room.id];
             break;
@@ -1030,10 +1036,46 @@
         //        <#code#>
         UITextField *tf = alert.textFields.firstObject;
         NSString *roomName = tf.text;
-        device.name = roomName;
-        [[CoredataHelper sharedInstance] save];
-        [[FirebaseHelper sharedInstance] updateDevice:device roomId:self.room.id];
-        [self.tableView reloadData];
+        if(roomName && roomName.length > 0){
+            if ([device numberOfSwitchChannel] > 0) {
+                NSString *nameKey = [NSString stringWithFormat:@"name%ld",self.chanel];
+                NSMutableDictionary *info  = [NSMutableDictionary new];
+                NSString *jsonString = device.chanelInfo;
+                NSData *data = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+                id json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                for (int i = 1; i <= [device numberOfSwitchChannel]; i++) {
+                    NSString *key = [NSString stringWithFormat:@"name%d",i];
+                    NSString *controlKey = [NSString stringWithFormat:@"control%d",i];
+                    if([json objectForKey:key]){
+                        [info setObject:[json objectForKey:key] forKey:key];
+                    }
+                    if([json objectForKey:controlKey]){
+                        [info setObject:[json objectForKey:controlKey] forKey:controlKey];
+                    }
+
+                }
+                [info setObject:roomName forKey:nameKey];
+                NSError *error;
+                NSData *jsonData = [NSJSONSerialization dataWithJSONObject:info
+                                                                   options:NSJSONWritingPrettyPrinted // Pass 0 if you don't care about the readability of the generated string
+                                                                     error:&error];
+                
+                if (! jsonData) {
+                    NSLog(@"Got an error: %@", error);
+                } else {
+                    device.chanelInfo = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+                }
+//                device.chanelInfo = [NSString stringWithFormat:@"%@",info];
+               
+
+            }else{
+                device.name = roomName;
+            }
+            
+            [[CoredataHelper sharedInstance] save];
+            [[FirebaseHelper sharedInstance] updateDevice:device roomId:self.room.id];
+            [self.tableView reloadData];
+        }
     }];
     [alert addAction:okAction];
     //    [alert addAction:cancelAction];
