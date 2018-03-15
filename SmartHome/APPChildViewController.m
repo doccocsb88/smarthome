@@ -275,7 +275,7 @@
     Room *room  = [Utils getRoomWithId:roomId in:self.dataArray];
     if (room) {
         delaInSecond = [room countAutocontrolDevice];
-        delaInSecond = delaInSecond >= 2 ? delaInSecond : 2;
+        delaInSecond = delaInSecond <= 2 ? delaInSecond : 2;
 //        delaInSecond = 2;
         if ([room.devices allObjects].count > 0) {
             [self.controlPopup showWithDuration:delaInSecond];

@@ -54,5 +54,5 @@
 -(void)addMQTTDevice:(Device *)device;
 -(void)delMQTTDevice:(Device *)device;
 -(void)clearPublishDevice;
-
+-(void)clearRequestStatusDevice;
 @end

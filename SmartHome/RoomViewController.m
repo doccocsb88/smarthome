@@ -344,6 +344,8 @@
         TouchSwitchViewCell *cell = (TouchSwitchViewCell *)[tableView dequeueReusableCellWithIdentifier:@"TouchSwitchViewCell" forIndexPath:indexPath];
         [cell setContentValue:device];
         __weak RoomViewController *wself = self;
+        __weak TouchSwitchViewCell *wCell = cell;
+        cell.isLoading = self.isProcessing;
         cell.completionHandler = ^(NSString *value, NSInteger chanel) {
             wself.chanel = chanel;
             [wself didPressedControl:device.id];
@@ -351,6 +353,7 @@
         cell.controlHandler = ^{
             [wself showLoadingView];
             wself.isProcessing = true;
+            wCell.isLoading = true;
         };
         return cell;
     }
@@ -436,7 +439,6 @@
 #pragma mark
 
 -(void)pressedLeft:(UIButton *)button{
-    [[MQTTService sharedInstance] clearPublishDevice];
     [self.navigationController popViewControllerAnimated:true];
 }
 
@@ -777,7 +779,6 @@
 -(void)mqttConnected{
     [self.activityIndicatorView stopAnimating];
     self.activityIndicatorView.hidden = YES;
-
     [[MQTTService sharedInstance] setListDevices:dataArray];
     [self setTitle:self.room.name connected:YES];
 

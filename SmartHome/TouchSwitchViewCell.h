@@ -19,6 +19,7 @@
 @property (strong, nonatomic) SceneDetail *detail;
 
 @property (assign, nonatomic) Boolean isScene;
+@property (assign, nonatomic) Boolean isLoading;
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UILabel *deviceNameLabel;

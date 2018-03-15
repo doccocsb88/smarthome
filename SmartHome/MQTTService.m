@@ -125,13 +125,14 @@ static MQTTService *instance = nil;
             __weak MQTTService *wsekf = self;
             if ([self.publishedTopic containsObject:topic] == false) {
                 if (topic && topic.length > 0) {
-                    [wsekf.publishedTopic addObject:topic];
                     self.countProcess ++;
                     [_session subscribeToTopic:topic atLevel:1 subscribeHandler:^(NSError *error, NSArray<NSNumber *> *gQoss){
                         if (error) {
                             NSLog(@"Subscription failed %@", error.localizedDescription);
                         } else {
                             NSLog(@"Subscription sucessfull! Granted Qos: %@", gQoss);
+                            [wsekf.publishedTopic addObject:topic];
+
                             self.countProcess --;
                             [self checkFinishedProcess];
                             device.isSubcrible = TRUE;
@@ -174,6 +175,11 @@ static MQTTService *instance = nil;
 }
 -(void)clearPublishDevice{
     self.publishedTopic = [NSMutableArray new];
+}
+-(void)clearRequestStatusDevice{
+    for (Device *device in self.dataArray){
+        device.isGetStatus = false;
+    }
 }
 -(Device *)getDeviceByTopic:(NSString *)topic{
     for (Device *device in self.dataArray) {

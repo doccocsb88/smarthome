@@ -164,9 +164,13 @@
             }
         }else{
 //            self.device.value = self.value;
-            [[MQTTService sharedInstance] publishControl:self.device.requestId message:[self.device switchChancelMessage:(int)tag status:cmd] type:self.device.type count:0];
-            if (self.controlHandler) {
-                self.controlHandler();
+            if(self.isLoading == false){
+                [[MQTTService sharedInstance] publishControl:self.device.requestId message:[self.device switchChancelMessage:(int)tag status:cmd] type:self.device.type count:0];
+                if (self.controlHandler) {
+                    self.controlHandler();
+                }
+            }else{
+                NSLog(@"dang loading");
             }
         }
 
