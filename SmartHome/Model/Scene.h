@@ -15,6 +15,7 @@
 @property (nullable, nonatomic, retain) NSSet<SceneDetail *> *sceneDetail;
 -(CGFloat)getLoadingTime;
 -(NSArray *)getListSceneDetail;
+-(SceneDetail *)getDetailByRequestId:(NSString *)requestId;
 @end
 @interface Scene (CoreDataGeneratedAccessors)
 

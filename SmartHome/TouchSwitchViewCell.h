@@ -21,6 +21,7 @@
 
 @property (assign, nonatomic) Boolean isScene;
 @property (assign, nonatomic) Boolean isLoading;
+@property (assign, nonatomic) Boolean isEdit;
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UILabel *deviceNameLabel;
@@ -30,6 +31,5 @@
 -(void)setContentValue:(Device *)device;
 -(void)setContentView:(Device *)device type:(NSInteger)type;
 -(void)setContentView:(Device *)device type:(NSInteger)type selected:(BOOL)selected;
-
 
 @end

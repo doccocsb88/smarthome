@@ -91,7 +91,7 @@
     }else if (device.type == DeviceTypeCurtain){
         return 140.0;
     }else if (device.type == DeviceTypeTouchSwitch){
-        return 110 * [device numberOfSwitchChannel] + 30;
+        return 110 * [detail numberOfChanel] + 30;
     }
     return 100.0;
 }
@@ -148,6 +148,7 @@
         
     }else if (device.type == DeviceTypeTouchSwitch){
         TouchSwitchViewCell *cell = (TouchSwitchViewCell *)[tableView dequeueReusableCellWithIdentifier:@"TouchSwitchViewCell" forIndexPath:indexPath];
+        cell.isEdit = true;
         [cell setContentView:detail];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.completionHandler = ^(NSString *value, NSInteger chanel) {

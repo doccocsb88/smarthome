@@ -42,7 +42,29 @@
     }
     return false;
 }
+-(void)addSelectedChanel:(NSInteger)chanel{
+    NSMutableArray *arrs = [[self.chanels componentsSeparatedByString:@";"] mutableCopy];
+    NSString *strChanel = [NSString stringWithFormat:@"%ld",chanel];
+    if ([arrs containsObject:strChanel] == false) {
+        [arrs addObject:[NSString stringWithFormat:@"%ld",chanel]];
 
+    }
+    NSArray *sortedArray;
+    sortedArray = [arrs sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
+        NSNumber *first = a;
+        NSNumber *second = b;
+        return [first integerValue] > [second integerValue];
+    }];
+    self.chanels = @"";
+    for (NSString *value in sortedArray){
+        if (self.chanels.length == 0) {
+            self.chanels = [NSString stringWithFormat:@"%@",value];
+        }else{
+            self.chanels = [NSString stringWithFormat:@"%@;%@",self.chanels,value];
+        }
+    }
+    NSLog(@"chanel : %@",self.chanels);
+}
 -(void)setSelectedChanel:(NSInteger)chanel{
     if (!self.chanelSelected){
         self.chanelSelected = [NSMutableArray new];
@@ -52,10 +74,16 @@
     }else{
         [self.chanelSelected addObject:@(chanel)];
     }
+    NSArray *sortedArray;
+    sortedArray = [self.chanelSelected sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
+        NSNumber *first = a;
+        NSNumber *second = b;
+        return [first integerValue] > [second integerValue];
+    }];
     self.chanels = @"";
-    for (NSString *value in self.chanelSelected){
+    for (NSString *value in sortedArray){
         if (self.chanels.length == 0) {
-            self.chanels = value;
+            self.chanels = [NSString stringWithFormat:@"%@",value];
         }else{
             self.chanels = [NSString stringWithFormat:@"%@;%@",self.chanels,value];
         }
@@ -72,6 +100,13 @@
 
 -(NSInteger)numberOfChanel{
     return [self.chanels componentsSeparatedByString:@";"].count;
+}
+-(NSInteger)getChanelIndex:(NSInteger)index{
+    NSArray *arrs = [self.chanels componentsSeparatedByString:@";"];
+    if (arrs && index < arrs.count) {
+        return [arrs[index] integerValue];
+    }
+    return NSNotFound;
 }
 @end
 

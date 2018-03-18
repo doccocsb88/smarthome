@@ -8,6 +8,8 @@
 #import "TouchSwitchViewCell.h"
 @interface TouchSwitchViewCell()
 @property (assign, nonatomic) float value;
+@property (assign, nonatomic) NSInteger existChanel;
+
 @end
 @implementation TouchSwitchViewCell 
 
@@ -31,11 +33,12 @@
     self.isScene = true;
     self.detail = detail;
     [self setContentValue:detail.device];
-    if (detail.isSelected) {
-        self.myBackgroundView.backgroundColor = [UIColor redColor];
-    }else{
-        self.myBackgroundView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.3];
-    }
+//    if (detail.isSelected) {
+//        self.myBackgroundView.backgroundColor = [UIColor redColor];
+//    }else{
+//        self.myBackgroundView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.3];
+//    }
+    self.myBackgroundView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.3];
 }
 -(void)setContentValue:(Device *)device{
     self.device = device;
@@ -60,13 +63,15 @@
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-//    if (self.isScene) {
-//        if (self.detail) {
-//            return [self.detail numberOfChanel];
-//        }
-//        return 0;
-//    }
-    return 3;
+    if (self.isScene) {
+        if (self.isEdit) {
+            return [self.detail numberOfChanel];
+        }else{
+            return [self.detail.device numberOfSwitchChannel];
+        }
+        
+    }
+    return [self.device numberOfSwitchChannel];
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -81,35 +86,46 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     ChannelViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ChannelViewCell" forIndexPath:indexPath];;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.onOffButton.tag = indexPath.row + 1;
+    NSInteger tag = indexPath.row + 1;
+
     [cell.onOffButton addTarget:self action:@selector(didPressedOnOff:) forControlEvents:UIControlEventTouchUpInside];
     float deviceValue = self.device.value;
     if (self.isScene) {
+        if (self.isEdit) {
+            if ([self.detail getChanelIndex:indexPath.row] != NSNotFound){
+                tag = [self.detail getChanelIndex:indexPath.row];
+            }
+        }
         deviceValue = self.detail.value;
-        [cell setChanelSelected:[self.detail isChanelSelected:indexPath.row + 1]];
+        [cell setChanelSelected:[self.detail isChanelSelected:tag] && !self.isEdit];
     }else{
         [cell setChanelSelected:false];
     }
-    if (indexPath.row == 0) {
+    cell.onOffButton.tag = tag;
+
+    if (tag == 1) {
+        //chanel 1
         if ((int)deviceValue % 2 == 0) {
             cell.onOffButton.selected = false;
         }else{
             cell.onOffButton.selected = true;
         }
-    }else if (indexPath.row == 1){
+    }else if (tag == 2){
+         //chanel 2
         if (deviceValue == 2 || deviceValue == 3 || deviceValue == 6 || deviceValue == 7) {
             cell.onOffButton.selected = true;
         }else{
             cell.onOffButton.selected = false;
         }
-    }else if (indexPath.row == 2){
+    }else if (tag == 3){
+         //chanel 3
         if (deviceValue >= 4.0) {
             cell.onOffButton.selected = true;
         }else{
             cell.onOffButton.selected = false;
         }
     }
-    NSString *nameKey = [NSString stringWithFormat:@"name%ld",indexPath.row+1];
+    NSString *nameKey = [NSString stringWithFormat:@"name%ld",tag];
     NSString *jsonString = self.device.chanelInfo;
     NSData *data = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
     id json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
@@ -119,9 +135,9 @@
     if (name && name.length > 0) {
         cell.nameLabel.text = name;
     }else{
-        cell.nameLabel.text = [NSString stringWithFormat:@"Đèn %ld",indexPath.row + 1];
+        cell.nameLabel.text = [NSString stringWithFormat:@"Đèn %ld",tag];
     }
-    cell.controlButton.tag = indexPath.row + 1;
+    cell.controlButton.tag = tag;
     [cell.controlButton addTarget:self action:@selector(didPressedControl:) forControlEvents:UIControlEventTouchUpInside];
     return cell;
 }
@@ -138,9 +154,11 @@
     NSLog(@"TouchSwitchViewCell : ");
     NSInteger tag = sender.tag;
     self.value = self.device.value;
-
+    BOOL isSelected = true;
+    
     if (self.isScene) {
         self.value = self.detail.value;
+        isSelected = [self.detail isChanelSelected:tag];
     }
     if (tag > 0) {
 //        id=’WT3-0000000003/1’ cmd=’ON’ value=’W3,2,1’
@@ -153,7 +171,7 @@
             }else{
                 self.value -= 1;
             }
-        }else if (tag == 2){
+        }else if (tag == 2 ){
             //chenal 2
             if (self.value == 2 || self.value == 3 || self.value == 6 || self.value == 7) {
                 self.value -= 2;
@@ -162,7 +180,7 @@
                 cmd = true;
 
             }
-        }else if (tag == 3){
+        }else if (tag == 3 ){
             //chenal 3
             if (self.value == 4 || self.value == 5 || self.value == 6 || self.value == 7) {
                 self.value -= 4;
@@ -174,6 +192,7 @@
         }
         if (self.isScene) {
             self.detail.value = self.value;
+            
             if (self.completionHandler) {
                 self.completionHandler([NSString stringWithFormat:@"%f",self.value],tag);
                 

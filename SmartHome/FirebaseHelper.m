@@ -503,6 +503,9 @@
                     NSInteger deviceStatus = [[info objectForKey:@"device_status"] integerValue];
                     NSInteger deviceValue = [[info objectForKey:@"device_value"] integerValue];
                     NSInteger sceneId = [[info objectForKey:@"sceneId"] integerValue];
+                    NSString *chanels = [info objectForKey:@"chanels"];
+//                    @"chanels":sceneDetail.chanels ? sceneDetail.chanels : @""
+
                     Device *device  = [[CoredataHelper sharedInstance] getDeviceById:deviceId];
                     if(![[CoredataHelper sharedInstance] hasObject:@"SceneDetail" code:code]){
                         SceneDetail *sceneDetail = [[CoredataHelper sharedInstance] addSceneDetailV2:detailId key:data.key value:deviceValue status:deviceStatus device:device code:code complete:^(SceneDetail *detail) {
@@ -513,6 +516,7 @@
                         Scene *scene =  [[CoredataHelper sharedInstance] getSceneById:sceneId];
                         if(scene){
                             if (sceneDetail != nil) {
+                                sceneDetail.chanels = chanels ? chanels :  @"";
                                 [scene addSceneDetailObject:sceneDetail];
                             }
                             
@@ -575,7 +579,8 @@
                           @"device_order":[NSNumber numberWithInteger:sceneDetail.device.order],
                           @"sceneId":[NSNumber numberWithInteger:sceneId],
                           @"device_id":[NSNumber numberWithInteger:sceneDetail.device.id],
-                          @"scene_detail_code":sceneDetail.code
+                          @"scene_detail_code":sceneDetail.code,
+                          @"chanels":sceneDetail.chanels ? sceneDetail.chanels : @""
                           };
     NSDictionary *childUpdates = @{[NSString stringWithFormat:@"/users/%@/scene_details/%@", self.user.uid, key]: dic};
     sceneDetail.key = key;
@@ -589,7 +594,8 @@
                           @"device_order":[NSNumber numberWithInteger:sceneDetail.device.order],
                           @"sceneId":[NSNumber numberWithInteger:sceneId],
                           @"device_id":[NSNumber numberWithInteger:sceneDetail.device.id],
-                          @"scene_detail_code":sceneDetail.code
+                          @"scene_detail_code":sceneDetail.code,
+                          @"chanels":sceneDetail.chanels ? sceneDetail.chanels : @""
                           };
     NSDictionary *childUpdates = @{[NSString stringWithFormat:@"/users/%@/scene_details/%@", self.user.uid, sceneDetail.key]: dic};
     [_ref updateChildValues:childUpdates];

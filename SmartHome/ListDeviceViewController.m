@@ -60,7 +60,13 @@
         for (SceneDetail *dt in self.existDevice) {
             for (SceneDetail *detail in arrs) {
                 if (dt.device.id == detail.device.id) {
-                    [dataArray removeObject:detail];
+                    if (dt.device.type != DeviceTypeTouchSwitch) {
+                        [dataArray removeObject:detail];
+                    }else{
+                        if ([detail.device numberOfSwitchChannel] == [dt numberOfChanel]) {
+                            [dataArray removeObject:detail];
+                        }
+                    }
                 }
             }
         }
@@ -372,6 +378,7 @@
                         [selectedArray removeObject:detail];
                     }
                 }
+                detail.isSelected = [detail hasSelectedDevicel];
                 [wSelf handleAddDeviceToSceneDetail:indexPath];
 
             };

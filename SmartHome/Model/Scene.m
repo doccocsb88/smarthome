@@ -29,4 +29,13 @@
     }
     return arr;
 }
+
+-(SceneDetail *)getDetailByRequestId:(NSString *)requestId{
+    for (SceneDetail *detail in [self.sceneDetail allObjects]) {
+        if (detail.device && [detail.device.requestId isEqualToString:requestId]) {
+            return detail;
+        }
+    }
+    return nil;
+}
 @end

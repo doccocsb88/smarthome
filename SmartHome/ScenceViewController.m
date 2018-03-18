@@ -198,11 +198,11 @@
                 }
                 
             }else if (device.type == DeviceTypeTouchSwitch){
-                NSInteger numberOfChanel = [device numberOfSwitchChannel];
+                NSInteger numberOfChanel = [detail numberOfChanel];
                 for (int i = 1; i <= numberOfChanel; i++) {
-                 
+                    NSInteger chanel = [detail getChanelIndex:i];
                     NSString *requestId = device.requestId;
-                    NSString *message = [device switchChancelMessage:i status:[detail isChanelOn:i]];
+                    NSString *message = [device switchChancelMessage:i status:[detail isChanelOn:chanel]];
                     NSInteger type = device.type;
                     NSDictionary *userInfo  = @{@"requestId":requestId, @"message":message,@"type":@(type)};
                     NSLog(@"tư : 1 : %@",message);
@@ -268,10 +268,27 @@
     for (SceneDetail *detail in selectedDevices) {
         if (detail != nil) {
             detail.isSelected = false;
-            [scene addSceneDetailObject:detail];
+            if(detail.device.type != DeviceTypeTouchSwitch){
+                [scene addSceneDetailObject:detail];
+                [[FirebaseHelper sharedInstance] addSceneDetail:detail sceneId:scene.id];
+
+            }else{
+                SceneDetail *existDetail = [scene getDetailByRequestId:detail.device.requestId];
+                if (existDetail) {
+                    for (int i = 0; i < [detail numberOfChanel];i++){
+                        NSInteger chanel = [detail getChanelIndex:i];
+                        [existDetail addSelectedChanel:chanel];
+                    }
+                    [[FirebaseHelper sharedInstance] updateSceneDetail:existDetail sceneId:scene.id];
+
+                }else{
+                    [scene addSceneDetailObject:detail];
+                    [[FirebaseHelper sharedInstance] addSceneDetail:detail sceneId:scene.id];
+
+                }
+            }
             [[CoredataHelper sharedInstance] save];
             NSLog(@"bbb %li",scene.sceneDetail.count);
-            [[FirebaseHelper sharedInstance] addSceneDetail:detail sceneId:scene.id];
         }
         NSArray *zzz = [[CoredataHelper sharedInstance] getAllSceneDetail];
         NSLog(@"aaa %li",zzz.count);
@@ -384,12 +401,12 @@
         if (self.selectedIndex < dataArray.count) {
             Scene *scene = [dataArray objectAtIndex:self.selectedIndex];
             [dataArray removeObject:scene];
-            [[FirebaseHelper sharedInstance] deleteScene:scene.code];
-            [[FirebaseHelper sharedInstance] deleteSceneDetail:scene.code];
             for (SceneDetail *detail in [scene.sceneDetail allObjects]){
+                [[FirebaseHelper sharedInstance] deleteSceneDetail:detail.code];
                 [[CoredataHelper sharedInstance].context deleteObject:detail];
 
             }
+            [[FirebaseHelper sharedInstance] deleteScene:scene.code];
             [[CoredataHelper sharedInstance].context deleteObject:scene];
             self.selectedIndex = NSNotFound;
             [self.tableView reloadData];

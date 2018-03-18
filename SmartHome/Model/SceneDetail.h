@@ -21,9 +21,11 @@
 @property (strong, nonatomic) NSMutableArray *chanelSelected;
 
 -(BOOL)isChanelOn:(int)chanel;
-
+-(void)addSelectedChanel:(NSInteger)chenel;
 -(void)setSelectedChanel:(NSInteger)chanel;
 -(BOOL)isChanelSelected:(NSInteger)chanel;
 -(BOOL)hasSelectedDevicel;
 -(NSInteger)numberOfChanel;
+-(NSInteger)getChanelIndex:(NSInteger)index;
+
 @end
