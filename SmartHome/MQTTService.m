@@ -12,6 +12,8 @@
 #import "FirebaseHelper.h"
 #define CHECK_PUBLISH_TIME 2
 #define REQUEST_STATUS_TIME 0.5
+#define REQUEST_QOS 0
+
 static MQTTService *instance = nil;
 
 @interface MQTTService() <MQTTSessionDelegate>
@@ -60,6 +62,7 @@ static MQTTService *instance = nil;
         self.publishedTopic = [[NSMutableArray alloc] init];
         self.publishingTopic = [[NSMutableArray alloc] init];
         _isInit = true;
+        [_session disconnect];
     }
 
    
@@ -107,6 +110,7 @@ static MQTTService *instance = nil;
             }
             
         }
+        NSLog(@"setListDevices : %ld - %ld",self.dataArray.count,arr.count);
         [self.dataArray addObjectsFromArray:arr];
         NSMutableArray *arrCopy = [self.dataArray copy];
         NSInteger index = 1;
@@ -126,7 +130,7 @@ static MQTTService *instance = nil;
             if ([self.publishedTopic containsObject:topic] == false) {
                 if (topic && topic.length > 0) {
                     self.countProcess ++;
-                    [_session subscribeToTopic:topic atLevel:1 subscribeHandler:^(NSError *error, NSArray<NSNumber *> *gQoss){
+                    [_session subscribeToTopic:topic atLevel:REQUEST_QOS subscribeHandler:^(NSError *error, NSArray<NSNumber *> *gQoss){
                         if (error) {
                             NSLog(@"Subscription failed %@", error.localizedDescription);
                         } else {
@@ -177,9 +181,11 @@ static MQTTService *instance = nil;
     self.publishedTopic = [NSMutableArray new];
 }
 -(void)clearRequestStatusDevice{
-    for (Device *device in self.dataArray){
+    NSArray *devices = [[CoredataHelper sharedInstance] getListDevice];
+    for (Device *device in devices){
         device.isGetStatus = false;
     }
+    [self.dataArray removeAllObjects];
 }
 -(Device *)getDeviceByTopic:(NSString *)topic{
     for (Device *device in self.dataArray) {
@@ -219,7 +225,7 @@ static MQTTService *instance = nil;
            
         }
         NSLog(@"MQTTService : %@",topic);
-        [_session publishData:[msg dataUsingEncoding:NSUTF8StringEncoding] onTopic:topic retain:false qos:2 publishHandler:^(NSError *error) {
+        [_session publishData:[msg dataUsingEncoding:NSUTF8StringEncoding] onTopic:topic retain:false qos:REQUEST_QOS publishHandler:^(NSError *error) {
             self.countProcess--;
             [self checkFinishedProcess];
         }];
@@ -241,7 +247,7 @@ static MQTTService *instance = nil;
     
         [self.publishingTopic addObject:topic];
         [NSTimer scheduledTimerWithTimeInterval:CHECK_PUBLISH_TIME target:self selector:@selector(checkPublishSucess:) userInfo:@{@"topic":topic,@"message":message,@"type":[NSString stringWithFormat:@"%ld",type],@"count":[NSString stringWithFormat:@"%d",count]} repeats:NO];
-        [_session publishData:[msg dataUsingEncoding:NSUTF8StringEncoding] onTopic:[NSString stringWithFormat:@"QA_CC_%@",topic] retain:NO qos:2 publishHandler:^(NSError *error) {
+        [_session publishData:[msg dataUsingEncoding:NSUTF8StringEncoding] onTopic:[NSString stringWithFormat:@"QA_CC_%@",topic] retain:NO qos:REQUEST_QOS publishHandler:^(NSError *error) {
 
         }];
     }else if (type == DeviceTypeTouchSwitch){
@@ -250,7 +256,7 @@ static MQTTService *instance = nil;
         [NSTimer scheduledTimerWithTimeInterval:CHECK_PUBLISH_TIME target:self selector:@selector(checkPublishSucess:) userInfo:@{@"topic":topic,@"message":message,@"type":[NSString stringWithFormat:@"%ld",type],@"count":[NSString stringWithFormat:@"%d",count]} repeats:NO];
         NSLog(@"tư : 3 %@",message);
 
-        [_session publishData:[message dataUsingEncoding:NSUTF8StringEncoding] onTopic:topic retain:NO qos:2 publishHandler:^(NSError *error) {
+        [_session publishData:[message dataUsingEncoding:NSUTF8StringEncoding] onTopic:topic retain:NO qos:REQUEST_QOS publishHandler:^(NSError *error) {
             
         }];
     }else if (type == DeviceTypeLightOnOff){
@@ -266,7 +272,7 @@ static MQTTService *instance = nil;
             [NSTimer scheduledTimerWithTimeInterval:CHECK_PUBLISH_TIME target:self selector:@selector(checkPublishSucess:) userInfo:@{@"topic":topic,@"message":message,@"type":[NSString stringWithFormat:@"%ld",type],@"count":[NSString stringWithFormat:@"%d",count]} repeats:NO];
 
             [_session publishData:[msg dataUsingEncoding:NSUTF8StringEncoding] onTopic:[Utils getTopic
-                                                                                        ] retain:NO qos:2 publishHandler:^(NSError *error) {
+                                                                                        ] retain:NO qos:REQUEST_QOS publishHandler:^(NSError *error) {
 
                 if (error) {
                     NSLog(@"publish failed");
@@ -287,7 +293,7 @@ static MQTTService *instance = nil;
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
             NSString *msg = [timer getStatusCommandString];
-            [_session publishData:[msg dataUsingEncoding:NSUTF8StringEncoding] onTopic:timer.topic retain:NO qos:2 publishHandler:^(NSError *error) {
+            [_session publishData:[msg dataUsingEncoding:NSUTF8StringEncoding] onTopic:timer.topic retain:NO qos:REQUEST_QOS publishHandler:^(NSError *error) {
                 
                 if (error) {
                     NSLog(@"publish failed");
@@ -304,7 +310,7 @@ static MQTTService *instance = nil;
 -(void) setTimer:(SHTimer *)timer{
     NSString *msg = [timer getCommandString:DeviceTypeUnknow goto:timer.isSlide];
 
-    [_session publishData:[msg dataUsingEncoding:NSUTF8StringEncoding] onTopic:timer.topic retain:NO qos:2 publishHandler:^(NSError *error) {
+    [_session publishData:[msg dataUsingEncoding:NSUTF8StringEncoding] onTopic:timer.topic retain:NO qos:REQUEST_QOS publishHandler:^(NSError *error) {
         
         if (error) {
             NSLog(@"publish failed");
@@ -316,7 +322,7 @@ static MQTTService *instance = nil;
 }
 
 -(void)addMQTTDevice:(Device *)device{
-    [_session publishData:[[device getAddMessage] dataUsingEncoding:NSUTF8StringEncoding] onTopic:device.topic retain:NO qos:2 publishHandler:^(NSError *error) {
+    [_session publishData:[[device getAddMessage] dataUsingEncoding:NSUTF8StringEncoding] onTopic:device.topic retain:NO qos:REQUEST_QOS publishHandler:^(NSError *error) {
         
         if (error) {
             NSLog(@"publish failed");
@@ -328,7 +334,7 @@ static MQTTService *instance = nil;
 
 }
 -(void)delMQTTDevice:(Device *)device{
-    [_session publishData:[[device getDelMessage] dataUsingEncoding:NSUTF8StringEncoding] onTopic:device.topic retain:NO qos:2 publishHandler:^(NSError *error) {
+    [_session publishData:[[device getDelMessage] dataUsingEncoding:NSUTF8StringEncoding] onTopic:device.topic retain:NO qos:REQUEST_QOS publishHandler:^(NSError *error) {
         
         if (error) {
             NSLog(@"publish failed");
@@ -384,52 +390,37 @@ static MQTTService *instance = nil;
 -(BOOL)isConnected{
     return _isConnect;
 }
-
+-(void)disconect{
+//    if(_session){
+//        [_session disconnect];
+//    }
+}
 -(void)connected:(MQTTSession *)session{
     NSLog(@"connected");
-    _isConnect = true;
-    _isConnecting = false;
-
-    if (self.delegate && [self.delegate respondsToSelector:@selector(mqttConnected)]) {
-        [self.delegate mqttConnected];
-    }
-     [[NSNotificationCenter defaultCenter] postNotificationName:@"kMqttConnectToServer" object:nil userInfo:@{@"result":@"1"}];
+    [self handleMQTTConnectionSucess];
 }
 
 -(void)connectionClosed:(MQTTSession *)session{
     NSLog(@"connectionClosed");
-    _isConnect = false;
-    _isConnecting = false;
 
-    if (self.dataArray) {
-        [self.dataArray removeAllObjects];
-    }
-    if (self.publishedTopic) {
-        [self.publishedTopic removeAllObjects];
-    }
-    if (self.delegate && [self.delegate respondsToSelector:@selector(mqttDisConnect)]) {
-        [self.delegate mqttDisConnect];
-    }
-     [[NSNotificationCenter defaultCenter] postNotificationName:@"kMqttConnectToServer" object:nil userInfo:@{@"result":@"4"}];
 }
 
 -(void)connectionError:(MQTTSession *)session error:(NSError *)error{
     NSLog(@"connectionError %@",error.description);
-    _isConnect = false;
-    _isConnecting = false;
+    [self handleMQTTConnectionError];
 
-    if (self.dataArray) {
-        [self.dataArray removeAllObjects];
-    }
-    if (self.publishedTopic) {
-        [self.publishedTopic removeAllObjects];
-    }
-    if (self.delegate && [self.delegate respondsToSelector:@selector(mqttDisConnect)]) {
-        [self.delegate mqttDisConnect];
-    }
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"kMqttConnectToServer" object:nil userInfo:@{@"result":@"3"}];
 }
 
+- (void)handleEvent:(MQTTSession *)session event:(MQTTSessionEvent)eventCode error:(NSError *)error{
+    if (eventCode == MQTTSessionEventConnected){
+        [self handleMQTTConnectionSucess];
+    }else if (eventCode == MQTTSessionEventConnectionClosed){
+    }else{
+        [self handleMQTTConnectionError];
+
+    }
+
+}
 -(void)connectionRefused:(MQTTSession *)session error:(NSError *)error{
     NSLog(@"connectionRefused");
     _isConnect = false;
@@ -448,14 +439,38 @@ static MQTTService *instance = nil;
 }
 
 -(void)connected:(MQTTSession *)session sessionPresent:(BOOL)sessionPresent{
-    NSLog(@"connected sessionPresent %d",sessionPresent);
+    [self handleMQTTConnectionSucess];
+}
+
+-(void)handleMQTTConnectionError{
+    _isConnect = false;
+    _isConnecting = false;
+    
+    if (self.dataArray) {
+        [self.dataArray removeAllObjects];
+    }
+    if (self.publishedTopic) {
+        [self.publishedTopic removeAllObjects];
+    }
+    if (self.delegate && [self.delegate respondsToSelector:@selector(mqttDisConnect)]) {
+        [self.delegate mqttDisConnect];
+    }
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"kMqttConnectToServer" object:nil userInfo:@{@"result":@"3"}];
+    
+    if (_session) {
+        [_session connectAndWaitTimeout:30];
+    }
+
+}
+-(void)handleMQTTConnectionSucess{
     _isConnect = true;
     _isConnecting = false;
-
+    
     if (self.delegate && [self.delegate respondsToSelector:@selector(mqttConnected)]) {
         [self.delegate mqttConnected];
     }
- [[NSNotificationCenter defaultCenter] postNotificationName:@"kMqttConnectToServer" object:nil userInfo:@{@"result":@"1"}];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"kMqttConnectToServer" object:nil userInfo:@{@"result":@"1"}];
+
 }
 - (void)newMessage:(MQTTSession *)session
               data:(NSData *)data

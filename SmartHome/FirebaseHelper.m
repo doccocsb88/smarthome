@@ -30,8 +30,13 @@
     return @"";
 }
 -(void)initObserver{
+    NSString *accessNode  = [self getAccessNode];
+    NSLog(@"synData accessNode : %@",accessNode);
+    if (accessNode == nil || accessNode.length == 0) {
+        return;
+    }
     if (self.user && self.user.uid) {
-        [[[[self.ref child:@"users"] child:self.user.uid] child:@"timers"] observeEventType:FIRDataEventTypeChildRemoved withBlock:^(FIRDataSnapshot * _Nonnull snapshot) {
+        [[[[self.ref child:@"users"] child:accessNode] child:@"timers"] observeEventType:FIRDataEventTypeChildRemoved withBlock:^(FIRDataSnapshot * _Nonnull snapshot) {
             if (snapshot && snapshot.value) {
                 NSLog(@"initObserver : %@",snapshot.value);
                 NSLog(@"initObserver : %@",snapshot.value);
@@ -39,10 +44,12 @@
                 if ([dict objectForKey:@"timer_code"]) {
                     NSString *code = [dict objectForKey:@"timer_code"];
                     [[CoredataHelper sharedInstance] deleteTimerByCode:code];
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"kFirebaseRemoveTimer" object:nil userInfo:nil];
+
                 }
             }
         }];
-        [[[[self.ref child:@"users"] child:self.user.uid] child:@"devices"] observeEventType:FIRDataEventTypeChildRemoved withBlock:^(FIRDataSnapshot * _Nonnull snapshot) {
+        [[[[self.ref child:@"users"] child:accessNode] child:@"devices"] observeEventType:FIRDataEventTypeChildRemoved withBlock:^(FIRDataSnapshot * _Nonnull snapshot) {
             if (snapshot && snapshot.value) {
                 NSLog(@"initObserver : %@",snapshot.value);
                 NSDictionary *dict = snapshot.value;
@@ -51,18 +58,21 @@
                     Device *device = [[CoredataHelper sharedInstance] getDeviceBycode:mqttid];
                     if (device) {
                         [[CoredataHelper sharedInstance] deleteDevice:device];
-                        
+                        [[NSNotificationCenter defaultCenter] postNotificationName:@"kFirebaseRemoveDevice" object:nil userInfo:nil];
+
                     }
                 }
             }
         }];
-        [[[[self.ref child:@"users"] child:self.user.uid] child:@"rooms"] observeEventType:FIRDataEventTypeChildRemoved withBlock:^(FIRDataSnapshot * _Nonnull snapshot) {
+        [[[[self.ref child:@"users"] child:accessNode] child:@"rooms"] observeEventType:FIRDataEventTypeChildRemoved withBlock:^(FIRDataSnapshot * _Nonnull snapshot) {
             if (snapshot && snapshot.value) {
                 NSLog(@"initObserver : %@",snapshot.value);
                 NSDictionary *dict = snapshot.value;
                 if ([dict objectForKey:@"room_code"]) {
                     NSString *code = [dict objectForKey:@"room_code"];
                     [[CoredataHelper sharedInstance] deleteRoomByCode:code];
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"kFirebaseRemoveRoom" object:nil userInfo:nil];
+
                 }
             }
         }];
@@ -74,6 +84,8 @@
                 if ([dict objectForKey:@"scene_code"]) {
                     NSString *code = [dict objectForKey:@"scene_code"];
                     [[CoredataHelper sharedInstance] deleteSceneCode:code];
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"kFirebaseRemoveScene" object:nil userInfo:nil];
+
                 }
             }
         }];
@@ -84,6 +96,8 @@
                 if ([dict objectForKey:@"scene_details_code"]) {
                     NSString *code = [dict objectForKey:@"scene_details_code"];
                     [[CoredataHelper sharedInstance] deleteSceneDetailByCode:code];
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"kFirebaseRemoveSceneDetail" object:nil userInfo:nil];
+
                 }
             }
         }];
@@ -149,12 +163,13 @@
         // ...
         __weak FirebaseHelper *wself = self;
         _user = [FIRAuth auth].currentUser;
-        [self initObserver];
         NSString *uid = _user.uid;
         [[[[self.ref child:@"users"] child:uid] child:@"profile"] observeSingleEventOfType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * _Nonnull snapshot) {
             if(snapshot && [snapshot.value isKindOfClass:[NSNull class]] == false){
                 NSLog(@"getProfileInfo: %@",snapshot.value);
                 [[User sharedInstance] setData:snapshot];
+                [self initObserver];
+
                 if ([[User sharedInstance] isAuthentication]) {
                     [self synData];
                     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -579,9 +594,9 @@
     NSDictionary *childUpdates = @{[NSString stringWithFormat:@"/users/%@/scene_details/%@", self.user.uid, sceneDetail.key]: dic};
     [_ref updateChildValues:childUpdates];
 }
--(void)deleteSceneDetail:(NSInteger )sceneId{
+-(void)deleteSceneDetail:(NSString *)code{
     NSString *keyPath = [NSString stringWithFormat:@"users/%@/scene_details",self.user.uid];
-    [[[[self.ref child:keyPath] queryOrderedByChild:@"scene_detail_code"] queryEqualToValue:@(sceneId)] observeEventType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * _Nonnull snapshot) {
+    [[[[self.ref child:keyPath] queryOrderedByChild:@"scene_detail_code"] queryEqualToValue:code] observeEventType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * _Nonnull snapshot) {
         if (snapshot && snapshot.childrenCount > 0) {
             for(FIRDataSnapshot *data in [snapshot children]){
                 [[[self.ref child:keyPath] child:data.key] removeValue];

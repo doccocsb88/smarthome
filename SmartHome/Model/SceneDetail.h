@@ -17,5 +17,13 @@
 
 @property (assign, nonatomic) BOOL isSelected;
 @property (strong, nonatomic) Device *device;
+@property (strong, nonatomic) NSString *chanels;
+@property (strong, nonatomic) NSMutableArray *chanelSelected;
+
 -(BOOL)isChanelOn:(int)chanel;
+
+-(void)setSelectedChanel:(NSInteger)chanel;
+-(BOOL)isChanelSelected:(NSInteger)chanel;
+-(BOOL)hasSelectedDevicel;
+-(NSInteger)numberOfChanel;
 @end

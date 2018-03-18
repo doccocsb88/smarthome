@@ -18,9 +18,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(backtoPrevious) name:@"kFirebaseLogout" object:nil];
     [self setupNavigator];
     [self setupUI];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(backtoPrevious) name:@"kFirebaseLogout" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(backtoPrevious) name:@"kFirebaseRemoveSceneDetail" object:nil];
+}
+-(void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"kFirebaseLogout" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"kFirebaseRemoveSceneDetail" object:nil];
+
 }
 
 - (void)didReceiveMemoryWarning {

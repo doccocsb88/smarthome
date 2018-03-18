@@ -36,6 +36,7 @@
         <relationship name="sceneDetail" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="SceneDetail" inverseName="scene" inverseEntity="SceneDetail" syncable="YES"/>
     </entity>
     <entity name="SceneDetail" representedClassName="SceneDetail" syncable="YES">
+        <attribute name="chanels" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="code" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="key" optional="YES" attributeType="String" syncable="YES"/>
@@ -68,7 +69,7 @@
         <element name="Device" positionX="-63" positionY="9" width="128" height="255"/>
         <element name="Room" positionX="-63" positionY="-18" width="128" height="180"/>
         <element name="Scene" positionX="-54" positionY="45" width="128" height="135"/>
-        <element name="SceneDetail" positionX="-45" positionY="72" width="128" height="150"/>
+        <element name="SceneDetail" positionX="-45" positionY="72" width="128" height="165"/>
         <element name="SHTimer" positionX="-54" positionY="90" width="128" height="315"/>
     </elements>
 </model>

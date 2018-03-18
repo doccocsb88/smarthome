@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Device.h"
+#import "User.h"
 @protocol EditDeviceDelegate <NSObject>
 -(void)selectMenuAtIndex:(NSInteger)index;
 @end

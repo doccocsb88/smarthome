@@ -45,7 +45,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [self initData];
+    [self loadData];
     [self setupUI];
     self.activityIndicatorView = [[SCSkypeActivityIndicatorView alloc] initWithFrame:CGRectMake((self.view.frame.size.width - LOADING_SIZE)/2, (self.view.frame.size.height - LOADING_SIZE)/2 - 64, LOADING_SIZE, LOADING_SIZE)];
     self.activityIndicatorView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
@@ -55,6 +55,8 @@
     [self.view addSubview:self.activityIndicatorView];
     // [MQTTService sharedInstance].delegate = self;
     [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(mqttBecomeActive) name:@"mqttapplicationDidBecomeActive" object:nil];
+    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(loadData) name:@"kFirebaseRemoveDevice" object:nil];
+    
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -63,30 +65,24 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [MQTTService sharedInstance].delegate = self;
-//    if (vc.qrType == QRCodeTypeDevice) {
-//        if (self.lastQRCode== nil) {
-//   ÷  @"B000263D" , @"B0000C03" , @"B00026A1",*/, nil];
-//    String[] curtains = {"CT1710000001","CT1710000003"};
 
-//    [self showQRResult:@"2;B00026A1"];
-//
-//        [self readTopicFromQRcode:@"QA_HCL_123"];
+
+}
+
+-(void)dealloc{
+    [NSNotificationCenter.defaultCenter removeObserver:self name:@"mqttapplicationDidBecomeActive" object:nil];
+    [NSNotificationCenter.defaultCenter removeObserver:self name:@"kFirebaseRemoveDevice" object:nil];
 
 }
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
+    NSLog(@"viewDidAppear");
     if ( [[MQTTService sharedInstance] isConnected] == false) {
         [self showLoadingView];
         
         [[MQTTService sharedInstance].session connectAndWaitTimeout:30];
     }else{
-        if (self.firstTime == false) {
-            
-            if (dataArray && dataArray.count > 0) {
-                [self showLoadingView];
-                [[MQTTService sharedInstance] setListDevices:dataArray];
-            }
-        }
+        [self requestStatusDevices ];
     }
     self.firstTime = true;
     [self setTitle:self.room.name connected:[MQTTService sharedInstance].isConnect];
@@ -97,7 +93,7 @@
     });
 }
 
--(void)initData{
+-(void)loadData{
     _curType = 0;
     _retry = 0;
     dataArray = [NSMutableArray new];
@@ -278,8 +274,32 @@
         [self showLoadingView];
         [[MQTTService sharedInstance].session connectAndWaitTimeout:30];
     
+    }else{
+        if ([MQTTService sharedInstance].isConnect){
+            [self requestStatusDevices];
+        }
     }
 }
+    
+    -(void)requestStatusDevices{
+        if (dataArray && dataArray.count > 0) {
+            if([self willShowLoadingView]){
+                [self showLoadingView];
+            }
+            [[MQTTService sharedInstance] setListDevices:dataArray];
+        }
+    }
+    
+    -(Boolean)willShowLoadingView{
+        if (dataArray && dataArray.count > 0) {
+            for (Device *device in dataArray){
+                if (device.isGetStatus == false){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 /*
  #pragma mark - Navigation
  

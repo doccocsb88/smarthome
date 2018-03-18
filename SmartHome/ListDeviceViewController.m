@@ -353,6 +353,7 @@
         TouchSwitchViewCell *cell = (TouchSwitchViewCell *)[tableView dequeueReusableCellWithIdentifier:@"TouchSwitchViewCell" forIndexPath:indexPath];
         cell.selectionStyle = UITableViewRowActionStyleDefault;
         __weak ListDeviceViewController *wSelf = self;
+        __weak TouchSwitchViewCell *wCell = cell;
         if (self.scene) {
             [cell setContentView:detail];
             cell.completionHandler = ^(NSString *value, NSInteger chanel) {
@@ -360,11 +361,25 @@
                 [[CoredataHelper sharedInstance] save];
                 [wSelf.tableView reloadData];
             };
-         
+            cell.handleSelectChanel = ^(NSInteger chanel) {
+                NSLog(@"select chanel :%ld :  %d",chanel,[detail isChanelSelected:chanel]);
+                if ([detail isChanelSelected:chanel]) {
+                    if ([selectedArray containsObject:detail] == false) {
+                        [selectedArray addObject:detail];
+                    }
+                }else{
+                    if ([detail hasSelectedDevicel] == false) {
+                        [selectedArray removeObject:detail];
+                    }
+                }
+                [wSelf handleAddDeviceToSceneDetail:indexPath];
+
+            };
         }else{
             [cell setContentView:device type:self.scene? 1 : 0 ];
             cell.controlHandler = ^{
                 wSelf.isProcessing = true;
+                wCell.isLoading = true;
                 [wSelf showLoadingView];
             };
         }
@@ -404,17 +419,7 @@
         }else{
             [selectedArray removeObject:detail];
         }
-        if (self.saveButton) {
-            if (selectedArray && selectedArray.count > 0) {
-                [self.saveButton setTitle:@"Lưu" forState:UIControlStateNormal];
-            }else{
-                [self.saveButton setTitle:@"Quay về" forState:UIControlStateNormal];
-
-            }
-        }
-        [self.tableView beginUpdates];
-        [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
-        [self.tableView endUpdates];
+        [self handleAddDeviceToSceneDetail:indexPath];
     }
     
 }
@@ -424,6 +429,19 @@
     return 0.01;
 }
 
+-(void)handleAddDeviceToSceneDetail:(NSIndexPath *)indexPath{
+    if (self.saveButton) {
+        if (selectedArray && selectedArray.count > 0) {
+            [self.saveButton setTitle:@"Lưu" forState:UIControlStateNormal];
+        }else{
+            [self.saveButton setTitle:@"Quay về" forState:UIControlStateNormal];
+            
+        }
+    }
+    [self.tableView beginUpdates];
+    [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+    [self.tableView endUpdates];
+}
 
 -(NSArray *)getSharedDevice:(Room *)room{
     NSMutableArray *sharedDevices = [NSMutableArray new];

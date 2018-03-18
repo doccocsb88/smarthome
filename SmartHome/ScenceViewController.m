@@ -26,8 +26,8 @@
     [self setupNavigator];
     [self setupUI];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadData) name:@"kFirebaseLogout" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadData) name:@"kFirebaseRemoveScene" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadData) name:@"kFirebasedidFinishSynScene" object:nil];
-
     
 }
 
@@ -42,7 +42,12 @@
     }
 
 }
+-(void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"kFirebaseLogout" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"kFirebaseRemoveScene" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"kFirebasedidFinishSynScene" object:nil];
 
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -380,7 +385,7 @@
             Scene *scene = [dataArray objectAtIndex:self.selectedIndex];
             [dataArray removeObject:scene];
             [[FirebaseHelper sharedInstance] deleteScene:scene.code];
-            [[FirebaseHelper sharedInstance] deleteSceneDetail:scene.id];
+            [[FirebaseHelper sharedInstance] deleteSceneDetail:scene.code];
             for (SceneDetail *detail in [scene.sceneDetail allObjects]){
                 [[CoredataHelper sharedInstance].context deleteObject:detail];
 

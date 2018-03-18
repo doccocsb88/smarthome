@@ -75,6 +75,8 @@
     self.device = detail.device;
     self.slider.value = detail.value;
     self.slider.tag = detail.id;
+    self.nameLabel.text  = detail.device.name;
+
 //    self.slider.userInteractionEnabled = type == 0;
 //    self.aButton.userInteractionEnabled = type == 0;
 //    self.bButton.userInteractionEnabled = type == 0;

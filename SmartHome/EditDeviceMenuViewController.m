@@ -46,11 +46,15 @@
     }else{
         [dataArray addObject:@"Cho phép tự động mở"];
     }
-    [dataArray addObject:@"Đổi tên thiêt bị"];
+    
+    if ([[User sharedInstance] isAdmin]) {
+        [dataArray addObject:@"Đổi tên thiêt bị"];
+        
+        [dataArray addObject:@"Thay biểu tượng"];
+        [dataArray addObject:@"Thông tin thiết bị"];
+        [dataArray addObject:@"Xoá thiết bị"];
+    }
 
-    [dataArray addObject:@"Thay biểu tượng"];
-    [dataArray addObject:@"Thông tin thiết bị"];
-    [dataArray addObject:@"Xoá thiết bị"];
     [dataArray addObject:@"Huỷ"];
 
 }

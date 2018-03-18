@@ -21,5 +21,12 @@
 
     // Configure the view for the selected state
 }
-
+-(void)setChanelSelected:(BOOL)selected{
+    if (selected) {
+        self.chanelBackgroundView.hidden = NO;
+        self.chanelBackgroundView.backgroundColor = [UIColor redColor];
+    }else{
+        self.chanelBackgroundView.hidden = YES;
+    }
+}
 @end

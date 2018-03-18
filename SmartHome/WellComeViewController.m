@@ -41,13 +41,13 @@
     // Do any additional setup after loading the view from its nib.
     self.contentLabel = [UILabel new];
     self.contentLabel.frame = CGRectMake(20, 20, self.contentSizeInPopup.width - 40, self.contentSizeInPopup.height - 150);
-    self.contentLabel.text = @"- Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text \n\n- Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text ";
+    self.contentLabel.text = @"- Chọn \"cài đặt mới\" nếu bạn muốn cài đặt một hệ thống mới từ đầu. Bạn sẽ là người quản lý hệ thống và chia sẽ quyền sử dụng cho các thành viên khác trong nhà .\n\n- Chọn \"Nhận dữ liệu từ máy khác\" để đăng ký quyền kết nối vào hệ thống đã được cài đặt bởi thành viên khác.";
     self.contentLabel.numberOfLines = 0;
     self.contentLabel.lineBreakMode = NSLineBreakByTruncatingTail;
     [self.contentLabel sizeToFit];
 
     self.contentLabel.textAlignment = NSTextAlignmentLeft;
-    self.contentLabel.backgroundColor = [UIColor redColor];
+    self.contentLabel.backgroundColor = [UIColor whiteColor];
     //
     self.startButton = [UIButton new];
     self.startButton.frame = CGRectMake(20, self.contentSizeInPopup.height - 100, self.contentSizeInPopup.width - 40, 40);

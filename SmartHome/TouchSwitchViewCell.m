@@ -60,6 +60,12 @@
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+//    if (self.isScene) {
+//        if (self.detail) {
+//            return [self.detail numberOfChanel];
+//        }
+//        return 0;
+//    }
     return 3;
 }
 
@@ -80,6 +86,9 @@
     float deviceValue = self.device.value;
     if (self.isScene) {
         deviceValue = self.detail.value;
+        [cell setChanelSelected:[self.detail isChanelSelected:indexPath.row + 1]];
+    }else{
+        [cell setChanelSelected:false];
     }
     if (indexPath.row == 0) {
         if ((int)deviceValue % 2 == 0) {
@@ -116,7 +125,14 @@
     [cell.controlButton addTarget:self action:@selector(didPressedControl:) forControlEvents:UIControlEventTouchUpInside];
     return cell;
 }
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (self.handleSelectChanel) {
+        [self.detail setSelectedChanel:indexPath.row + 1];
 
+        self.handleSelectChanel(indexPath.row + 1);
+        [self.tableView reloadData];
+    }
+}
 /**/
 -(void)didPressedOnOff:(UIButton *)sender{
     NSLog(@"TouchSwitchViewCell : ");

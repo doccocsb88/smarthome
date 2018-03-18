@@ -7,13 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreData/CoreData.h>
+
 @import Firebase;
 typedef enum AccountType:NSInteger{
     AccountTypeUnknow,
     AccountTypeAdmin,
     AccountTypeMember
 }AccountType;
-@interface User : NSObject
+@interface User : NSObject /*NSManagedObject*/
 @property (strong, nonatomic) NSString *username;
 @property (strong, nonatomic) NSString *displayName;
 @property (strong, nonatomic) NSString *email;

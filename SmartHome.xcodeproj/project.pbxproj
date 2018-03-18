@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1807C6C0205E6F3B0086E45A /* SHTimer+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 1807C6BF205E6F3B0086E45A /* SHTimer+CoreDataProperties.m */; };
 		1813662F1E8A9C3A0075CA93 /* GalleryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1813662E1E8A9C3A0075CA93 /* GalleryViewController.m */; };
 		181885CC1E9019D500F5609D /* ESP_ByteUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 181885AB1E9019D500F5609D /* ESP_ByteUtil.m */; };
 		181885CD1E9019D500F5609D /* ESP_CRC8.m in Sources */ = {isa = PBXBuildFile; fileRef = 181885AD1E9019D500F5609D /* ESP_CRC8.m */; };
@@ -103,7 +104,6 @@
 		5F2D4B171F239E09007B7D13 /* HTKSampleCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F2D4B141F239E09007B7D13 /* HTKSampleCollectionViewController.m */; };
 		5F2D4B181F239E09007B7D13 /* HTKSampleCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F2D4B161F239E09007B7D13 /* HTKSampleCollectionViewCell.m */; };
 		5F3187941F2B8E6D00090F4A /* SHTimer+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F3187911F2B8E6D00090F4A /* SHTimer+CoreDataClass.m */; };
-		5F3187951F2B8E6D00090F4A /* SHTimer+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F3187931F2B8E6D00090F4A /* SHTimer+CoreDataProperties.m */; };
 		5F34679E1F1CFFCE00223553 /* Room+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F34679B1F1CFFCE00223553 /* Room+CoreDataClass.m */; };
 		5F34679F1F1CFFCE00223553 /* Room+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F34679D1F1CFFCE00223553 /* Room+CoreDataProperties.m */; };
 		5F52A44E1F1355E000A0819C /* NSString+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F52A44D1F1355E000A0819C /* NSString+Utils.m */; };
@@ -114,6 +114,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1807C6BF205E6F3B0086E45A /* SHTimer+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SHTimer+CoreDataProperties.m"; sourceTree = "<group>"; };
 		1813662D1E8A9C3A0075CA93 /* GalleryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GalleryViewController.h; sourceTree = "<group>"; };
 		1813662E1E8A9C3A0075CA93 /* GalleryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GalleryViewController.m; sourceTree = "<group>"; };
 		181885AA1E9019D500F5609D /* ESP_ByteUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ESP_ByteUtil.h; path = SmartConfig/ESP_ByteUtil.h; sourceTree = "<group>"; };
@@ -285,7 +286,6 @@
 		5F3187901F2B8E6D00090F4A /* SHTimer+CoreDataClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SHTimer+CoreDataClass.h"; sourceTree = "<group>"; };
 		5F3187911F2B8E6D00090F4A /* SHTimer+CoreDataClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SHTimer+CoreDataClass.m"; sourceTree = "<group>"; };
 		5F3187921F2B8E6D00090F4A /* SHTimer+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SHTimer+CoreDataProperties.h"; sourceTree = "<group>"; };
-		5F3187931F2B8E6D00090F4A /* SHTimer+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SHTimer+CoreDataProperties.m"; sourceTree = "<group>"; };
 		5F34679A1F1CFFCE00223553 /* Room+CoreDataClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Room+CoreDataClass.h"; sourceTree = "<group>"; };
 		5F34679B1F1CFFCE00223553 /* Room+CoreDataClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Room+CoreDataClass.m"; sourceTree = "<group>"; };
 		5F34679C1F1CFFCE00223553 /* Room+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Room+CoreDataProperties.h"; sourceTree = "<group>"; };
@@ -373,6 +373,29 @@
 			name = SmartConfig;
 			sourceTree = "<group>";
 		};
+		182AEA59205E6D0C005A30E8 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				185E78681E95E8EC0048B450 /* Scene.h */,
+				185E78691E95E8EC0048B450 /* Scene.m */,
+				185E78711E96A8C50048B450 /* SceneDetail.h */,
+				185E78721E96A8C50048B450 /* SceneDetail.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		182AEA5A205E6D21005A30E8 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				5F3187911F2B8E6D00090F4A /* SHTimer+CoreDataClass.m */,
+				5F3187921F2B8E6D00090F4A /* SHTimer+CoreDataProperties.h */,
+				5F3187901F2B8E6D00090F4A /* SHTimer+CoreDataClass.h */,
+				1807C6BF205E6F3B0086E45A /* SHTimer+CoreDataProperties.m */,
+			);
+			name = Model;
+			path = "New Group";
+			sourceTree = "<group>";
+		};
 		183F555C2003282900B072A9 /* Member */ = {
 			isa = PBXGroup;
 			children = (
@@ -450,6 +473,7 @@
 		184E5C5B2052EC740028B003 /* Timer */ = {
 			isa = PBXGroup;
 			children = (
+				182AEA5A205E6D21005A30E8 /* Model */,
 				184E5C5C2052EC880028B003 /* Controller */,
 			);
 			name = Timer;
@@ -469,6 +493,7 @@
 		187264EB20068FD700C2CF9B /* Scene */ = {
 			isa = PBXGroup;
 			children = (
+				182AEA59205E6D0C005A30E8 /* Model */,
 				187264EC20068FFB00C2CF9B /* Controller */,
 			);
 			name = Scene;
@@ -497,6 +522,10 @@
 		188E61D5204E354B008DD7DD /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				5F34679A1F1CFFCE00223553 /* Room+CoreDataClass.h */,
+				5F34679B1F1CFFCE00223553 /* Room+CoreDataClass.m */,
+				5F34679C1F1CFFCE00223553 /* Room+CoreDataProperties.h */,
+				5F34679D1F1CFFCE00223553 /* Room+CoreDataProperties.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -551,14 +580,6 @@
 		18C8DFC71E895BF200DC5330 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				5F3187901F2B8E6D00090F4A /* SHTimer+CoreDataClass.h */,
-				5F3187911F2B8E6D00090F4A /* SHTimer+CoreDataClass.m */,
-				5F3187921F2B8E6D00090F4A /* SHTimer+CoreDataProperties.h */,
-				5F3187931F2B8E6D00090F4A /* SHTimer+CoreDataProperties.m */,
-				5F34679A1F1CFFCE00223553 /* Room+CoreDataClass.h */,
-				5F34679B1F1CFFCE00223553 /* Room+CoreDataClass.m */,
-				5F34679C1F1CFFCE00223553 /* Room+CoreDataProperties.h */,
-				5F34679D1F1CFFCE00223553 /* Room+CoreDataProperties.m */,
 				18E4E6F11E8D447C001CCED3 /* Device.h */,
 				18E4E6F21E8D447C001CCED3 /* Device.m */,
 				18E4E6F41E8D4D94001CCED3 /* RemViewCell.h */,
@@ -569,12 +590,8 @@
 				18DBF42D1E8EA65C00311D72 /* LightValueViewCell.m */,
 				18DBF42F1E8EC10E00311D72 /* BaseViewCell.h */,
 				18DBF4301E8EC10E00311D72 /* BaseViewCell.m */,
-				185E78681E95E8EC0048B450 /* Scene.h */,
-				185E78691E95E8EC0048B450 /* Scene.m */,
 				185E786B1E95E9150048B450 /* AbtractObject.h */,
 				185E786C1E95E9150048B450 /* AbtractObject.m */,
-				185E78711E96A8C50048B450 /* SceneDetail.h */,
-				185E78721E96A8C50048B450 /* SceneDetail.m */,
 				5F09E96A1F23631F00B3AD47 /* SortRoomViewCell.h */,
 				5F09E96B1F23631F00B3AD47 /* SortRoomViewCell.m */,
 				18B6DD391F60569300225B32 /* NewSlider.h */,
@@ -987,9 +1004,9 @@
 				183F5570200330D000B072A9 /* MemberDetailViewCell.m in Sources */,
 				188A92AA2007EE2300143E26 /* KLCPopup.m in Sources */,
 				184000A11E841B6E000A7ECB /* AddMenuViewCell.m in Sources */,
-				5F3187951F2B8E6D00090F4A /* SHTimer+CoreDataProperties.m in Sources */,
 				18F1336C2001E73E008A5E55 /* AccountViewController.m in Sources */,
 				18E3186A2009FBE3002015BA /* WellComeViewController.m in Sources */,
+				1807C6C0205E6F3B0086E45A /* SHTimer+CoreDataProperties.m in Sources */,
 				1840009E1E841873000A7ECB /* AddMenuViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

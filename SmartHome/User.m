@@ -9,6 +9,15 @@
 #import "User.h"
 
 @implementation User
+//@dynamic username;
+//@dynamic displayName;
+//@dynamic email;
+//@dynamic password;
+//@dynamic node;
+//@dynamic active;
+//@dynamic isShared;
+//@dynamic accountType;
+//@synthesize devices;
 + (instancetype)sharedInstance
 {
     static User *sharedInstance = nil;
@@ -20,6 +29,8 @@
     });
     return sharedInstance;
 }
+
+
 //    accountType = 1;
 //    active = 1;
 //    displayName = "Anh Hai";

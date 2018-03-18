@@ -12,5 +12,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *onOffButton;
 @property (weak, nonatomic) IBOutlet UIButton *controlButton;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
-
+@property (weak, nonatomic) IBOutlet UIView *chanelBackgroundView;
+-(void)setChanelSelected:(BOOL)selected;
 @end

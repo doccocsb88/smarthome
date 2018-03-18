@@ -37,12 +37,12 @@
 @property (assign, nonatomic) BOOL isConnect;
 @property (assign, nonatomic) BOOL isConnecting;
 
-@property (strong, nonatomic) id<MQTTServiceDelegate> delegate;
+@property (weak, nonatomic) id<MQTTServiceDelegate> delegate;
 @property (strong, nonatomic) MQTTSession *session;
 @property (strong, nonatomic) NSMutableArray *dataArray;
 @property (strong, nonatomic) NSMutableArray *publishedTopic;
 @property (strong, nonatomic) NSMutableArray *publishingTopic;
-
+-(void)disconect;
 -(BOOL)isConnected;
 -(void)removeListDevices:(NSArray *)devices;
 -(void)setListDevices:(NSArray *)devices;

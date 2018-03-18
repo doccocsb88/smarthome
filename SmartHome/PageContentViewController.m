@@ -50,11 +50,7 @@
     [self initPageViewController];
     [self setupPageControl];
     //
-    NSString *value = @"id='xxxx' cmd='DELOK'";
-    NSArray *arrs = [value componentsSeparatedByString:@"'"];
-    for (NSString *x in arrs){
-        NSLog(@"cc : %@",x);
-    }
+
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -99,15 +95,8 @@
 //
 //        });
     }
-
-//    });
- 
-    
-    
-    
  
     self.navigationController.navigationBarHidden = NO;
-
 }
 -(void)initNotification{
     [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(handleMqttConnectEvent:) name:@"kMqttConnectToServer" object:nil];
@@ -450,13 +439,15 @@
     self.pageControl.currentPage = [self currentControllerIndex];
 }
 #pragma mark - SortRoomDelegate
+
 -(void)mqttBecomeActive{
     NSLog(@"becomeActive");
     if ([MQTTService sharedInstance].isConnect == false && [MQTTService sharedInstance].isConnecting == false) {
         [MQTTService sharedInstance].isConnecting = true;
-
         [[MQTTService sharedInstance].session connectAndWaitTimeout:30];
     }
+    [[MQTTService sharedInstance] clearPublishDevice];
+    [[MQTTService sharedInstance] clearRequestStatusDevice];
 }
 -(void)handleMqttConnectEvent:(NSNotification *)notification{
     NSDictionary *info = notification.userInfo;
@@ -491,6 +482,11 @@
         self.stageView.hidden = NO;
     }
 }
+-(void)mqttConnected{
+    self.stageView.hidden = YES;
+    self.connectionMessageLabel.text = @"Kết nối thành công";
+}
+
 -(void)didSortRoom{
     [self loadRoomFromDB];
     _curIndex = [self currentControllerIndex];
