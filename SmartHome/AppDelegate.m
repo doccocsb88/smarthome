@@ -12,6 +12,7 @@
 #import "ESPViewController.h"
 #import "ESP_NetUtil.h"
 //#import "BaseService.h"
+#import <Reachability.h>
 #import <SystemConfiguration/CaptiveNetwork.h>
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 @import GoogleSignIn;
@@ -19,6 +20,10 @@
 //tug885495
 @import Firebase;
 @interface AppDelegate ()<UIApplicationDelegate, GIDSignInDelegate>
+{
+    Reachability* internetReachable;
+    Reachability* hostReachable;
+}
 
 @end
 
@@ -66,7 +71,15 @@
     //GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
     [GIDSignIn sharedInstance].clientID = [FIRApp defaultApp].options.clientID;
     [GIDSignIn sharedInstance].delegate = self;
+    //
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkNetworkStatus:) name:kReachabilityChangedNotification object:nil];
+
+    internetReachable = [Reachability reachabilityForInternetConnection];
+    [internetReachable startNotifier];
     
+    // check if a pathway to a random host exists
+    hostReachable = [Reachability reachabilityWithHostName:@"www.apple.com"];
+    [hostReachable startNotifier];
     return YES;
 }
 
@@ -273,5 +286,57 @@ didDisconnectWithUser:(GIDGoogleUser *)user
     NSUserDefaults *pref = [NSUserDefaults standardUserDefaults];
     [pref setBool:true forKey:@"init"];
 }
-
+-(void) checkNetworkStatus:(NSNotification *)notice{
+    NetworkStatus internetStatus = [internetReachable currentReachabilityStatus];
+    switch (internetStatus)
+    {
+        case NotReachable:
+        {
+            NSLog(@"The internet is down.");
+            self.internetActive = NO;
+            
+            break;
+        }
+        case ReachableViaWiFi:
+        {
+            NSLog(@"The internet is working via WIFI.");
+            self.internetActive = YES;
+            
+            break;
+        }
+        case ReachableViaWWAN:
+        {
+            NSLog(@"The internet is working via WWAN.");
+            self.internetActive = YES;
+            
+            break;
+        }
+    }
+    NSLog(@"checkNetworkStatus %d",self.internetActive);
+    NetworkStatus hostStatus = [hostReachable currentReachabilityStatus];
+    switch (hostStatus)
+    {
+        case NotReachable:
+        {
+            NSLog(@"A gateway to the host server is down.");
+            self.hostActive = NO;
+            
+            break;
+        }
+        case ReachableViaWiFi:
+        {
+            NSLog(@"A gateway to the host server is working via WIFI.");
+            self.hostActive = YES;
+            
+            break;
+        }
+        case ReachableViaWWAN:
+        {
+            NSLog(@"A gateway to the host server is working via WWAN.");
+            self.hostActive = YES;
+            
+            break;
+        }
+    }
+}
 @end

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0700"
+   LastUpgradeVersion = "0930"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -13,11 +13,11 @@
             buildForProfiling = "YES"
             buildForArchiving = "YES">
             <BuildableReference
-               BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '74D2BA324DD1646687C46D757651B5C2'
-               BlueprintName = 'STPopup'
-               ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'libSTPopup.a'>
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "230ED52E88F980B490167129E268297D"
+               BlueprintName = "STPopup"
+               ReferencedContainer = "container:Pods.xcodeproj"
+               BuildableName = "libSTPopup.a">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

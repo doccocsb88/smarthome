@@ -45,6 +45,7 @@
 		185E78731E96A8C50048B450 /* SceneDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 185E78721E96A8C50048B450 /* SceneDetail.m */; };
 		186DADFC1EAB503A00D00206 /* UIImage+Color.m in Sources */ = {isa = PBXBuildFile; fileRef = 186DADFB1EAB503A00D00206 /* UIImage+Color.m */; };
 		188A92AA2007EE2300143E26 /* KLCPopup.m in Sources */ = {isa = PBXBuildFile; fileRef = 188A92A82007EE2200143E26 /* KLCPopup.m */; };
+		188CF321205FA47C0099B630 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 188CF320205FA47C0099B630 /* SystemConfiguration.framework */; };
 		188E61D9204E365C008DD7DD /* TouchSwitchViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 188E61D6204E365C008DD7DD /* TouchSwitchViewCell.m */; };
 		188E61DA204E365C008DD7DD /* TouchSwitchViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 188E61D8204E365C008DD7DD /* TouchSwitchViewCell.xib */; };
 		188E61DE204E78EE008DD7DD /* ChannelViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 188E61DC204E78EE008DD7DD /* ChannelViewCell.m */; };
@@ -188,6 +189,7 @@
 		186DADFB1EAB503A00D00206 /* UIImage+Color.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Color.m"; sourceTree = "<group>"; };
 		188A92A82007EE2200143E26 /* KLCPopup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KLCPopup.m; path = "../../../Downloads/KLCPopup-master/KLCPopup/KLCPopup.m"; sourceTree = "<group>"; };
 		188A92A92007EE2300143E26 /* KLCPopup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KLCPopup.h; path = "../../../Downloads/KLCPopup-master/KLCPopup/KLCPopup.h"; sourceTree = "<group>"; };
+		188CF320205FA47C0099B630 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		188E61D6204E365C008DD7DD /* TouchSwitchViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TouchSwitchViewCell.m; sourceTree = "<group>"; };
 		188E61D7204E365C008DD7DD /* TouchSwitchViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchSwitchViewCell.h; sourceTree = "<group>"; };
 		188E61D8204E365C008DD7DD /* TouchSwitchViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TouchSwitchViewCell.xib; sourceTree = "<group>"; };
@@ -322,6 +324,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				188CF321205FA47C0099B630 /* SystemConfiguration.framework in Frameworks */,
 				18D2FDEA1F768BC900B98CE1 /* QuartzCore.framework in Frameworks */,
 				18D2FDE81F768BC400B98CE1 /* CoreGraphics.framework in Frameworks */,
 				18D2FDE61F768BBE00B98CE1 /* OpenGLES.framework in Frameworks */,
@@ -771,6 +774,7 @@
 		9069C3FAB68F2B885402180C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				188CF320205FA47C0099B630 /* SystemConfiguration.framework */,
 				18D2FDE91F768BC900B98CE1 /* QuartzCore.framework */,
 				18D2FDE71F768BC400B98CE1 /* CoreGraphics.framework */,
 				18D2FDE51F768BBE00B98CE1 /* OpenGLES.framework */,
@@ -883,13 +887,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-SmartHome-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		7A2601AD4EF55AE2B5C57C62 /* [CP] Embed Pods Frameworks */ = {
@@ -913,9 +920,28 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-SmartHome/Pods-SmartHome-resources.sh",
+				"${PODS_ROOT}/FBSDKCoreKit/FacebookSDKStrings.bundle",
+				"${PODS_ROOT}/GPUImage/framework/Resources/lookup.png",
+				"${PODS_ROOT}/GPUImage/framework/Resources/lookup_amatorka.png",
+				"${PODS_ROOT}/GPUImage/framework/Resources/lookup_miss_etikate.png",
+				"${PODS_ROOT}/GPUImage/framework/Resources/lookup_soft_elegance_1.png",
+				"${PODS_ROOT}/GPUImage/framework/Resources/lookup_soft_elegance_2.png",
+				"${PODS_ROOT}/GTMOAuth2/Source/Touch/GTMOAuth2ViewTouch.xib",
+				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
+				"${PODS_ROOT}/SVProgressHUD/SVProgressHUD/SVProgressHUD.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FacebookSDKStrings.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/lookup.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/lookup_amatorka.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/lookup_miss_etikate.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/lookup_soft_elegance_1.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/lookup_soft_elegance_2.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GTMOAuth2ViewTouch.nib",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SVProgressHUD.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

@@ -16,6 +16,7 @@
 #import "BaseViewController.h"
 #import "FirebaseHelper.h"
 #import "User.h"
+#import <Reachability.h>
 @interface PageContentViewController : BaseViewController
 @property (assign, nonatomic) NSInteger roomtype;
 @property (strong, nonatomic) NSString *roomname;

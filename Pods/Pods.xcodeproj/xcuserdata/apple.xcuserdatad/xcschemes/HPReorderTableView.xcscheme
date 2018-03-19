@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0700"
+   LastUpgradeVersion = "0930"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -13,11 +13,11 @@
             buildForProfiling = "YES"
             buildForArchiving = "YES">
             <BuildableReference
-               BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'B211FA10234656BC8836D01151A9EEF1'
-               BlueprintName = 'HPReorderTableView'
-               ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'libHPReorderTableView.a'>
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "B211FA10234656BC8836D01151A9EEF1"
+               BlueprintName = "HPReorderTableView"
+               ReferencedContainer = "container:Pods.xcodeproj"
+               BuildableName = "libHPReorderTableView.a">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

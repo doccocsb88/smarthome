@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0700"
+   LastUpgradeVersion = "0930"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -13,11 +13,11 @@
             buildForProfiling = "YES"
             buildForArchiving = "YES">
             <BuildableReference
-               BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'EC5D8BF3B6A4D5696001EEB44EF0096A'
-               BlueprintName = 'CCMPopup'
-               ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'libCCMPopup.a'>
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "EC5D8BF3B6A4D5696001EEB44EF0096A"
+               BlueprintName = "CCMPopup"
+               ReferencedContainer = "container:Pods.xcodeproj"
+               BuildableName = "libCCMPopup.a">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

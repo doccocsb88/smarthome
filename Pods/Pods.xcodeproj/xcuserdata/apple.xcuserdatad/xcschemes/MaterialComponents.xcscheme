@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0700"
+   LastUpgradeVersion = "0930"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -13,11 +13,11 @@
             buildForProfiling = "YES"
             buildForArchiving = "YES">
             <BuildableReference
-               BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '93CE32DF6BA3D990331BAD4BB1D09347'
-               BlueprintName = 'MaterialComponents'
-               ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'libMaterialComponents.a'>
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "93CE32DF6BA3D990331BAD4BB1D09347"
+               BlueprintName = "MaterialComponents"
+               ReferencedContainer = "container:Pods.xcodeproj"
+               BuildableName = "libMaterialComponents.a">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

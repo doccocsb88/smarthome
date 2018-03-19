@@ -14,7 +14,8 @@
 @property (strong, nonatomic) UIWindow *window;
 
 @property (readonly, strong) NSPersistentContainer *persistentContainer;
-
+@property (assign, nonatomic) BOOL internetActive;
+@property (assign, nonatomic) BOOL hostActive;
 - (void)saveContext;
 - (NSString *)fetchBssid;
 - (NSString *)fetchSsid;

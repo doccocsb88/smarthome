@@ -36,7 +36,7 @@
     if ( [[MQTTService sharedInstance] isConnected] == false) {
         [self showLoadingView];
         
-        [[MQTTService sharedInstance].session connectAndWaitTimeout:30];
+        [[MQTTService sharedInstance] conect];
     }else{
 //        [[MQTTService sharedInstance] setListDevices:dataArray];
     }

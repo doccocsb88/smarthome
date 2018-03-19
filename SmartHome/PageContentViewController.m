@@ -24,6 +24,7 @@
 //    // Instantiate the view controller
 //    QRCodeReaderViewController *vc;
     NSMutableArray *vcs;
+ 
 }
 //@property (strong, nonatomic) UIPageViewController *pageController;
 @property (strong, nonatomic) UIButton *rightButton;
@@ -65,6 +66,8 @@
     }
     [self.view bringSubviewToFront:self.stageView];
     self.navigationController.navigationBarHidden = NO;
+    
+
     
     
 
@@ -444,7 +447,7 @@
     NSLog(@"becomeActive");
     if ([MQTTService sharedInstance].isConnect == false && [MQTTService sharedInstance].isConnecting == false) {
         [MQTTService sharedInstance].isConnecting = true;
-        [[MQTTService sharedInstance].session connectAndWaitTimeout:30];
+        [[MQTTService sharedInstance] conect];
     }
     [[MQTTService sharedInstance] clearPublishDevice];
     [[MQTTService sharedInstance] clearRequestStatusDevice];
@@ -514,4 +517,6 @@
     }
 
 }
+
+
 @end

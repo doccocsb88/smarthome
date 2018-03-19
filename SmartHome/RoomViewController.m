@@ -80,7 +80,7 @@
     if ( [[MQTTService sharedInstance] isConnected] == false) {
         [self showLoadingView];
         
-        [[MQTTService sharedInstance].session connectAndWaitTimeout:30];
+        [[MQTTService sharedInstance] conect];
     }else{
         [self requestStatusDevices ];
     }
@@ -272,7 +272,7 @@
     if ([MQTTService sharedInstance].isConnect == false && _retry == 0) {
         _retry = 1;
         [self showLoadingView];
-        [[MQTTService sharedInstance].session connectAndWaitTimeout:30];
+        [[MQTTService sharedInstance] conect];
     
     }else{
         if ([MQTTService sharedInstance].isConnect){
@@ -810,7 +810,7 @@
         if (_retry == 0 ) {
             
             _retry = 1;
-            [[MQTTService sharedInstance].session connectAndWaitTimeout:30];
+            [[MQTTService sharedInstance] conect];
         }else{
             [[MQTTService sharedInstance] removeListDevices:dataArray];
             [self setTitle:self.room.name connected:NO];

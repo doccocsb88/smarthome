@@ -77,7 +77,7 @@
         if ( [[MQTTService sharedInstance] isConnected] == false) {
             [self showLoadingView];
             
-            [[MQTTService sharedInstance].session connectAndWaitTimeout:30];
+            [[MQTTService sharedInstance] conect];
         }else{
             NSMutableArray *allDevice = [NSMutableArray new];
             for (Room *room in dataArray) {
@@ -728,7 +728,7 @@
         if (_retry == 0 ) {
             
             _retry = 1;
-            [[MQTTService sharedInstance].session connectAndWaitTimeout:30];
+            [[MQTTService sharedInstance] conect];
         }else{
             [[MQTTService sharedInstance] removeListDevices:dataArray];
             [self hideLoadingView];

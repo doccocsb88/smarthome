@@ -43,6 +43,7 @@
 @property (strong, nonatomic) NSMutableArray *publishedTopic;
 @property (strong, nonatomic) NSMutableArray *publishingTopic;
 -(void)disconect;
+-(void)conect;
 -(BOOL)isConnected;
 -(void)removeListDevices:(NSArray *)devices;
 -(void)setListDevices:(NSArray *)devices;

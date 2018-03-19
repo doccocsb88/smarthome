@@ -23,5 +23,6 @@ pod 'GoogleSignIn'
 pod 'Firebase/Auth'
 pod 'STPopup', '~> 1.8'
 pod 'SVProgressHUD'
+pod 'Reachability', '~> 3.2'
 
 end

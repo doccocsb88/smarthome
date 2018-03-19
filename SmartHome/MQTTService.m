@@ -10,6 +10,8 @@
 #import "Utils.h"
 #import "NSString+Utils.h"
 #import "FirebaseHelper.h"
+#import "AppDelegate.h"
+#import <Reachability.h>
 #define CHECK_PUBLISH_TIME 2
 #define REQUEST_STATUS_TIME 0.5
 #define REQUEST_QOS 0
@@ -46,7 +48,6 @@ static MQTTService *instance = nil;
 
 - (void)setUP {
     if (_isInit == false) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"kMqttConnectToServer" object:nil userInfo:@{@"result":@"0"}];
         MQTTCFSocketTransport *transport = [[MQTTCFSocketTransport alloc] init];
         transport.host = @"quocanhtest.dyndns.tv";
         transport.port = 1883;
@@ -56,13 +57,16 @@ static MQTTService *instance = nil;
         _session.keepAliveInterval = 120;
         _session.delegate = self;
         _isConnecting = true;
-        [_session connectAndWaitTimeout:30];
+//        [self conect];
         NSLog(@"aabbccddeeff");
         //
         self.publishedTopic = [[NSMutableArray alloc] init];
         self.publishingTopic = [[NSMutableArray alloc] init];
         _isInit = true;
-        [_session disconnect];
+//        [_session disconnect];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"kMqttConnectToServer" object:nil userInfo:@{@"result":@"0"}];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(conect) name:kReachabilityChangedNotification object:nil];
+
     }
 
    
@@ -395,6 +399,13 @@ static MQTTService *instance = nil;
 //        [_session disconnect];
 //    }
 }
+-(void)conect{
+    AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+
+        if(_session && appDelegate.internetActive){
+            [_session connectAndWaitTimeout:30];
+        }
+}
 -(void)connected:(MQTTSession *)session{
     NSLog(@"connected");
     [self handleMQTTConnectionSucess];
@@ -415,6 +426,7 @@ static MQTTService *instance = nil;
     if (eventCode == MQTTSessionEventConnected){
         [self handleMQTTConnectionSucess];
     }else if (eventCode == MQTTSessionEventConnectionClosed){
+    
     }else{
         [self handleMQTTConnectionError];
 
@@ -456,10 +468,7 @@ static MQTTService *instance = nil;
         [self.delegate mqttDisConnect];
     }
     [[NSNotificationCenter defaultCenter] postNotificationName:@"kMqttConnectToServer" object:nil userInfo:@{@"result":@"3"}];
-    
-    if (_session) {
-        [_session connectAndWaitTimeout:30];
-    }
+    [self conect];
 
 }
 -(void)handleMQTTConnectionSucess{
