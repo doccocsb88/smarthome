@@ -142,11 +142,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartHome/RoomViewController.m"
-            timestampString = "543142638.564278"
+            timestampString = "543263645.478269"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "473"
-            endingLineNumber = "473"
+            startingLineNumber = "488"
+            endingLineNumber = "488"
             landmarkName = "-pressedSetup:"
             landmarkType = "7">
          </BreakpointContent>
@@ -168,11 +168,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartHome/RoomViewController.m"
-            timestampString = "543142638.5643539"
+            timestampString = "543263645.478917"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "419"
-            endingLineNumber = "419"
+            startingLineNumber = "433"
+            endingLineNumber = "433"
             landmarkName = "-tableView:moveRowAtIndexPath:toIndexPath:"
             landmarkType = "7">
          </BreakpointContent>
@@ -184,11 +184,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartHome/RoomViewController.m"
-            timestampString = "543142638.5644031"
+            timestampString = "543263645.4793611"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "505"
-            endingLineNumber = "505"
+            startingLineNumber = "520"
+            endingLineNumber = "520"
             landmarkName = "-filterWithTag:"
             landmarkType = "7">
          </BreakpointContent>
@@ -200,11 +200,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartHome/RoomViewController.m"
-            timestampString = "543142638.564445"
+            timestampString = "543263645.479829"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "518"
-            endingLineNumber = "518"
+            startingLineNumber = "533"
+            endingLineNumber = "533"
             landmarkName = "-setSelectedFiler"
             landmarkType = "7">
          </BreakpointContent>
@@ -216,11 +216,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartHome/RoomViewController.m"
-            timestampString = "543142638.564486"
+            timestampString = "543263645.4802769"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "619"
-            endingLineNumber = "619"
+            startingLineNumber = "634"
+            endingLineNumber = "634"
             landmarkName = "-didChangeCellState:value:"
             landmarkType = "7">
          </BreakpointContent>
@@ -232,11 +232,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartHome/RoomViewController.m"
-            timestampString = "543142638.564528"
+            timestampString = "543263645.481172"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "629"
-            endingLineNumber = "629"
+            startingLineNumber = "644"
+            endingLineNumber = "644"
             landmarkName = "-didChangeCell:value:"
             landmarkType = "7">
          </BreakpointContent>
@@ -248,11 +248,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartHome/RoomViewController.m"
-            timestampString = "543142638.564569"
+            timestampString = "543263645.4817311"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "762"
-            endingLineNumber = "762"
+            startingLineNumber = "777"
+            endingLineNumber = "777"
             landmarkName = "-removeDevieWithId:"
             landmarkType = "7">
          </BreakpointContent>
@@ -296,7 +296,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartHome/FirebaseHelper.m"
-            timestampString = "543086386.1242189"
+            timestampString = "543263645.4823821"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "30"
@@ -328,7 +328,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartHome/FirebaseHelper.m"
-            timestampString = "543086386.124299"
+            timestampString = "543263645.48254"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "114"
@@ -344,7 +344,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartHome/FirebaseHelper.m"
-            timestampString = "543086386.124351"
+            timestampString = "543263645.482636"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "201"
@@ -376,7 +376,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartHome/FirebaseHelper.m"
-            timestampString = "543086386.124418"
+            timestampString = "543263645.482762"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "210"
@@ -392,7 +392,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartHome/FirebaseHelper.m"
-            timestampString = "543086386.124469"
+            timestampString = "543263645.48285"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "209"
@@ -424,7 +424,7 @@
                   moduleName = "SmartHome"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/apple/Dropbox/smarthome-master/SmartHome/AccountViewController.m"
-                  timestampString = "543142548.938567"
+                  timestampString = "543169309.378089"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "166"
@@ -439,7 +439,7 @@
                   moduleName = "SmartHome"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/apple/Dropbox/smarthome-master/SmartHome/AccountViewController.m"
-                  timestampString = "543142548.941564"
+                  timestampString = "543169309.379793"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "166"
@@ -520,12 +520,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartHome/FirebaseHelper.m"
-            timestampString = "543086386.124588"
+            timestampString = "543263645.483104"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "730"
-            endingLineNumber = "730"
-            landmarkName = "-shareDevice:forUser:"
+            startingLineNumber = "753"
+            endingLineNumber = "753"
+            landmarkName = "-hasDeviceInSystem:completion:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -552,7 +552,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartHome/APPChildViewController.m"
-            timestampString = "542822594.3572741"
+            timestampString = "543255173.554529"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "284"
@@ -568,7 +568,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartHome/APPChildViewController.m"
-            timestampString = "542822594.357464"
+            timestampString = "543255173.554703"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "286"
@@ -760,7 +760,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartHome/FirebaseHelper.m"
-            timestampString = "543086386.1248209"
+            timestampString = "543263645.483572"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "182"
@@ -856,11 +856,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartHome/RoomViewController.m"
-            timestampString = "543142638.565832"
+            timestampString = "543263645.483815"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "874"
-            endingLineNumber = "874"
+            startingLineNumber = "889"
+            endingLineNumber = "889"
             landmarkName = "-mqttSetStateValueForDevice:value:"
             landmarkType = "7">
          </BreakpointContent>
@@ -872,11 +872,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartHome/RoomViewController.m"
-            timestampString = "543142638.565872"
+            timestampString = "543263645.4844429"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "551"
-            endingLineNumber = "551"
+            startingLineNumber = "566"
+            endingLineNumber = "566"
             landmarkName = "-setStateValueForDevice:value:"
             landmarkType = "7">
          </BreakpointContent>
@@ -888,11 +888,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartHome/RoomViewController.m"
-            timestampString = "543142638.565913"
+            timestampString = "543263645.484957"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "598"
-            endingLineNumber = "598"
+            startingLineNumber = "613"
+            endingLineNumber = "613"
             landmarkName = "-setStateValueForLight:"
             landmarkType = "7">
          </BreakpointContent>
@@ -904,11 +904,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartHome/FirebaseHelper.m"
-            timestampString = "543086386.12519"
+            timestampString = "543263645.485478"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "674"
-            endingLineNumber = "674"
+            startingLineNumber = "697"
+            endingLineNumber = "697"
             landmarkName = "-updateDevice:roomId:"
             landmarkType = "7">
          </BreakpointContent>
@@ -1000,7 +1000,7 @@
                   moduleName = "SmartHome"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/apple/Dropbox/smarthome-master/SmartHome/LoginViewController.m"
-                  timestampString = "543142549.0525759"
+                  timestampString = "543169309.4880871"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "117"
@@ -1015,7 +1015,7 @@
                   moduleName = "SmartHome"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/apple/Dropbox/smarthome-master/SmartHome/LoginViewController.m"
-                  timestampString = "543142549.054015"
+                  timestampString = "543169309.489534"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "117"
@@ -1032,7 +1032,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartHome/APPChildViewController.m"
-            timestampString = "542822594.358139"
+            timestampString = "543255173.555674"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "148"
@@ -1048,11 +1048,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartHome/RoomViewController.m"
-            timestampString = "543142638.566048"
+            timestampString = "543263645.485793"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "83"
-            endingLineNumber = "83"
+            startingLineNumber = "88"
+            endingLineNumber = "88"
             landmarkName = "-viewDidAppear:"
             landmarkType = "7">
          </BreakpointContent>
@@ -1128,11 +1128,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartHome/RoomViewController.m"
-            timestampString = "543142638.566178"
+            timestampString = "543263645.48632"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1007"
-            endingLineNumber = "1007"
+            startingLineNumber = "983"
+            endingLineNumber = "983"
             landmarkName = "-showInputNameAlert:"
             landmarkType = "7">
          </BreakpointContent>
@@ -1144,12 +1144,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartHome/FirebaseHelper.m"
-            timestampString = "543086386.1253951"
+            timestampString = "543263645.486645"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "566"
-            endingLineNumber = "566"
-            landmarkName = "-deleteScene:"
+            startingLineNumber = "589"
+            endingLineNumber = "589"
+            landmarkName = "-addScene:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1160,12 +1160,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartHome/FirebaseHelper.m"
-            timestampString = "543086386.125445"
+            timestampString = "543263645.486729"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "565"
-            endingLineNumber = "565"
-            landmarkName = "-deleteScene:"
+            startingLineNumber = "588"
+            endingLineNumber = "588"
+            landmarkName = "-addScene:"
             landmarkType = "7">
             <Locations>
                <Location
@@ -1176,7 +1176,7 @@
                   moduleName = "SmartHome"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/apple/Dropbox/smarthome-master/SmartHome/FirebaseHelper.m"
-                  timestampString = "543142549.118399"
+                  timestampString = "543169309.521663"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "565"
@@ -1191,7 +1191,7 @@
                   moduleName = "SmartHome"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/apple/Dropbox/smarthome-master/SmartHome/FirebaseHelper.m"
-                  timestampString = "543142549.121523"
+                  timestampString = "543169309.523136"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "566"
@@ -1208,12 +1208,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartHome/FirebaseHelper.m"
-            timestampString = "543086386.125492"
+            timestampString = "543263645.486791"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "567"
-            endingLineNumber = "567"
-            landmarkName = "-deleteScene:"
+            startingLineNumber = "590"
+            endingLineNumber = "590"
+            landmarkName = "-addScene:"
             landmarkType = "7">
             <Locations>
                <Location
@@ -1224,7 +1224,7 @@
                   moduleName = "SmartHome"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/apple/Dropbox/smarthome-master/SmartHome/FirebaseHelper.m"
-                  timestampString = "543142549.1269211"
+                  timestampString = "543169309.526633"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "567"
@@ -1239,7 +1239,7 @@
                   moduleName = "SmartHome"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/apple/Dropbox/smarthome-master/SmartHome/FirebaseHelper.m"
-                  timestampString = "543142549.129537"
+                  timestampString = "543169309.528039"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "567"
@@ -1256,12 +1256,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartHome/FirebaseHelper.m"
-            timestampString = "543086386.12554"
+            timestampString = "543263645.4868391"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "568"
-            endingLineNumber = "568"
-            landmarkName = "-deleteScene:"
+            startingLineNumber = "591"
+            endingLineNumber = "591"
+            landmarkName = "-addScene:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1320,11 +1320,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartHome/RoomViewController.m"
-            timestampString = "543142638.5663069"
+            timestampString = "543263645.486955"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "351"
-            endingLineNumber = "351"
+            startingLineNumber = "365"
+            endingLineNumber = "365"
             landmarkName = "-tableView:cellForRowAtIndexPath:"
             landmarkType = "7">
          </BreakpointContent>
@@ -1400,11 +1400,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartHome/FirebaseHelper.m"
-            timestampString = "543086386.125694"
+            timestampString = "543263645.4873101"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "412"
-            endingLineNumber = "412"
+            startingLineNumber = "435"
+            endingLineNumber = "435"
             landmarkName = "-synData"
             landmarkType = "7">
          </BreakpointContent>
@@ -1432,11 +1432,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartHome/RoomViewController.m"
-            timestampString = "543142638.566425"
+            timestampString = "543263645.487385"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1034"
-            endingLineNumber = "1034"
+            startingLineNumber = "1010"
+            endingLineNumber = "1010"
             landmarkName = "-showInputNameAlert:"
             landmarkType = "7">
          </BreakpointContent>
@@ -1448,11 +1448,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartHome/RoomViewController.m"
-            timestampString = "543142638.566468"
+            timestampString = "543263645.487662"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1029"
-            endingLineNumber = "1029"
+            startingLineNumber = "1005"
+            endingLineNumber = "1005"
             landmarkName = "-showInputNameAlert:"
             landmarkType = "7">
          </BreakpointContent>
@@ -1464,59 +1464,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartHome/RoomViewController.m"
-            timestampString = "543142638.56651"
+            timestampString = "543263645.487931"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "957"
-            endingLineNumber = "957"
-            landmarkName = "-showQRResult:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "SmartHome/RoomViewController.m"
-            timestampString = "543142638.566551"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "956"
-            endingLineNumber = "956"
-            landmarkName = "-showQRResult:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "SmartHome/RoomViewController.m"
-            timestampString = "543142638.566687"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "935"
-            endingLineNumber = "935"
-            landmarkName = "-showQRResult:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "SmartHome/RoomViewController.m"
-            timestampString = "543142638.566767"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "905"
-            endingLineNumber = "905"
+            startingLineNumber = "920"
+            endingLineNumber = "920"
             landmarkName = "-showQRCodeReaderScreen:"
             landmarkType = "7">
          </BreakpointContent>
@@ -1528,76 +1480,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartHome/RoomViewController.m"
-            timestampString = "543142638.566841"
+            timestampString = "543263645.488198"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "909"
-            endingLineNumber = "909"
+            startingLineNumber = "924"
+            endingLineNumber = "924"
             landmarkName = "-showQRCodeReaderScreen:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "SmartHome/RoomViewController.m"
-            timestampString = "543142638.566907"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "968"
-            endingLineNumber = "968"
-            landmarkName = "-showQRResult:"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__35-[RoomViewController showQRResult:]_block_invoke.738"
-                  moduleName = "SmartHome"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/apple/Dropbox/smarthome-master/SmartHome/RoomViewController.m"
-                  timestampString = "543142549.220883"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "968"
-                  endingLineNumber = "968"
-                  offsetFromSymbolStart = "232">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__35-[RoomViewController showQRResult:]_block_invoke_2"
-                  moduleName = "SmartHome"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/apple/Dropbox/smarthome-master/SmartHome/RoomViewController.m"
-                  timestampString = "543142549.222383"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "969"
-                  endingLineNumber = "969"
-                  offsetFromSymbolStart = "48">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "SmartHome/RoomViewController.m"
-            timestampString = "543142638.566983"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "979"
-            endingLineNumber = "979"
-            landmarkName = "-showQRResult:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1608,11 +1496,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartHome/FirebaseHelper.m"
-            timestampString = "543086386.125991"
+            timestampString = "543263645.4884779"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "654"
-            endingLineNumber = "654"
+            startingLineNumber = "677"
+            endingLineNumber = "677"
             landmarkName = "-addDevice:roomId:"
             landmarkType = "7">
          </BreakpointContent>
@@ -1688,7 +1576,7 @@
                   moduleName = "SmartHome"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/apple/Dropbox/smarthome-master/SmartHome/SceneDetailViewController.m"
-                  timestampString = "543142549.237146"
+                  timestampString = "543169309.694514"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "154"
@@ -1703,7 +1591,7 @@
                   moduleName = "SmartHome"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/apple/Dropbox/smarthome-master/SmartHome/SceneDetailViewController.m"
-                  timestampString = "543142549.239326"
+                  timestampString = "543169309.697504"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "154"
@@ -1880,7 +1768,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartHome/APPChildViewController.m"
-            timestampString = "542822594.360696"
+            timestampString = "543255173.5582401"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "283"
@@ -1896,11 +1784,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartHome/RoomViewController.m"
-            timestampString = "543142638.5675941"
+            timestampString = "543263645.488752"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "802"
-            endingLineNumber = "802"
+            startingLineNumber = "817"
+            endingLineNumber = "817"
             landmarkName = "-mqttConnected"
             landmarkType = "7">
          </BreakpointContent>
@@ -1912,11 +1800,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartHome/RoomViewController.m"
-            timestampString = "543142638.567698"
+            timestampString = "543263645.489017"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "275"
-            endingLineNumber = "275"
+            startingLineNumber = "289"
+            endingLineNumber = "289"
             landmarkName = "-mqttBecomeActive"
             landmarkType = "7">
          </BreakpointContent>
@@ -2088,12 +1976,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartHome/FirebaseHelper.m"
-            timestampString = "543086386.127979"
+            timestampString = "543263645.489436"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "585"
-            endingLineNumber = "585"
-            landmarkName = "-addSceneDetail:sceneId:"
+            startingLineNumber = "608"
+            endingLineNumber = "608"
+            landmarkName = "-deleteScene:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -2312,12 +2200,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartHome/FirebaseHelper.m"
-            timestampString = "543086386.129244"
+            timestampString = "543263645.489665"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "604"
-            endingLineNumber = "604"
-            landmarkName = "-deleteSceneDetail:"
+            startingLineNumber = "627"
+            endingLineNumber = "627"
+            landmarkName = "-updateSceneDetail:sceneId:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -2446,6 +2334,22 @@
             startingLineNumber = "406"
             endingLineNumber = "406"
             landmarkName = "-conect"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SmartHome/New Group/SHTimer+CoreDataClass.m"
+            timestampString = "543169308.8495491"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "37"
+            endingLineNumber = "37"
+            landmarkName = "-getRepeatString"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -215,6 +215,29 @@
     if (accessNode == nil || accessNode.length == 0) {
         return;
     }
+    [[[[self.ref child:@"users"] child:accessNode] child:@"controllers"] observeEventType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * _Nonnull snapshot) {
+        //
+        if(snapshot && snapshot.value){
+            for(FIRDataSnapshot *data in [snapshot children]){
+                NSDictionary *info = data.value;
+
+                NSString *controllerId = [info objectForKey:@"id"];
+                NSString *code = [info objectForKey:@"code"];
+                NSString *name = [info objectForKey:@"name"];
+                NSInteger order = 0;
+                if ([info objectForKey:@"order"]) {
+                    order = [[info objectForKey:@"order"] integerValue];
+                }
+                Controller *controller = [[CoredataHelper sharedInstance] getControllerById:controllerId];
+                if (!controller) {
+                    [[CoredataHelper sharedInstance] addNewController:controllerId name:name order:order ? order : 0 code:code ? code : @"" key:data.key complete:^(BOOL complete, Controller *room) {
+                        
+                    }];
+                }
+            }
+           
+        }
+    }];
     [[[[self.ref child:@"users"] child:accessNode] child:@"rooms"] observeEventType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * _Nonnull snapshot) {
         //
         if(snapshot && snapshot.value){

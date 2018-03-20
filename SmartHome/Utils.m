@@ -11,7 +11,7 @@
 @implementation Utils
 #define preft_topic @"pref_topic"
 +(DeviceType)getDeviceType:(NSString *)topic{
-    if ([topic containsString:@"QA_CC_CT"]) {
+    if ([topic containsString:@"QA_CC_CT"] || [topic containsString:@"WC"]) {
         return DeviceTypeCurtain;
     }else if ([topic containsString:@"WT"]){
         return DeviceTypeTouchSwitch;

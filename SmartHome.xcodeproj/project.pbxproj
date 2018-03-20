@@ -84,6 +84,11 @@
 		18E4E6F31E8D447C001CCED3 /* Device.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E4E6F21E8D447C001CCED3 /* Device.m */; };
 		18E4E6F61E8D4D94001CCED3 /* RemViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E4E6F51E8D4D94001CCED3 /* RemViewCell.m */; };
 		18E4E6F91E8D5036001CCED3 /* BaseTabbarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E4E6F81E8D5036001CCED3 /* BaseTabbarViewController.m */; };
+		18EC416F20615C6F00388B1A /* ListControlViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EC416D20615C6F00388B1A /* ListControlViewController.m */; };
+		18EC417020615C6F00388B1A /* ListControlViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18EC416E20615C6F00388B1A /* ListControlViewController.xib */; };
+		18EC41742061632C00388B1A /* ControlViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EC41722061632C00388B1A /* ControlViewCell.m */; };
+		18EC41752061632C00388B1A /* ControlViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18EC41732061632C00388B1A /* ControlViewCell.xib */; };
+		18EC41782061656300388B1A /* Controller.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EC41772061656300388B1A /* Controller.m */; };
 		18EFAD671E756F8900637669 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EFAD661E756F8900637669 /* main.m */; };
 		18EFAD6A1E756F8900637669 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EFAD691E756F8900637669 /* AppDelegate.m */; };
 		18EFAD6D1E756F8900637669 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EFAD6C1E756F8900637669 /* ViewController.m */; };
@@ -252,6 +257,14 @@
 		18E4E6F51E8D4D94001CCED3 /* RemViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RemViewCell.m; sourceTree = "<group>"; };
 		18E4E6F71E8D5036001CCED3 /* BaseTabbarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseTabbarViewController.h; sourceTree = "<group>"; };
 		18E4E6F81E8D5036001CCED3 /* BaseTabbarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseTabbarViewController.m; sourceTree = "<group>"; };
+		18EC416C20615C6F00388B1A /* ListControlViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ListControlViewController.h; sourceTree = "<group>"; };
+		18EC416D20615C6F00388B1A /* ListControlViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ListControlViewController.m; sourceTree = "<group>"; };
+		18EC416E20615C6F00388B1A /* ListControlViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ListControlViewController.xib; sourceTree = "<group>"; };
+		18EC41712061632C00388B1A /* ControlViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ControlViewCell.h; sourceTree = "<group>"; };
+		18EC41722061632C00388B1A /* ControlViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ControlViewCell.m; sourceTree = "<group>"; };
+		18EC41732061632C00388B1A /* ControlViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ControlViewCell.xib; sourceTree = "<group>"; };
+		18EC41762061656300388B1A /* Controller.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Controller.h; sourceTree = "<group>"; };
+		18EC41772061656300388B1A /* Controller.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Controller.m; sourceTree = "<group>"; };
 		18EFAD621E756F8900637669 /* SmartHome.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartHome.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		18EFAD661E756F8900637669 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		18EFAD681E756F8900637669 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -390,9 +403,9 @@
 		182AEA5A205E6D21005A30E8 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				5F3187901F2B8E6D00090F4A /* SHTimer+CoreDataClass.h */,
 				5F3187911F2B8E6D00090F4A /* SHTimer+CoreDataClass.m */,
 				5F3187921F2B8E6D00090F4A /* SHTimer+CoreDataProperties.h */,
-				5F3187901F2B8E6D00090F4A /* SHTimer+CoreDataClass.h */,
 				1807C6BF205E6F3B0086E45A /* SHTimer+CoreDataProperties.m */,
 			);
 			name = Model;
@@ -529,6 +542,8 @@
 				5F34679B1F1CFFCE00223553 /* Room+CoreDataClass.m */,
 				5F34679C1F1CFFCE00223553 /* Room+CoreDataProperties.h */,
 				5F34679D1F1CFFCE00223553 /* Room+CoreDataProperties.m */,
+				18EC41762061656300388B1A /* Controller.h */,
+				18EC41772061656300388B1A /* Controller.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -548,6 +563,9 @@
 			children = (
 				18F467FA1E8017E1001CF694 /* RoomViewController.h */,
 				18F467FB1E8017E1001CF694 /* RoomViewController.m */,
+				18EC416C20615C6F00388B1A /* ListControlViewController.h */,
+				18EC416D20615C6F00388B1A /* ListControlViewController.m */,
+				18EC416E20615C6F00388B1A /* ListControlViewController.xib */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -561,6 +579,9 @@
 				188E61DB204E78EE008DD7DD /* ChannelViewCell.h */,
 				188E61DC204E78EE008DD7DD /* ChannelViewCell.m */,
 				188E61DD204E78EE008DD7DD /* ChannelViewCell.xib */,
+				18EC41712061632C00388B1A /* ControlViewCell.h */,
+				18EC41722061632C00388B1A /* ControlViewCell.m */,
+				18EC41732061632C00388B1A /* ControlViewCell.xib */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -857,6 +878,7 @@
 				18E318702009FDBE002015BA /* LoginViewController.xib in Resources */,
 				18EFAD781E756F8900637669 /* LaunchScreen.storyboard in Resources */,
 				183F555B2003278600B072A9 /* MemberListViewController.xib in Resources */,
+				18EC41752061632C00388B1A /* ControlViewCell.xib in Resources */,
 				183F55632003285D00B072A9 /* MemberViewCell.xib in Resources */,
 				5F09E9691F23625B00B3AD47 /* SortRoomViewCell.xib in Resources */,
 				18CBD2C11E87B33D002635D8 /* LightViewCell.xib in Resources */,
@@ -866,6 +888,7 @@
 				18AD102720052D1B000DC410 /* FirebaseTestViewController.xib in Resources */,
 				18AD101F2004D2CF000DC410 /* ShareViewController.xib in Resources */,
 				18EFAD701E756F8900637669 /* Main.storyboard in Resources */,
+				18EC417020615C6F00388B1A /* ListControlViewController.xib in Resources */,
 				18CBD2C31E87B36C002635D8 /* LightOnOffViewCell.xib in Resources */,
 				181885D41E9019D500F5609D /* EspTouchDemo-Info.plist in Resources */,
 				18F133632001DE80008A5E55 /* GoogleService-Info.plist in Resources */,
@@ -977,6 +1000,7 @@
 				183054AC2003966A0015A7EE /* ShareDevice.m in Sources */,
 				18E4E6F31E8D447C001CCED3 /* Device.m in Sources */,
 				18E4E6F01E8D4409001CCED3 /* ScenceViewController.m in Sources */,
+				18EC41742061632C00388B1A /* ControlViewCell.m in Sources */,
 				18DBF4311E8EC10E00311D72 /* BaseViewCell.m in Sources */,
 				181885D71E9019D500F5609D /* ESPTouchTask.m in Sources */,
 				18CC8B9B1E7E4986007FD291 /* TypeRoomViewCell.m in Sources */,
@@ -989,11 +1013,13 @@
 				18E4E6F61E8D4D94001CCED3 /* RemViewCell.m in Sources */,
 				18B6514D1E7695BF007D4176 /* BaseServicez.m in Sources */,
 				5F2893A21F19E04600F74A77 /* SCSkypeActivityIndicatorView.m in Sources */,
+				18EC416F20615C6F00388B1A /* ListControlViewController.m in Sources */,
 				5F28939E1F19D74600F74A77 /* MQTTService.m in Sources */,
 				181885D91E9019D500F5609D /* ESPUDPSocketClient.m in Sources */,
 				18AD101E2004D2CF000DC410 /* ShareViewController.m in Sources */,
 				1813662F1E8A9C3A0075CA93 /* GalleryViewController.m in Sources */,
 				18F467FC1E8017E1001CF694 /* RoomViewController.m in Sources */,
+				18EC41782061656300388B1A /* Controller.m in Sources */,
 				181885CE1E9019D500F5609D /* ESP_NetUtil.m in Sources */,
 				5F52A44E1F1355E000A0819C /* NSString+Utils.m in Sources */,
 				5FF960921F2A4A4F00B210C6 /* ListTimerViewController.m in Sources */,

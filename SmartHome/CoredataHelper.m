@@ -39,6 +39,73 @@
         }
     }];
 }
+
+-(void)addNewController:(NSString *)controllerId name:(NSString *)name order:(NSInteger)order code:(NSString *)code key:(NSString *)key complete:(void(^)(BOOL complete, Controller * room))complete{
+    Controller *newRoom = (Controller *)[NSEntityDescription insertNewObjectForEntityForName:@"Controller" inManagedObjectContext:self.context];
+    newRoom.id = controllerId;
+    newRoom.name = name;
+    newRoom.order = order;
+    if(code && code.length > 0){
+        newRoom.code = code;
+    }else{
+        newRoom.code = [@"" randomStringWithLength:32];
+        
+    }
+    newRoom.key = key;
+    NSError *error;
+    if (![self.context save:&error]) {
+        // Something's gone seriously wrong
+        NSLog(@"Error saving new color: %@", [error localizedDescription]);
+        complete(false,nil);
+    }
+    complete(true, newRoom);
+    
+}
+
+-(NSArray *)getListcontroller{
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Controller" inManagedObjectContext:self.context];
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    [request setEntity:entity];
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"order" ascending:YES];
+    NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+    [request setSortDescriptors:sortDescriptors];
+    // Fetch the records and handle an error
+    NSError *error;
+    NSArray *arr  = [[self.context executeFetchRequest:request error:&error] mutableCopy];
+    if (!arr) {
+        // This is a serious error
+        // Handle accordingly
+        NSLog(@"Failed to load colors from disk");
+    }
+    return arr;
+    
+}
+-(Controller *)getControllerById:(NSString *)controllerId{
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Controller" inManagedObjectContext:self.context];
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    [request setEntity:entity];
+    request.predicate = [NSPredicate predicateWithFormat:@"id == %@", controllerId];
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"order" ascending:YES];
+    NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+    [request setSortDescriptors:sortDescriptors];
+    // Fetch the records and handle an error
+    NSError *error;
+    NSArray *arr  = [[self.context executeFetchRequest:request error:&error] mutableCopy];
+    if (!arr) {
+        // This is a serious error
+        // Handle accordingly
+        return nil;
+    }
+    return [arr firstObject];
+}
+
+-(NSInteger)countController{
+    NSArray *arr = [self getListcontroller];
+    if (arr) {
+        return arr.count;
+    }
+    return 0;
+}
 - (Room *)addNewRoom:(NSString *)_id name:(NSString *)name parentId:(NSString *)parentId complete:(void(^)(BOOL complete, Room * room))complete{
     Room *newRoom = (Room *)[NSEntityDescription insertNewObjectForEntityForName:@"Room" inManagedObjectContext:self.context];
     newRoom.id = [_id integerValue];

@@ -14,10 +14,17 @@
 #import "SHTimer+CoreDataProperties.h"
 #import "Utils.h"
 #import "NSString+Utils.h"
+#import "Controller.h"
 @interface CoredataHelper : NSObject
 @property (strong, nonatomic) NSManagedObjectContext *context;
 + (instancetype)sharedInstance;
 -(void)initRoomData;
+-(void)addNewController:(NSString *)controllerId name:(NSString *)name order:(NSInteger)order code:(NSString *)code key:(NSString *)key complete:(void(^)(BOOL complete, Controller * room))complete;
+-(NSArray *)getListcontroller;
+-(Controller *)getControllerById:(NSString *)controllerId;
+-(NSInteger)countController;
+
+/**/
 - (Room *)addNewRoom:(NSString *)_id name:(NSString *)name parentId:(NSString *)parentId complete:(void(^)(BOOL complete, Room * room))complete;
 - (Room *)addNewRoomV2:(NSString *)_id key:(NSString *)key name:(NSString *)name code:(NSString *)code order:(NSInteger)order complete:(void(^)(BOOL))complete;
 

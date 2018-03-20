@@ -54,7 +54,7 @@
             chanel =  [[self.requestId componentsSeparatedByString:@"/"][1] intValue];
         }
         if (self.enable) {
-            NSString *message =  [NSString stringWithFormat:@"id='%@' cmd='SETTIMER' value='%ld,%@, %@%@, %@'",self.requestId,self.order ,self.enable ? @"1":@"0",self.timer,self.status? @"1":@"0",[self getRepeatString]];
+            NSString *message =  [NSString stringWithFormat:@"id='%@' cmd='SETTIMER' value='%ld,%@,%@,%@,%@'",self.requestId,self.order ,self.enable ? @"1":@"0",self.timer,self.status? @"1":@"0",[self getRepeatString]];
             return message;
         }
         return [NSString stringWithFormat:@"id='%@' cmd='SETTIMER' value='%ld,0'",self.requestId,self.order];
