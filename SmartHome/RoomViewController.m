@@ -32,7 +32,7 @@
 @property (assign, nonatomic) NSInteger curType;
 @property (assign, nonatomic) NSInteger retry;
 @property (assign, nonatomic) BOOL firstTime;
-@property (strong, nonatomic) Device *addDevice;
+//@property (strong, nonatomic) Device *addDevice;
 @property (strong, nonatomic) Device *delDevice;
 @property (assign, nonatomic) NSInteger chanel;
 
@@ -275,7 +275,7 @@
     screenSize = [UIScreen mainScreen].bounds.size;
     self.popupContent = [[ListControlViewController alloc] initWithNibName:@"ListControlViewController" bundle:nil];
     CGRect frame = self.popupContent.view.frame;
-    CGFloat heigth = [[CoredataHelper sharedInstance] countController] * 40 + 100;
+    CGFloat heigth = [[CoredataHelper sharedInstance] countController:DeviceTypeLightOnOff] * 40 + 140;
     frame.size = CGSizeMake(screenSize.width - 100, heigth);
     self.popupContent.view.frame = frame;
     self.controlPopup = [KLCPopup popupWithContentView:self.popupContent.view showType:KLCPopupShowTypeGrowIn dismissType:KLCPopupDismissTypeGrowOut maskType:KLCPopupMaskTypeDimmed dismissOnBackgroundTouch:NO dismissOnContentTouch:NO];
@@ -645,7 +645,7 @@
             device.value = value;
             [self showLoadingView];
             NSString *msg = [NSString stringWithFormat:@"id='%@' cmd='OPEN' value='%d'",device.requestId,(NSInteger)value];
-            [[MQTTService sharedInstance] publishControl:device.requestId message:msg type:device.type count:1];
+            [[MQTTService sharedInstance] publishControl:device.requestId topic:device.topic  message:msg type:device.type count:1];
             break;
         }
     }
@@ -664,19 +664,19 @@
                 [self showLoadingView];
                 self.isProcessing = true;
 
-                [[MQTTService sharedInstance] publishControl:device.requestId message:@"CLOSE" type:device.type count:1];
+                [[MQTTService sharedInstance] publishControl:device.requestId topic:device.topic message:@"CLOSE" type:device.type count:1];
             }else if (value == ButtonTypeStop){
                 [self showLoadingView];
                 self.isProcessing = true;
 
 
-                [[MQTTService sharedInstance] publishControl:device.requestId message:@"STOP" type:device.type count:1];
+                [[MQTTService sharedInstance] publishControl:device.requestId topic:device.topic message:@"STOP" type:device.type count:1];
 
             }else if (value == ButtonTypeOpen){
                 [self showLoadingView];
                 self.isProcessing = true;
 
-                [[MQTTService sharedInstance] publishControl:device.requestId message:@"OPEN" type:device.type count:1];
+                [[MQTTService sharedInstance] publishControl:device.requestId topic:device.topic message:@"OPEN" type:device.type count:1];
 
             }
             break;
@@ -842,16 +842,16 @@
 -(void)mqttAddSuccess{
 //    self.lastQRCode =  nil;
 
-    if (self.addDevice) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            if (self.lastQRCode != nil) {
-                NSLog(@"showInputNameAlert a");
-                [self showInputNameAlert:self.addDevice];
-
-            }
-
-        });
-    }
+//    if (self.addDevice) {
+//        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+////            if (self.lastQRCode != nil) {
+//                NSLog(@"showInputNameAlert a");
+//                [self showInputNameAlert:self.addDevice];
+//
+////            }
+//
+//        });
+//    }
 }
 -(void)mqttDelSuccess{
     if (self.delDevice) {
@@ -876,19 +876,17 @@
     [self hideLoadingView];
 }
 
--(void)mqttPublishFail{
+-(void)mqttPublishFail:(NSString *)mqttId{
     [self hideLoadingView];
-    self.isProcessing = false;
-    
     [self showMessageView:nil message:@"Thiết bị không phản hồi" autoHide:YES complete:nil];
-
+    [self.tableView reloadData];
 }
 -(void)mqttSetStateValueForDevice:(NSString *)topic value:(float)value{
     self.isProcessing = false;
 
     [self setStateValueForDevice:topic value:value];
     [self hideLoadingView];
-
+    
 }
 -(void)mqttSetStateValueForLight:(NSString *)message{
     self.isProcessing = false;
@@ -938,11 +936,22 @@
     }
 }
 -(void)readTopicFromQRcode:(NSString *)qrcode{
-    [Utils setTopic:qrcode];
-    self.lastQRCode = nil;
-    [self showMessageView:@"" message:@"Đã thêm bộ điều khiển" autoHide:YES complete:^(NSInteger index) {
-        
-    }];
+//    [Utils setTopic:qrcode];
+    __weak RoomViewController *wSelf = self;
+    Controller *controller = [[CoredataHelper sharedInstance] getControllerById:qrcode];
+    if (!controller) {
+        [[CoredataHelper sharedInstance] addNewController:qrcode name:qrcode order:0 type:DeviceTypeLightOnOff code:@"" key:@"" complete:^(BOOL complete, Controller *newController) {
+            if (newController) {
+                [[FirebaseHelper sharedInstance] addController:newController];
+            }
+            wSelf.lastQRCode = nil;
+            [wSelf showMessageView:@"" message:@"Đã thêm bộ điều khiển" autoHide:YES complete:^(NSInteger index) {
+                
+            }];
+        }];
+    }
+
+   
 }
 -(void)showQRResult:(NSString *)message{
     NSArray * result =  [message componentsSeparatedByString:@";"];
@@ -967,12 +976,17 @@
                 //                    return;
                 //
                 //                }
+                
                 [wSelf showListTopicPopup:topic type:type];
                 
-            }else{
+            }else if (type == DeviceTypeTouchSwitch){
+                [self addNewDevice:topic topic:topic type:type];
+
+            }else if (type == DeviceTypeCurtain){
                 NSString *mqttId = [topic componentsSeparatedByString:@"-"][1];
                 [self addNewDevice:mqttId topic:topic type:type];
-            }//end if (type == DeviceTypeLightOnOff) {
+            }
+            //end if (type == DeviceTypeLightOnOff) {
         }
     }
 }
@@ -1012,7 +1026,10 @@
                 }
             }
             displayArray = [dataArray mutableCopy];
-            [self.tableView reloadData];
+//            self.addDevice = nil;
+//            [self.tableView reloadData];
+            [[MQTTService sharedInstance] subscribeToTopic:device];
+
         }
         
     }];
@@ -1205,9 +1222,15 @@
 
 -(void)showListTopicPopup:(NSString *)mqttId type:(NSInteger)type{
 //    [self.controlPopup showWithDuration:delaInSecond];
+    CGRect frame = self.popupContent.view.frame;
+    CGFloat heigth = [[CoredataHelper sharedInstance] countController:DeviceTypeLightOnOff] * 50 + 140;
+    frame.size = CGSizeMake(screenSize.width - 100, heigth);
+    self.popupContent.view.frame = frame;
+    [self.popupContent reloadData];
     __weak RoomViewController *wSelf = self;
     [self.controlPopup showAtCenter:CGPointMake(self.view.center.x, self.view.center.y - 150) inView:self.view];
     [self.controlPopup show];
+   
     self.popupContent.handleAddControl = ^{
         [wSelf showQRCodeReaderScreen:QRCodeTypeTopic];
         [wSelf.controlPopup dismiss:YES];
@@ -1220,15 +1243,17 @@
 }
 -(void)addNewDevice:(NSString *)mqttID topic:(NSString *)topic type:(NSInteger)type{
     __weak RoomViewController *wSelf = self;
+
     Device *device = [[CoredataHelper sharedInstance] getDeviceByTopic:mqttID type:type];
     if (device) {
         //                [self.room addDevicesObject:device];
         
         [self showAlert:@"" message:@"Thiết bị này đã tồn tại."];
-        self.lastQRCode =  nil;
         
     }else{
         [[FirebaseHelper sharedInstance] hasDeviceInSystem:mqttID completion:^(BOOL exist) {
+            self.lastQRCode =  nil;
+
             if (exist) {
                 [wSelf showAlert:@"Thông báo" message:@"Thiết bị này đã được người khác xử dụng"];
             }else{
@@ -1240,34 +1265,40 @@
 //                        [[MQTTService sharedInstance] publicRequestStatus:device.requestId];
 //                    }
 //                }];
+                Controller *controller = [[CoredataHelper sharedInstance] getControllerById:topic];
+                if(!controller){
+                    [[CoredataHelper sharedInstance] addNewController:topic name:topic order:0 type:type code:@"" key:@"" complete:^(BOOL complete, Controller *newController) {
+                        if (newController) {
+                            [[FirebaseHelper sharedInstance] addController:newController];
+                        }
+                    }];
+                }
                 Device *newDevice = [[CoredataHelper sharedInstance] addNewDevice:@"" name:@"" deviceId:deviceId topic:topic control:false state:false value:0 mqttId:mqttID type:type order:deviceId complete:^(Device *device) {
                     if (device) {
                         [[FirebaseHelper sharedInstance] addDeviceToSystem:device.requestId];
                         [[FirebaseHelper sharedInstance] addDevice:device roomId:self.room.id];
-                        [[MQTTService sharedInstance] publicRequestStatus:device.requestId];
+           
                     }
                 }];
                 [wSelf.room addDevicesObject:newDevice];
                 [[CoredataHelper sharedInstance] save];
                 
                 
-                wSelf.addDevice =  newDevice;
+//                wSelf.addDevice =  newDevice;
                 if (type == DeviceTypeLightOnOff) {
                     [[MQTTService sharedInstance] addMQTTDevice:newDevice];
                     
-                }else{
-                    if (wSelf.lastQRCode != nil){
-                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                            if (wSelf.lastQRCode != nil) {
-                                NSLog(@"showInputNameAlert b");
-                                [wSelf showInputNameAlert:wSelf.addDevice];
-                                
-                            }
-                            
-                        });
-                    }
-                    
                 }
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    NSLog(@"showInputNameAlert b");
+                    [wSelf showInputNameAlert:newDevice];
+                    
+                    
+                    
+                });
+                    
+                    
+                
             }
         }];
     }//end if device is not exist

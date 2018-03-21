@@ -21,13 +21,14 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Md3-yG-450">
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Md3-yG-450">
                         <rect key="frame" x="20" y="6" width="30" height="30"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="30" id="Eaa-fG-kPd"/>
                             <constraint firstAttribute="width" secondItem="Md3-yG-450" secondAttribute="height" multiplier="1:1" id="JPX-DO-JUM"/>
                         </constraints>
-                        <state key="normal" title="Button"/>
+                        <state key="normal" image="ic_checkbox"/>
+                        <state key="selected" image="ic_checkbox_selected"/>
                     </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H79-zq-6ZG">
                         <rect key="frame" x="70" y="12" width="214" height="21"/>
@@ -51,4 +52,8 @@
             </connections>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="ic_checkbox" width="128" height="128"/>
+        <image name="ic_checkbox_selected" width="128" height="128"/>
+    </resources>
 </document>

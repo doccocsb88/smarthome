@@ -9,12 +9,13 @@
 #import <Foundation/Foundation.h>
 #import "Device.h"
 #import "Room+CoreDataClass.h"
+
 @interface Utils : NSObject
 +(DeviceType)getDeviceType:(NSString *)topic;
 
-+(BOOL)hasTopic;
-+(void)setTopic:(NSString *)topic;
-+(NSString *)getTopic;
+//+(BOOL)hasTopic:(NSString *)topic;
+//+(void)setTopic:(NSString *)topic;
+//+(NSString *)getTopic;
 +(Room *)getRoomWithId:(NSInteger)roomid in:(NSArray *)arrs;
 +(Room *)getRoomWithcode:(NSString *)code inData:(NSArray *)arrs;
 

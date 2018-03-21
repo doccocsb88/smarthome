@@ -11,5 +11,5 @@
 @interface ListControlViewController : UIViewController
 @property (strong, nonatomic)  void(^handleAddControl)(void);
 @property (strong, nonatomic)  void(^handleSelectControl)(Controller *);
-
+-(void)reloadData;
 @end

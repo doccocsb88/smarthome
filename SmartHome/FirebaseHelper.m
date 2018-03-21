@@ -228,15 +228,26 @@
                 if ([info objectForKey:@"order"]) {
                     order = [[info objectForKey:@"order"] integerValue];
                 }
+                NSInteger type = 0;
+                if ([info objectForKey:@"type"]) {
+                    type = [[info objectForKey:@"type"] integerValue];
+                }
+                
                 Controller *controller = [[CoredataHelper sharedInstance] getControllerById:controllerId];
                 if (!controller) {
-                    [[CoredataHelper sharedInstance] addNewController:controllerId name:name order:order ? order : 0 code:code ? code : @"" key:data.key complete:^(BOOL complete, Controller *room) {
+                    [[CoredataHelper sharedInstance] addNewController:controllerId name:name order:order ? order : 0 type:type code:code ? code : @"" key:data.key complete:^(BOOL complete, Controller *room) {
                         
                     }];
+                }else{
+                    controller.code = code;
+                    controller.key = data.key;
+                    controller.type = type;
                 }
             }
            
         }
+        [[CoredataHelper sharedInstance] save];
+
     }];
     [[[[self.ref child:@"users"] child:accessNode] child:@"rooms"] observeEventType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * _Nonnull snapshot) {
         //
@@ -289,8 +300,10 @@
 
                     if(![[CoredataHelper sharedInstance] hasDevice:mqttId]){
     
-                        if (![Utils hasTopic]) {
-                            [Utils setTopic:topic];
+                        if (![[CoredataHelper sharedInstance] hasController:topic]) {
+                            [[CoredataHelper sharedInstance] addNewController:topic name:topic order:0 type:type code:@"" key:@"" complete:^(BOOL complete, Controller *room) {
+                                
+                            }];
                         }
                         Room *room = [[CoredataHelper sharedInstance] getRoomByid:roomId];
                         [[CoredataHelper sharedInstance] addNewDevice:topic name:name deviceId:deviceId topic:topic control:control state:status value:value mqttId:mqttId type:type order:order complete:^(Device *device) {
@@ -556,6 +569,17 @@
 
     }];
 }
+-(void)addController:(Controller *)controller{
+    NSString *accessNode = [self getAccessNode];
+    if (accessNode && accessNode.length > 0){
+        NSString *key = [[[[self.ref child:@"users"] child:accessNode] child:@"controllers"] childByAutoId].key;
+        NSDictionary *dic = @{@"id":[NSString stringWithFormat:@"%@",controller.id],@"code":controller.code,@"name":controller.name,@"order":[NSString stringWithFormat:@"%ld",controller.order],@"type":[NSString stringWithFormat:@"%ld",controller.type]};
+        NSDictionary *childUpdates = @{[NSString stringWithFormat:@"/users/%@/controllers/%@", self.user.uid, key]: dic};
+        controller.key = key;
+        [_ref updateChildValues:childUpdates];
+    }
+}
+/**/
 -(void)addRoom:(Room *)room{
     NSString *key = [[[[self.ref child:@"users"] child:self.user.uid] child:@"rooms"] childByAutoId].key;
     NSDictionary *dic = @{@"id":[NSString stringWithFormat:@"%ld",room.id],@"room_code":room.code,@"room_name":room.name,@"room_order":[NSString stringWithFormat:@"%ld",room.order]};

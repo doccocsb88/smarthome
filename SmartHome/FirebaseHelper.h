@@ -38,6 +38,9 @@ typedef void (^FirebaseCallback)(BOOL exist);
 -(void)synMemberList:(nullable FirebaseMemberCallback)completion;
 -(void)shareDevice:(NSString *)mqttId forUser:(NSString *)key;
 -(void)updateMemberShareStatus:(BOOL)status name:(NSString *)name devices:(NSString *)device uid:(NSString *)uid key:(NSString *)key;
+/**/
+-(void)addController:(Controller *)controller;
+/**/
 -(void)addRoom:(Room *)room;
 -(void)updateRoom:(Room *)room;
 //

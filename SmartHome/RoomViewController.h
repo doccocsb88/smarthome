@@ -27,6 +27,6 @@
 @property (weak, nonatomic) IBOutlet UIScrollView *filterView;
 @property (strong, nonatomic) UIButton *btnSetup;
 @property (strong, nonatomic) Room *room;
-@property (assign, nonatomic) BOOL isProcessing;
+//@property (assign, nonatomic) BOOL isProcessing;
 
 @end

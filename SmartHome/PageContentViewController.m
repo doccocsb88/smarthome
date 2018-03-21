@@ -406,26 +406,26 @@
     [self presentViewController:vcz animated:YES completion:nil];
 }
 -(void)showQRResult:(NSString *)message{
-    NSArray * result =  [message componentsSeparatedByString:@";"];
-    if (result && result.count >= 1) {
-        if ([result[0] isNumber]) {
-            NSInteger type = [result[0] integerValue];
-            NSString *topic = [result[1] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-            Device *device = [[CoredataHelper sharedInstance] getDeviceByTopic:topic type:type];
-            if (device) {
-                [self showAlert:@"" message:@"Thiết bị này đã tồn tại."];
-            }else{
-                NSInteger deviceId = [[CoredataHelper sharedInstance] countDevice] + 1;
-                [[CoredataHelper sharedInstance] addNewDevice:@"abc" name:topic deviceId:deviceId state:NO value:0 topic:topic type:type complete:^(Device *device) {
-                    if (device) {
-                        
-                    }
-                }];
-                [self showAlert:@"" message:@"Thêm thành công."];
-
-            }
-        }
-    }
+//    NSArray * result =  [message componentsSeparatedByString:@";"];
+//    if (result && result.count >= 1) {
+//        if ([result[0] isNumber]) {
+//            NSInteger type = [result[0] integerValue];
+//            NSString *topic = [result[1] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+//            Device *device = [[CoredataHelper sharedInstance] getDeviceByTopic:topic type:type];
+//            if (device) {
+//                [self showAlert:@"" message:@"Thiết bị này đã tồn tại."];
+//            }else{
+//                NSInteger deviceId = [[CoredataHelper sharedInstance] countDevice] + 1;
+//                [[CoredataHelper sharedInstance] addNewDevice:@"abc" name:topic deviceId:deviceId state:NO value:0 topic:topic type:type complete:^(Device *device) {
+//                    if (device) {
+//                        
+//                    }
+//                }];
+//                [self showAlert:@"" message:@"Thêm thành công."];
+//
+//            }
+//        }
+//    }
 }
 
 -(void)showAlert:(NSString *)title message:(NSString *)message{

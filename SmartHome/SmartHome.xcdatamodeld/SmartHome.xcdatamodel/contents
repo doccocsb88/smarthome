@@ -6,6 +6,7 @@
         <attribute name="key" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="order" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
     </entity>
     <entity name="Device" representedClassName="Device" syncable="YES">
         <attribute name="chanelInfo" optional="YES" attributeType="String" syncable="YES"/>
@@ -73,11 +74,11 @@
         <attribute name="value" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
     </entity>
     <elements>
+        <element name="Controller" positionX="-54" positionY="135" width="128" height="135"/>
         <element name="Device" positionX="-63" positionY="9" width="128" height="255"/>
         <element name="Room" positionX="-63" positionY="-18" width="128" height="180"/>
         <element name="Scene" positionX="-54" positionY="45" width="128" height="135"/>
         <element name="SceneDetail" positionX="-45" positionY="72" width="128" height="165"/>
         <element name="SHTimer" positionX="-54" positionY="90" width="128" height="315"/>
-        <element name="Controller" positionX="-54" positionY="135" width="128" height="120"/>
     </elements>
 </model>

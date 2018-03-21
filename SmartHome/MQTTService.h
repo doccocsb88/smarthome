@@ -24,7 +24,7 @@
 -(void)mqttDelSuccess;
 -(void)mqttDelFailed;
 
--(void)mqttPublishFail;
+-(void)mqttPublishFail:(NSString *)topic;
 
 -(void)mqttConnected;
 -(void)mqttDisConnect;
@@ -47,8 +47,9 @@
 -(BOOL)isConnected;
 -(void)removeListDevices:(NSArray *)devices;
 -(void)setListDevices:(NSArray *)devices;
--(void)publishControl:(NSString *)topic message:(NSString *)message type:(NSInteger)type count:(int)count;
--(void)publicRequestStatus:(NSString *)topic;
+-(void)subscribeToTopic:(Device *)device;
+-(void)publishControl:(NSString *)mqttId topic:(NSString *)topic message:(NSString *)message type:(NSInteger)type count:(int)count;
+-(void)publicRequestStatus:(Device *)device;
 -(void)requestStatusTimer:(NSArray *)arrTimer;
 -(void)setTimer:(SHTimer *)timer;
 -(void)turnOffAllDevice:(NSString *)topic message:(NSString *)message type:(NSInteger)type;

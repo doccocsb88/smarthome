@@ -14,4 +14,5 @@
 @dynamic code;
 @dynamic key;
 @dynamic order;
+@dynamic type;
 @end

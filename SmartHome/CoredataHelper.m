@@ -40,11 +40,12 @@
     }];
 }
 
--(void)addNewController:(NSString *)controllerId name:(NSString *)name order:(NSInteger)order code:(NSString *)code key:(NSString *)key complete:(void(^)(BOOL complete, Controller * room))complete{
+-(void)addNewController:(NSString *)controllerId name:(NSString *)name order:(NSInteger)order type:(NSInteger)type code:(NSString *)code key:(NSString *)key complete:(void(^)(BOOL complete, Controller * room))complete{
     Controller *newRoom = (Controller *)[NSEntityDescription insertNewObjectForEntityForName:@"Controller" inManagedObjectContext:self.context];
     newRoom.id = controllerId;
     newRoom.name = name;
     newRoom.order = order;
+    newRoom.type = type;
     if(code && code.length > 0){
         newRoom.code = code;
     }else{
@@ -80,6 +81,25 @@
     return arr;
     
 }
+-(NSArray *)getListcontrollerBytype:(NSInteger)type{
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Controller" inManagedObjectContext:self.context];
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    request.predicate = [NSPredicate predicateWithFormat:@"type == %ld",type];
+    [request setEntity:entity];
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"order" ascending:YES];
+    NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+    [request setSortDescriptors:sortDescriptors];
+    // Fetch the records and handle an error
+    NSError *error;
+    NSArray *arr  = [[self.context executeFetchRequest:request error:&error] mutableCopy];
+    if (!arr) {
+        // This is a serious error
+        // Handle accordingly
+        NSLog(@"Failed to load colors from disk");
+    }
+    return arr;
+    
+}
 -(Controller *)getControllerById:(NSString *)controllerId{
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"Controller" inManagedObjectContext:self.context];
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
@@ -98,9 +118,11 @@
     }
     return [arr firstObject];
 }
-
--(NSInteger)countController{
-    NSArray *arr = [self getListcontroller];
+-(BOOL)hasController:(NSString *)controllerId{
+    return [self getControllerById:controllerId] != nil;
+}
+-(NSInteger)countController:(NSInteger)type{
+    NSArray *arr = [self getListcontrollerBytype:type];
     if (arr) {
         return arr.count;
     }
@@ -358,7 +380,7 @@
     }
 }
 #pragma mark
--(Device *)addNewDevice:(NSString *)token name:(NSString *) name deviceId:(NSInteger )_id state:(BOOL)state value:(NSInteger)value topic:(NSString *)requestId type:(NSInteger)type complete:(void(^)(Device * device))complete{
+-(Device *)addNewDevice:(NSString *)token name:(NSString *) name deviceId:(NSInteger )_id state:(BOOL)state value:(NSInteger)value requestId:(NSString *)requestId topic:(NSString *)topic type:(NSInteger)type complete:(void(^)(Device * device))complete{
     Device *device = (Device *)[NSEntityDescription insertNewObjectForEntityForName:@"Device" inManagedObjectContext:self.context];
     device.name = name;
     device.token = token;
@@ -368,13 +390,14 @@
     device.requestId = requestId;
     device.order = _id;
     
-    if (type == DeviceTypeCurtain) {
-        device.topic = [NSString stringWithFormat:@"QA_CC_%@",requestId];
-    }else if(type == DeviceTypeTouchSwitch){
-        device.topic = [NSString stringWithFormat:@"%@",requestId];
-    }else if (type == DeviceTypeLightOnOff ){
-        device.topic = [Utils getTopic];
-    }
+//    if (type == DeviceTypeCurtain) {
+//        device.topic = [NSString stringWithFormat:@"QA_CC_%@",requestId];
+//    }else if(type == DeviceTypeTouchSwitch){
+//        device.topic = [NSString stringWithFormat:@"%@",requestId];
+//    }else if (type == DeviceTypeLightOnOff ){
+//        device.topic = [Utils getTopic];
+//    }
+    device.topic = topic;
     device.type = type;
     device.image = [NSString stringWithFormat:@"ic_room_%ld",_id - 1];
     [self save];

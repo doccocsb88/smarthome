@@ -9,7 +9,7 @@
 #import <CoreData/CoreData.h>
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-typedef enum{
+typedef enum:NSInteger{
     DeviceTypeLightAdjust = 1,
     DeviceTypeLightOnOff,
     DeviceTypeCurtain,

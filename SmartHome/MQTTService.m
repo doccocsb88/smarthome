@@ -76,18 +76,21 @@ static MQTTService *instance = nil;
     for (Device *device in devices) {
         for (Device *d in arr) {
             if (device.id == d.id) {
-                [self.dataArray removeObject:d];
                 NSString *topic = @"";
                 
-                if (device.type == DeviceTypeCurtain) {
-                    topic = [NSString stringWithFormat:@"%@/FEEDBACK",device.requestId];
-                    
-                    
-                }else if (device.type == DeviceTypeLightOnOff){
-                    topic = [NSString stringWithFormat:@"%@", [Utils getTopic]];
-                    
-                    
-                }
+//                if (device.type == DeviceTypeCurtain) {
+//                    topic = [NSString stringWithFormat:@"%@/FEEDBACK",device.requestId];
+//
+//
+//                }else if (device.type == DeviceTypeLightOnOff){
+//                    topic = [NSString stringWithFormat:@"%@", [Utils getTopic]];
+//
+//
+//                }
+                topic = device.topic;
+                
+                [self.dataArray removeObject:d];
+
                 if (topic && topic.length > 0) {
                     [_session unsubscribeTopic:topic unsubscribeHandler:^(NSError *error) {
                         
@@ -121,15 +124,16 @@ static MQTTService *instance = nil;
         for (Device *device in arrCopy) {
             NSString *topic = @"";
             
-            if (device.type == DeviceTypeCurtain || device.type == DeviceTypeTouchSwitch) {
-                topic = [device getTopic];
-                
-                
-            }else if (device.type == DeviceTypeLightOnOff){
-                topic = [Utils getTopic];
-                
-                
-            }
+//            if (device.type == DeviceTypeCurtain || device.type == DeviceTypeTouchSwitch) {
+//                topic = [device getTopic];
+//
+//
+//            }else if (device.type == DeviceTypeLightOnOff){
+//                topic = [Utils getTopic];
+//
+//
+//            }
+            topic = device.topic;
             __weak MQTTService *wsekf = self;
             if ([self.publishedTopic containsObject:topic] == false) {
                 if (topic && topic.length > 0) {
@@ -149,7 +153,7 @@ static MQTTService *instance = nil;
                             dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
                             dispatch_after(popTime, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
                                 //code to be executed on the main queue after delay
-                                [wsekf publicRequestStatus:device.requestId];
+                                [wsekf publicRequestStatus:device];
                             });
 
                         }
@@ -157,29 +161,69 @@ static MQTTService *instance = nil;
                 }
             }else{
                 if (topic && topic.length > 0) {
-                    if ([topic isEqualToString:[Utils getTopic]]) {
+//                    if ([topic isEqualToString:[Utils getTopic]]) {
                         self.countProcess ++;
                         
                         double delayInSeconds = 0;
-                        if ([Utils getDeviceType:topic] == DeviceTypeLightOnOff) {
+//                        if ([Utils getDeviceType:topic] == DeviceTypeLightOnOff) {
+                        if(device.type == DeviceTypeLightOnOff){
                             delayInSeconds  = index * REQUEST_STATUS_TIME;
 
                         }
                         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
                         dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-                            [self publicRequestStatus:device.requestId];
+                            [self publicRequestStatus:device];
                         });
 
-                    }
+//                    }
                 
                 }
             }
-            if ([Utils getDeviceType:topic] == DeviceTypeLightOnOff ) {
+//            if ([Utils getDeviceType:topic] == DeviceTypeLightOnOff ) {
+            Controller *controller = [[CoredataHelper sharedInstance] getControllerById:topic];
+            if (controller.type == DeviceTypeLightOnOff) {
                 index ++;
             }
             
         }
     });
+}
+
+-(void)subscribeToTopic:(Device *)device{
+    __weak MQTTService *wsekf = self;
+    NSString *topic = device.topic;
+    NSInteger index = 1;
+    NSLog(@"subscribeToTopic %@",device.topic);
+    if (![self getDeviceByMqttId:device.requestId]) {
+        [self.dataArray addObject:device];
+    }
+    if ([self.publishedTopic containsObject:device.topic] == false) {
+        if (topic && topic.length > 0) {
+            wsekf.countProcess ++;
+            [_session subscribeToTopic:topic atLevel:REQUEST_QOS subscribeHandler:^(NSError *error, NSArray<NSNumber *> *gQoss){
+                if (error) {
+                    NSLog(@"Subscription failed %@", error.localizedDescription);
+                } else {
+                    NSLog(@"Subscription sucessfull! Granted Qos: %@", gQoss);
+                    [wsekf.publishedTopic addObject:topic];
+                    
+                    wsekf.countProcess --;
+                    [wsekf checkFinishedProcess];
+                    device.isSubcrible = TRUE;
+                    double delayInSeconds = 0;
+                    delayInSeconds  = index * REQUEST_STATUS_TIME;
+                    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+                    dispatch_after(popTime, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
+                        //code to be executed on the main queue after delay
+                        [wsekf publicRequestStatus:device];
+                    });
+                    
+                }
+            }]; // t
+        }
+    }else{
+        [self publicRequestStatus:device];
+    }
 }
 -(void)clearPublishDevice{
     self.publishedTopic = [NSMutableArray new];
@@ -206,15 +250,23 @@ static MQTTService *instance = nil;
     }
     return nil;
 }
-
--(void)publicRequestStatus:(NSString *)topic{
-    Device *device = [self getDeviceByTopic:topic];
+-(Device *)getDeviceByMqttId:(NSString *)mqttId{
+    for (Device *device in self.dataArray) {
+        if ([device.requestId isEqualToString:mqttId]) {
+            return device;
+        }
+    }
+    return nil;
+}
+-(void)publicRequestStatus:(Device *)device{
+//    Device *device = [self getDeviceByTopic:topic];
+    NSLog(@"publicRequestStatus %@",device.topic);
     if (device && device.isGetStatus == false) {
         NSString *msg = @"";
-        NSString *topic = @"";
+        NSString *topic = device.topic;
         if (device.type == DeviceTypeCurtain || device.type == DeviceTypeTouchSwitch) {
           msg = [NSString stringWithFormat:@"id='%@' cmd='GETSTATUS'",device.requestId];
-        topic = [device getTopic];
+//        topic = [device getTopic];
 //            [_session publishData:[msg dataUsingEncoding:NSUTF8StringEncoding] onTopic:[device getTopic] retain:NO qos:2 publishHandler:^(NSError *error) {
 //                self.countProcess--;
 //                [self checkFinishedProcess];
@@ -223,7 +275,7 @@ static MQTTService *instance = nil;
 
         }else if(device.type == DeviceTypeLightOnOff){
             msg = [NSString stringWithFormat:@"id='%@' cmd='GETSTATUS'",device.requestId];
-            topic = [Utils getTopic];
+//            topic = [Utils getTopic];
             NSLog(@"requestStatus: %@",msg);
   
            
@@ -237,27 +289,27 @@ static MQTTService *instance = nil;
     }
 }
 
--(void)publishControl:(NSString *)topic message:(NSString *)message type:(NSInteger)type count:(int)count{
+-(void)publishControl:(NSString *)requestId topic:(NSString *)topic message:(NSString *)message type:(NSInteger)type count:(int)count{
     if ([self.publishingTopic containsObject:topic]) {
         return;
     }
     NSLog(@"publishControl xxx %@",topic);
     if (type == DeviceTypeCurtain) {
-        NSString *msg = [NSString stringWithFormat:@"id='%@' cmd='%@'",topic,message];
+        NSString *msg = [NSString stringWithFormat:@"id='%@' cmd='%@'",requestId,message];
         if ([message containsString:@"value"]) {
            msg = message;
         }
 
     
-        [self.publishingTopic addObject:topic];
-        [NSTimer scheduledTimerWithTimeInterval:CHECK_PUBLISH_TIME target:self selector:@selector(checkPublishSucess:) userInfo:@{@"topic":topic,@"message":message,@"type":[NSString stringWithFormat:@"%ld",type],@"count":[NSString stringWithFormat:@"%d",count]} repeats:NO];
-        [_session publishData:[msg dataUsingEncoding:NSUTF8StringEncoding] onTopic:[NSString stringWithFormat:@"QA_CC_%@",topic] retain:NO qos:REQUEST_QOS publishHandler:^(NSError *error) {
+        [self.publishingTopic addObject:requestId];
+        [NSTimer scheduledTimerWithTimeInterval:CHECK_PUBLISH_TIME target:self selector:@selector(checkPublishSucess:) userInfo:@{@"mqttId":requestId,@"topic":topic,@"message":message,@"type":[NSString stringWithFormat:@"%ld",type],@"count":[NSString stringWithFormat:@"%d",count]} repeats:NO];
+        [_session publishData:[msg dataUsingEncoding:NSUTF8StringEncoding] onTopic:topic retain:NO qos:REQUEST_QOS publishHandler:^(NSError *error) {
 
         }];
     }else if (type == DeviceTypeTouchSwitch){
        
-        [self.publishingTopic addObject:topic];
-        [NSTimer scheduledTimerWithTimeInterval:CHECK_PUBLISH_TIME target:self selector:@selector(checkPublishSucess:) userInfo:@{@"topic":topic,@"message":message,@"type":[NSString stringWithFormat:@"%ld",type],@"count":[NSString stringWithFormat:@"%d",count]} repeats:NO];
+        [self.publishingTopic addObject:requestId];
+        [NSTimer scheduledTimerWithTimeInterval:CHECK_PUBLISH_TIME target:self selector:@selector(checkPublishSucess:) userInfo:@{@"mqttId":requestId,@"topic":topic,@"message":message,@"type":[NSString stringWithFormat:@"%ld",type],@"count":[NSString stringWithFormat:@"%d",count]} repeats:NO];
         NSLog(@"tư : 3 %@",message);
 
         [_session publishData:[message dataUsingEncoding:NSUTF8StringEncoding] onTopic:topic retain:NO qos:REQUEST_QOS publishHandler:^(NSError *error) {
@@ -266,22 +318,21 @@ static MQTTService *instance = nil;
     }else if (type == DeviceTypeLightOnOff){
         NSString *msg = @"";
         if ([message isEqualToString:@"CLOSE"]) {
-            msg = [NSString stringWithFormat:@"id='%@' cmd='OFF'",topic];
+            msg = [NSString stringWithFormat:@"id='%@' cmd='OFF'",requestId];
         }else if ([message isEqualToString:@"OPEN"]){
-            msg = [NSString stringWithFormat:@"id='%@' cmd='ON'",topic];
+            msg = [NSString stringWithFormat:@"id='%@' cmd='ON'",requestId];
             
         }
         if (msg && msg.length > 0) {
-            [self.publishingTopic addObject:topic];
-            [NSTimer scheduledTimerWithTimeInterval:CHECK_PUBLISH_TIME target:self selector:@selector(checkPublishSucess:) userInfo:@{@"topic":topic,@"message":message,@"type":[NSString stringWithFormat:@"%ld",type],@"count":[NSString stringWithFormat:@"%d",count]} repeats:NO];
+            [self.publishingTopic addObject:requestId];
+            [NSTimer scheduledTimerWithTimeInterval:CHECK_PUBLISH_TIME target:self selector:@selector(checkPublishSucess:) userInfo:@{@"mqttId":requestId,@"topic":topic,@"message":message,@"type":[NSString stringWithFormat:@"%ld",type],@"count":[NSString stringWithFormat:@"%d",count]} repeats:NO];
 
-            [_session publishData:[msg dataUsingEncoding:NSUTF8StringEncoding] onTopic:[Utils getTopic
-                                                                                        ] retain:NO qos:REQUEST_QOS publishHandler:^(NSError *error) {
+            [_session publishData:[msg dataUsingEncoding:NSUTF8StringEncoding] onTopic:topic retain:NO qos:REQUEST_QOS publishHandler:^(NSError *error) {
 
                 if (error) {
                     NSLog(@"publish failed");
-                    if (self.delegate && [self.delegate respondsToSelector:@selector(mqttPublishFail)]) {
-                        [self.delegate mqttPublishFail];
+                    if (self.delegate && [self.delegate respondsToSelector:@selector(mqttPublishFail:)]) {
+                        [self.delegate mqttPublishFail:topic];
                     }
                 }
             }];
@@ -301,8 +352,8 @@ static MQTTService *instance = nil;
                 
                 if (error) {
                     NSLog(@"publish failed");
-                    if (self.delegate && [self.delegate respondsToSelector:@selector(mqttPublishFail)]) {
-                        [self.delegate mqttPublishFail];
+                    if (self.delegate && [self.delegate respondsToSelector:@selector(mqttPublishFail:)]) {
+                        [self.delegate mqttPublishFail:timer.topic];
                     }
                 }
             }];
@@ -318,8 +369,8 @@ static MQTTService *instance = nil;
         
         if (error) {
             NSLog(@"publish failed");
-            if (self.delegate && [self.delegate respondsToSelector:@selector(mqttPublishFail)]) {
-                [self.delegate mqttPublishFail];
+            if (self.delegate && [self.delegate respondsToSelector:@selector(mqttPublishFail:)]) {
+                [self.delegate mqttPublishFail:timer.topic];
             }
         }
     }];
@@ -330,8 +381,8 @@ static MQTTService *instance = nil;
         
         if (error) {
             NSLog(@"publish failed");
-            if (self.delegate && [self.delegate respondsToSelector:@selector(mqttPublishFail)]) {
-                [self.delegate mqttPublishFail];
+            if (self.delegate && [self.delegate respondsToSelector:@selector(mqttPublishFail:)]) {
+                [self.delegate mqttPublishFail:device.topic];
             }
         }
     }];
@@ -342,8 +393,8 @@ static MQTTService *instance = nil;
         
         if (error) {
             NSLog(@"publish failed");
-            if (self.delegate && [self.delegate respondsToSelector:@selector(mqttPublishFail)]) {
-                [self.delegate mqttPublishFail];
+            if (self.delegate && [self.delegate respondsToSelector:@selector(mqttPublishFail:)]) {
+                [self.delegate mqttPublishFail:device.topic];
             }
         }
     }];
@@ -357,21 +408,22 @@ static MQTTService *instance = nil;
 
     }
     if (userInfo) {
+        NSString *mqttId = [userInfo objectForKey:@"mqttId"];
         NSString *topic = [userInfo objectForKey:@"topic"];
-        if (topic) {
-            if ([self.publishingTopic containsObject:topic]) {
+        if (mqttId) {
+            if ([self.publishingTopic containsObject:mqttId]) {
                 NSString *message = [userInfo objectForKey:@"message"];
                 NSInteger type = [[userInfo objectForKey:@"type"] integerValue];
                 int count  = [[userInfo objectForKey:@"count"] intValue];
                 NSLog(@"publish failed message");
-                [self.publishingTopic removeObject:topic];
+                [self.publishingTopic removeObject:mqttId];
                 if (count < 3) {
                     count = count + 1;
-                    [self publishControl:topic message:message type:type count:count];
+                    [self publishControl:mqttId topic:topic message:message type:type count:count];
 
                 }else{
-                    if (self.delegate && [self.delegate respondsToSelector:@selector(mqttPublishFail)]) {
-                        [self.delegate mqttPublishFail];
+                    if (self.delegate && [self.delegate respondsToSelector:@selector(mqttPublishFail:)]) {
+                        [self.delegate mqttPublishFail:mqttId];
                     }
                 }
             }else{
@@ -491,8 +543,10 @@ static MQTTService *instance = nil;
     NSString *message = [[NSString alloc] initWithData:data encoding:kCFStringEncodingUTF8];
     NSLog(@"newMessage %@: %@",topic,message);
     BOOL isValue = false;
+    Controller *controller = [[CoredataHelper sharedInstance] getControllerById:topic];
+
     if ([message isNumber]) {
-        if ([Utils getDeviceType:topic] == DeviceTypeCurtain) {
+        if (controller && controller.type == DeviceTypeCurtain) {
             [self.publishingTopic removeObject:topic];
             if (self.delegate && [self.delegate respondsToSelector:@selector(mqttSetStateValueForDevice:value:)]) {
                 isValue = true;
@@ -500,7 +554,9 @@ static MQTTService *instance = nil;
             }
         }
     }else{
-        if([Utils getDeviceType:topic] == DeviceTypeLightOnOff || [Utils getDeviceType:topic] == DeviceTypeCurtain || [Utils getDeviceType:topic] == DeviceTypeTouchSwitch){
+//        if([[Utils getDeviceType:topic] == DeviceTypeLightOnOff || [Utils getDeviceType:topic] == DeviceTypeCurtain || [Utils getDeviceType:topic] == DeviceTypeTouchSwitch]){
+        if(controller){
+            NSLog(@"newMessage : %@ :::: %ld",controller.id,controller.type);
             if ([message containsString:@"TIMERSTATUS"]) {
                 if (self.delegate && [self.delegate respondsToSelector:@selector(mqttSetStateValueForTimer:)]) {
                     [self.delegate mqttSetStateValueForTimer:message];
@@ -511,12 +567,12 @@ static MQTTService *instance = nil;
                     NSArray *tmp = [message componentsSeparatedByString:@"'"];
                     if (tmp.count > 5) {
                         NSString *value = tmp[5];
-                    
+                        NSString *mqttId = tmp[1];
                         if ([value isEqualToString:@"1,2,0"] || [value isEqualToString:@"1,2,1"]) {
                             //den
                             [self.publishingTopic removeObject:tmp[1]];
-                            Device *getStatusDevice = [self getDeviceByTopic:tmp[1]];
-                            if (getStatusDevice) {
+                            Device *getStatusDevice = [[CoredataHelper sharedInstance] getDeviceByTopic:mqttId type:DeviceTypeLightOnOff];
+                            if (getStatusDevice != nil) {
                                 if ([value isEqualToString:@"1,2,1"]) {
                                     getStatusDevice.state = NO;
                                 }else if([value isEqualToString:@"1,2,0"]){
@@ -605,7 +661,7 @@ static MQTTService *instance = nil;
         }
     }
     if (!isValue) {
-        if (self.delegate && [self.delegate respondsToSelector:@selector(mqttPublishFail)]) {
+        if (self.delegate && [self.delegate respondsToSelector:@selector(mqttPublishFail:)]) {
             isValue = true;
 //            [self.delegate mqttPublishFail];
         }

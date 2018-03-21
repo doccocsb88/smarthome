@@ -31,12 +31,7 @@
     return [NSString stringWithFormat:@"id='%@' cmd='DELDEV'",self.requestId];
 }
 -(NSString *)getTopic{
-    if (self.type  == DeviceTypeCurtain) {
-        return [NSString stringWithFormat:@"QA_CC_%@",self.requestId];
-    }else if (self.type == DeviceTypeTouchSwitch){
-        return self.requestId;
-    }
-    return [Utils getTopic];
+    return self.requestId;
 }
 
 -(NSInteger )numberOfSwitchChannel{

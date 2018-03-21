@@ -29,7 +29,7 @@
 
 @property (assign,nonatomic) NSInteger type;
 @property (assign,nonatomic) BOOL scene;
-@property (assign, nonatomic) BOOL isProcessing;
+//@property (assign, nonatomic) BOOL isProcessing;
 @property (assign, nonatomic) NSInteger retry;
 
 @end

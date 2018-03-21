@@ -44,9 +44,9 @@
     if ([pref boolForKey:@"init_device"] == false){
         NSArray *topics = [[NSMutableArray alloc] init];//[NSArray arrayWithObjects:/*@"1/9/8/CURTAIN",@"2/9/8/CURTAIN", @"B000263D" , @"B0000C03" , @"B00026A1",*/, nil];
         for (int i = 0; i < topics.count; i ++) {
-            [[CoredataHelper sharedInstance] addNewDevice:@"xxx" name:[NSString stringWithFormat:@"device %d",i] deviceId:i + 1 state:i % 2 value:i * 10 topic:topics[i] type:DeviceTypeLightOnOff complete:^(Device *device) {
-                
-            }];
+//            [[CoredataHelper sharedInstance] addNewDevice:@"xxx" name:[NSString stringWithFormat:@"device %d",i] deviceId:i + 1 state:i % 2 value:i * 10 topic:topics[i] type:DeviceTypeLightOnOff complete:^(Device *device) {
+//                
+//            }];
         }
         [pref setBool:true forKey:@"init_device"];
     }

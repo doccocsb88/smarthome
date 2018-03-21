@@ -13,6 +13,8 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
+    self.selectButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
+    self.selectButton.imageEdgeInsets = UIEdgeInsetsMake(5, 5, 5, 5 );
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

@@ -18,6 +18,8 @@
 @interface BaseViewController : UIViewController
 @property (nonatomic) __strong UIButton *rightButton;
 @property (strong, nonatomic)  UIButton *leftButton;
+@property (assign, nonatomic) BOOL isProcessing;
+
 @property (nonatomic, strong)  SCSkypeActivityIndicatorView *activityIndicatorView;
 
 -(void)setupNavigator;

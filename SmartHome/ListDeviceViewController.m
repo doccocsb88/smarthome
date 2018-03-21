@@ -649,7 +649,7 @@
                 if (device.id == deviceId) {
                     device.value = value;
                     [self showLoadingView];
-                    [[MQTTService sharedInstance] publishControl:device.requestId message:[NSString stringWithFormat:@"%f",value] type:device.type count:1] ;
+                    [[MQTTService sharedInstance] publishControl:device.requestId topic:device.topic message:[NSString stringWithFormat:@"%f",value] type:device.type count:1] ;
                     break;
                 }
             }
@@ -684,19 +684,19 @@
                         [self showLoadingView];
                         self.isProcessing = true;
                         
-                        [[MQTTService sharedInstance] publishControl:device.requestId message:@"CLOSE" type:device.type count:1];
+                        [[MQTTService sharedInstance] publishControl:device.requestId topic:device.topic message:@"CLOSE" type:device.type count:1];
                     }else if (value == ButtonTypeStop){
                         [self showLoadingView];
                         self.isProcessing = true;
                         
                         
-                        [[MQTTService sharedInstance] publishControl:device.requestId message:@"STOP" type:device.type count:1];
+                        [[MQTTService sharedInstance] publishControl:device.requestId topic:device.topic message:@"STOP" type:device.type count:1];
                         
                     }else if (value == ButtonTypeOpen){
                         [self showLoadingView];
                         self.isProcessing = true;
                         
-                        [[MQTTService sharedInstance] publishControl:device.requestId message:@"OPEN" type:device.type count:1];
+                        [[MQTTService sharedInstance] publishControl:device.requestId topic:device.topic message:@"OPEN" type:device.type count:1];
                         
                     }
                     break;
@@ -748,7 +748,7 @@
 }
 
 
--(void)mqttPublishFail{
+-(void)mqttPublishFail:(NSString *)topic{
     [self hideLoadingView];
     self.isProcessing = false;
     

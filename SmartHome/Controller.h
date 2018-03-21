@@ -14,5 +14,6 @@
 @property (nonatomic, strong) NSString *code;
 @property (nonatomic, strong) NSString *key;
 @property (nonatomic, assign) NSInteger order;
+@property (nonatomic, assign) NSInteger type;
 
 @end

@@ -182,18 +182,18 @@
             NSInteger value = detail.status;
             if (device.type == DeviceTypeLightOnOff) {
                 if (value == ButtonTypeClose) {
-                    [[MQTTService sharedInstance] publishControl:device.requestId message:@"OPEN" type:device.type count:1];
+                    [[MQTTService sharedInstance] publishControl:device.requestId topic:device.topic message:@"OPEN" type:device.type count:1];
                 }else if (value == ButtonTypeStop){
                     //                [self showLoadingView];
                     
                     
-                    [[MQTTService sharedInstance] publishControl:device.requestId message:@"STOP" type:device.type count:1];
+                    [[MQTTService sharedInstance] publishControl:device.requestId topic:device.topic message:@"STOP" type:device.type count:1];
                     
                 }else if (value == ButtonTypeOpen){
                     //            [self showLoadingView];
                     //            self.isProcessing = true;
                     
-                    [[MQTTService sharedInstance] publishControl:device.requestId message:@"CLOSE" type:device.type count:1];
+                    [[MQTTService sharedInstance] publishControl:device.requestId topic:device.topic message:@"CLOSE" type:device.type count:1];
                     
                 }
                 
@@ -204,7 +204,7 @@
                     NSString *requestId = device.requestId;
                     NSString *message = [device switchChancelMessage:i status:[detail isChanelOn:chanel]];
                     NSInteger type = device.type;
-                    NSDictionary *userInfo  = @{@"requestId":requestId, @"message":message,@"type":@(type)};
+                    NSDictionary *userInfo  = @{@"requestId":requestId,@"topic":device.topic, @"message":message,@"type":@(type)};
                     NSLog(@"tư : 1 : %@",message);
 //                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.25*i * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 //                          [[MQTTService sharedInstance] publishControl:device.requestId message:[device switchChancelMessage:i status:[detail isChanelOn:i]] type:device.type count:1];
@@ -217,18 +217,18 @@
             }else{
                 //curtain
                 if (value == ButtonTypeClose) {
-                    [[MQTTService sharedInstance] publishControl:device.requestId message:@"CLOSE" type:device.type count:1];
+                    [[MQTTService sharedInstance] publishControl:device.requestId topic:device.topic message:@"CLOSE" type:device.type count:1];
                 }else if (value == ButtonTypeStop){
                     //                [self showLoadingView];
                     
                     
-                    [[MQTTService sharedInstance] publishControl:device.requestId message:@"STOP" type:device.type count:1];
+                    [[MQTTService sharedInstance] publishControl:device.requestId topic:device.topic message:@"STOP" type:device.type count:1];
                     
                 }else if (value == ButtonTypeOpen){
                     //            [self showLoadingView];
                     //            self.isProcessing = true;
                     
-                    [[MQTTService sharedInstance] publishControl:device.requestId message:@"OPEN" type:device.type count:1];
+                    [[MQTTService sharedInstance] publishControl:device.requestId topic:device.topic message:@"OPEN" type:device.type count:1];
                     
                 }
             }
@@ -450,11 +450,12 @@
 -(void)publishTopic:(NSTimer *)timer{
     NSDictionary *userInfo = timer.userInfo;
     NSString *requestId = [userInfo objectForKey:@"requestId"];
+    NSString *topic = [userInfo objectForKey:@"topic"];
     NSString *message = [userInfo objectForKey:@"message"];
     NSInteger type = [[userInfo objectForKey:@"type"] integerValue];
     NSLog(@"tư : 2 : %@",message);
 
-    [[MQTTService sharedInstance] publishControl:requestId message:message type:type count:1];
+    [[MQTTService sharedInstance] publishControl:requestId topic:topic message:message  type:type count:1];
     
 }
 @end

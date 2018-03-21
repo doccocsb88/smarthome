@@ -19,16 +19,17 @@
 @property (strong, nonatomic) NSManagedObjectContext *context;
 + (instancetype)sharedInstance;
 -(void)initRoomData;
--(void)addNewController:(NSString *)controllerId name:(NSString *)name order:(NSInteger)order code:(NSString *)code key:(NSString *)key complete:(void(^)(BOOL complete, Controller * room))complete;
+-(void)addNewController:(NSString *)controllerId name:(NSString *)name order:(NSInteger)order type:(NSInteger)type code:(NSString *)code key:(NSString *)key complete:(void(^)(BOOL complete, Controller * room))complete;
 -(NSArray *)getListcontroller;
+-(NSArray *)getListcontrollerBytype:(NSInteger)type;
 -(Controller *)getControllerById:(NSString *)controllerId;
--(NSInteger)countController;
-
+-(NSInteger)countController:(NSInteger)type;
+-(BOOL)hasController:(NSString *)controllerId;
 /**/
 - (Room *)addNewRoom:(NSString *)_id name:(NSString *)name parentId:(NSString *)parentId complete:(void(^)(BOOL complete, Room * room))complete;
 - (Room *)addNewRoomV2:(NSString *)_id key:(NSString *)key name:(NSString *)name code:(NSString *)code order:(NSInteger)order complete:(void(^)(BOOL))complete;
 
--(Device *)addNewDevice:(NSString *)token name:(NSString *) name deviceId:(NSInteger )_id state:(BOOL)value value:(NSInteger)value topic:(NSString *)topic type:(NSInteger)type complete:(void(^)(Device * device))complete;
+-(Device *)addNewDevice:(NSString *)token name:(NSString *) name deviceId:(NSInteger )_id state:(BOOL)value value:(NSInteger)value requestId:(NSString *)requestId topic:(NSString *)topic  type:(NSInteger)type complete:(void(^)(Device * device))complete;
 -(Device *)addNewDevice:(NSString *)token name:(NSString *) name deviceId:(NSInteger )_id topic:(NSString *)topic control:(BOOL)control state:(BOOL)state value:(NSInteger)value mqttId:(NSString *)mqttId type:(NSInteger)type order:(NSInteger)order complete:(void(^)(Device * device))complete;
 -(SHTimer *)addTimer;
 -(SHTimer *)getTimerByCode:(NSString *)code;

@@ -7,38 +7,43 @@
 //
 
 #import "Utils.h"
-
+#import "CoredataHelper.h"
+#import "Controller.h"
 @implementation Utils
 #define preft_topic @"pref_topic"
 +(DeviceType)getDeviceType:(NSString *)topic{
-    if ([topic containsString:@"QA_CC_CT"] || [topic containsString:@"WC"]) {
-        return DeviceTypeCurtain;
-    }else if ([topic containsString:@"WT"]){
-        return DeviceTypeTouchSwitch;
-    }else if ([topic containsString:[Utils getTopic]]){
-        return DeviceTypeLightOnOff;
+//    if ([topic containsString:@"QA_CC_CT"] || [topic containsString:@"WC"]) {
+//        return DeviceTypeCurtain;
+//    }else if ([topic containsString:@"WT"]){
+//        return DeviceTypeTouchSwitch;
+//    }else if ([topic containsString:[Utils getTopic]]){
+//        return DeviceTypeLightOnOff;
+//    }
+    Controller *controller = [[CoredataHelper sharedInstance] getControllerById:topic];
+    if (controller) {
+        return controller.type;
     }
     return DeviceTypeUnknow;
 }
 
-+(BOOL)hasTopic{
-    if ([self getTopic]) {
-        return true;
-    }
-    return false;
-    
-}
-
-+(void)setTopic:(NSString *)topic{
-    NSUserDefaults *pref = [NSUserDefaults standardUserDefaults];
-    [pref setObject:topic forKey:preft_topic];
-    [pref synchronize];
-}
-+(NSString *)getTopic{
-    NSUserDefaults *pref = [NSUserDefaults standardUserDefaults];
-    NSString *topic = [pref objectForKey:preft_topic];
-    return topic;
-}
+//+(BOOL)hasTopic:(NSString *)topic{
+//    if([[CoredataHelper sharedInstance] getControllerById:topic]){
+//        return true;
+//    }
+//    return false;
+//    
+//}
+//
+//+(void)setTopic:(NSString *)topic{
+////    NSUserDefaults *pref = [NSUserDefaults standardUserDefaults];
+////    [pref setObject:topic forKey:preft_topic];
+////    [pref synchronize];
+//}
+//+(NSString *)getTopic{
+//    NSUserDefaults *pref = [NSUserDefaults standardUserDefaults];
+//    NSString *topic = [pref objectForKey:preft_topic];
+//    return topic;
+//}
 +(Room *)getRoomWithId:(NSInteger)roomid in:(NSArray *)arrs{
     for (Room *room in arrs) {
         if (room.id   == roomid) {
