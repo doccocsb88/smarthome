@@ -18,7 +18,7 @@
 @dynamic chanels;
 @synthesize isSelected;
 @synthesize chanelSelected;
--(BOOL)isChanelOn:(int)chanel{
+-(BOOL)isChanelOn:(NSInteger)chanel{
     if ([self.device numberOfSwitchChannel] > 0 && chanel > 0) {
         if (chanel == 1) {
             if ((int)self.value % 2 == 0) {

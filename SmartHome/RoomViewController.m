@@ -936,11 +936,15 @@
     }
 }
 -(void)readTopicFromQRcode:(NSString *)qrcode{
-//    [Utils setTopic:qrcode];
+    NSArray *info = [qrcode componentsSeparatedByString:@";"];
     __weak RoomViewController *wSelf = self;
-    Controller *controller = [[CoredataHelper sharedInstance] getControllerById:qrcode];
+
+    if (info && info.count == 2 && [info[0] isEqualToString:@"controller"]){
+        NSString *topic = info[1];
+//    [Utils setTopic:qrcode];
+    Controller *controller = [[CoredataHelper sharedInstance] getControllerById:topic];
     if (!controller) {
-        [[CoredataHelper sharedInstance] addNewController:qrcode name:qrcode order:0 type:DeviceTypeLightOnOff code:@"" key:@"" complete:^(BOOL complete, Controller *newController) {
+        [[CoredataHelper sharedInstance] addNewController:topic name:topic order:0 type:DeviceTypeLightOnOff code:@"" key:@"" complete:^(BOOL complete, Controller *newController) {
             if (newController) {
                 [[FirebaseHelper sharedInstance] addController:newController];
             }
@@ -950,7 +954,13 @@
             }];
         }];
     }
+    }else{
+        wSelf.lastQRCode = nil;
 
+        [wSelf showMessageView:@"" message:@"QRCode không hợp lệ" autoHide:YES complete:^(NSInteger index) {
+            
+        }];
+    }
    
 }
 -(void)showQRResult:(NSString *)message{

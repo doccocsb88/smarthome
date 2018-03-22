@@ -105,8 +105,10 @@
                 }
             }
             for (Room *room in roomArray) {
+                NSSortDescriptor *imageSort = [NSSortDescriptor sortDescriptorWithKey:@"order" ascending:NO];
+                NSArray *allDevices =  [[[room.devices allObjects] sortedArrayUsingDescriptors:@[imageSort]] mutableCopy];
                 
-                for (Device *device in room.devices.allObjects) {
+                for (Device *device in allDevices) {
                  
                     if ([[User sharedInstance] isAdmin]) {
                         SceneDetail *detail =[[CoredataHelper sharedInstance] addSceneDetail:1 value:1 status:ButtonTypeOpen device:device complete:^(SceneDetail *detail) {
@@ -216,7 +218,7 @@
     
     if (self.scene) {
         NSInteger selectedIndex =  0;
-        for (NSInteger index =  0; index < indexPath.section - 1; index++) {
+        for (NSInteger index =  0; index < indexPath.section ; index++) {
             selectedIndex = selectedIndex + [self tableView:tableView numberOfRowsInSection:index];
         }
         
@@ -316,7 +318,7 @@
     SceneDetail *detail;
     if (self.scene) {
         NSInteger selectedIndex =  0;
-        for (NSInteger index =  0; index < indexPath.section - 1; index++) {
+        for (NSInteger index =  0; index < indexPath.section; index++) {
             selectedIndex = selectedIndex + [self tableView:tableView numberOfRowsInSection:index];
         }
 
@@ -415,7 +417,7 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (self.scene) {
         NSInteger selectedIndex =  0;
-        for (NSInteger index =  0; index < indexPath.section - 1; index++) {
+        for (NSInteger index =  0; index < indexPath.section ; index++) {
             selectedIndex = selectedIndex + [self tableView:tableView numberOfRowsInSection:index];
         }
         SceneDetail *detail = [dataArray objectAtIndex:selectedIndex + indexPath.row];

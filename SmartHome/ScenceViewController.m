@@ -199,10 +199,10 @@
                 
             }else if (device.type == DeviceTypeTouchSwitch){
                 NSInteger numberOfChanel = [detail numberOfChanel];
-                for (int i = 1; i <= numberOfChanel; i++) {
+                for (int i = 0; i < numberOfChanel; i++) {
                     NSInteger chanel = [detail getChanelIndex:i];
                     NSString *requestId = device.requestId;
-                    NSString *message = [device switchChancelMessage:i status:[detail isChanelOn:chanel]];
+                    NSString *message = [device switchChancelMessage:(int)chanel status:[detail isChanelOn:chanel]];
                     NSInteger type = device.type;
                     NSDictionary *userInfo  = @{@"requestId":requestId,@"topic":device.topic, @"message":message,@"type":@(type)};
                     NSLog(@"tư : 1 : %@",message);

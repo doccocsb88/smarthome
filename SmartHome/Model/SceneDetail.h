@@ -20,7 +20,7 @@
 @property (strong, nonatomic) NSString *chanels;
 @property (strong, nonatomic) NSMutableArray *chanelSelected;
 
--(BOOL)isChanelOn:(int)chanel;
+-(BOOL)isChanelOn:(NSInteger)chanel;
 -(void)addSelectedChanel:(NSInteger)chenel;
 -(void)setSelectedChanel:(NSInteger)chanel;
 -(BOOL)isChanelSelected:(NSInteger)chanel;
