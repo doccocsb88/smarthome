@@ -171,16 +171,16 @@
                 [self initObserver];
 
                 if ([[User sharedInstance] isAuthentication]) {
-                    [self synData];
+                    [wself synData];
                     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                        [self synSceneData];
+                        [wself synSceneData];
                     });
                     completion(_user,false);
 
                 }
             }else{
                 NSLog(@"writeUser");
-                [self writeUser];
+                [wself writeUser];
                 completion(_user,true);
             }
             

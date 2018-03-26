@@ -68,7 +68,7 @@
 }
 
 -(NSString *)getStatusCommandString{
-    return [NSString stringWithFormat:@"id='%@' cmd='GETTIMER' value='%ld'",self.requestId,self.order + 1];
+    return [NSString stringWithFormat:@"id='%@' cmd='GETTIMER' value='%ld'",self.requestId,self.order];
 }
 -(NSString *)getDays{
     NSString *str  =  [NSString stringWithFormat:@"%d:%d:%d:%d:%d:%d:%d",self.t2?1:0,self.t3?1:0,self.t4?1:0,self.t5?1:0,self.t6?1:0,self.t7?1:0,self.t8?1:0];

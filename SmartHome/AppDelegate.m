@@ -69,7 +69,9 @@
 //    [[GGLContext sharedInstance] configureWithError: &configureError];
 //    NSAssert(!configureError, @"Error configuring Google services: %@", configureError);
     //GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
-    [GIDSignIn sharedInstance].clientID = [FIRApp defaultApp].options.clientID;
+    [GIDSignIn sharedInstance].clientID = @"96636159345-9b3he2fe5pq1e3av9vu8sfmvti23edkp.apps.googleusercontent.com";//[FIRApp defaultApp].options.clientID;
+//    96636159345-9b3he2fe5pq1e3av9vu8sfmvti23edkp.apps.googleusercontent.com
+
     [GIDSignIn sharedInstance].delegate = self;
     //
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkNetworkStatus:) name:kReachabilityChangedNotification object:nil];
@@ -129,14 +131,26 @@
             openURL:(NSURL *)url
   sourceApplication:(NSString *)sourceApplication
          annotation:(id)annotation {
+    if ( [[GIDSignIn sharedInstance] handleURL:url
+                             sourceApplication:sourceApplication
+                                    annotation:annotation]){
+        return [[GIDSignIn sharedInstance] handleURL:url
+                                   sourceApplication:sourceApplication
+                                          annotation:annotation];
+    }else if ([[FBSDKApplicationDelegate sharedInstance] application:application
+                                                             openURL:url
+                                                   sourceApplication:sourceApplication
+                                                          annotation:annotation
+               ]){
+        return [[FBSDKApplicationDelegate sharedInstance] application:application
+                                                              openURL:url
+                                                    sourceApplication:sourceApplication
+                                                           annotation:annotation
+                ];
+    }
     
-    BOOL handled = [[FBSDKApplicationDelegate sharedInstance] application:application
-                                                                  openURL:url
-                                                        sourceApplication:sourceApplication
-                                                               annotation:annotation
-                    ];
     // Add any custom logic here.
-    return handled;
+    return NO;
 }
 - (BOOL)application:(UIApplication *)app
             openURL:(NSURL *)url

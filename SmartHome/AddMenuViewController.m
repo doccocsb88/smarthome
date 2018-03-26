@@ -33,7 +33,7 @@
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    self.marginTop.constant = (screenSize.height - MENU_SIZE * dataArray.count)/2 - 20;
+    self.marginTop.constant = (screenSize.height - MENU_SIZE * dataArray.count)/2 - 20 - 5 ;
     [self.view updateFocusIfNeeded];
 }
 - (void)didReceiveMemoryWarning {
@@ -52,6 +52,8 @@
     self.tableView.alwaysBounceVertical = true;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.scrollEnabled = false;
+    self.tableView.layer.cornerRadius = 10.0;
+    self.tableView.layer.masksToBounds = YES;
     //
     reader = [QRCodeReader readerWithMetadataObjectTypes:@[AVMetadataObjectTypeQRCode]];
     
@@ -65,9 +67,29 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return MENU_SIZE;
 }
+
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    return 5;
+}
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    return 5;
+}
+-(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
+    return [UIView  new];
+}
+
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    return [UIView new];
+}
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     AddMenuViewCell *cell = (AddMenuViewCell *)[tableView dequeueReusableCellWithIdentifier:@"AddMenuViewCell" forIndexPath:indexPath];
     cell.titleLabel.text = [dataArray objectAtIndex:indexPath.row];
+    if (indexPath.row == dataArray.count - 1) {
+        cell.menuBackgroundView.hidden = YES;
+    }else{
+        cell.menuBackgroundView.hidden = NO;
+
+    }
     return cell;
 }
 

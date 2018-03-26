@@ -35,7 +35,11 @@
     [GIDSignIn sharedInstance].uiDelegate = self;
     [GIDSignIn sharedInstance].delegate = self;
 //    [[FirebaseHelper sharedInstance] logout];
-  
+//    GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+//    .requestEmail()
+//    .build();
+//
+//    final GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
     [self initQRCode];
     [self setupUI];
    
@@ -310,6 +314,8 @@ didCompleteWithResult:(FBSDKLoginManagerLoginResult *)result
 }
 - (IBAction)pressedSignout:(id)sender {
     if ([FirebaseHelper sharedInstance].loginType == LoginTypeGoogle) {
+        [[GIDSignIn sharedInstance] disconnect];
+
         [[GIDSignIn sharedInstance] signOut];
 
     }else if ([FirebaseHelper sharedInstance].loginType == LoginTypeFacebook){

@@ -14,10 +14,11 @@
     [super awakeFromNib];
     // Initialization code
     self.selectionStyle = UITableViewCellSelectionStyleNone;
-    self.menuBackgroundView.layer.borderColor = [UIColor blackColor].CGColor;
-    self.menuBackgroundView.layer.borderWidth = 1.0;
-    self.menuBackgroundView.layer.cornerRadius = 5.0;
-    self.menuBackgroundView.layer.masksToBounds = true;
+//    self.menuBackgroundView.layer.borderColor = [UIColor blackColor].CGColor;
+//    self.menuBackgroundView.layer.borderWidth = 1.0;
+//    self.menuBackgroundView.layer.cornerRadius = 5.0;
+//    self.menuBackgroundView.layer.masksToBounds = true;
+    self.menuBackgroundView.backgroundColor = [UIColor blackColor];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

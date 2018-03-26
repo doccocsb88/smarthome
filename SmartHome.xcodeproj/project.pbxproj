@@ -526,6 +526,33 @@
 			name = Controller;
 			sourceTree = "<group>";
 		};
+		18746DD02065F96B00A37945 /* Favorite */ = {
+			isa = PBXGroup;
+			children = (
+				18746DD32065F9A600A37945 /* View */,
+				18746DD22065F99C00A37945 /* Controller */,
+			);
+			path = Favorite;
+			sourceTree = "<group>";
+		};
+		18746DD22065F99C00A37945 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				18EFAD811E75791C00637669 /* FavoriteViewController.h */,
+				18EFAD821E75791C00637669 /* FavoriteViewController.m */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
+		18746DD32065F9A600A37945 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				18B010CE1E758E78001834FB /* FavViewCell.h */,
+				18B010CF1E758E78001834FB /* FavViewCell.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		188A92A12007EDCD00143E26 /* Popup */ = {
 			isa = PBXGroup;
 			children = (
@@ -727,25 +754,14 @@
 		18EFAD7F1E7578E900637669 /* Screen */ = {
 			isa = PBXGroup;
 			children = (
+				18746DD02065F96B00A37945 /* Favorite */,
 				184E5C5B2052EC740028B003 /* Timer */,
 				187264EB20068FD700C2CF9B /* Scene */,
 				18AD10202004FE5D000DC410 /* Room */,
 				183F555C2003282900B072A9 /* Member */,
 				18CC8B921E7E41E9007FD291 /* Home */,
-				18EFAD801E7578F500637669 /* Favorites */,
 			);
 			name = Screen;
-			sourceTree = "<group>";
-		};
-		18EFAD801E7578F500637669 /* Favorites */ = {
-			isa = PBXGroup;
-			children = (
-				18EFAD811E75791C00637669 /* FavoriteViewController.h */,
-				18EFAD821E75791C00637669 /* FavoriteViewController.m */,
-				18B010CE1E758E78001834FB /* FavViewCell.h */,
-				18B010CF1E758E78001834FB /* FavViewCell.m */,
-			);
-			name = Favorites;
 			sourceTree = "<group>";
 		};
 		18F133642001E6C5008A5E55 /* Controller */ = {
