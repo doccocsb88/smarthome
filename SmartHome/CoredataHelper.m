@@ -691,6 +691,7 @@
     [self removeData:@"Scene"];
     [self removeData:@"Device"];
     [self removeData:@"Room"];
+    [self removeData:@"Controller"];
 
 }
 -(void)removeData:(NSString *)tableName{

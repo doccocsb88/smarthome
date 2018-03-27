@@ -185,15 +185,15 @@
 didSignInForUser:(GIDGoogleUser *)user
      withError:(NSError *)error {
     // Perform any operations on signed in user here.
-    if (error == nil) {
-        GIDAuthentication *authentication = user.authentication;
-        FIRAuthCredential *credential =
-        [FIRGoogleAuthProvider credentialWithIDToken:authentication.idToken
-                                         accessToken:authentication.accessToken];
-        // ...
-    } else {
-        // ...
-    }
+//    if (error == nil) {
+//        GIDAuthentication *authentication = user.authentication;
+//        FIRAuthCredential *credential =
+//        [FIRGoogleAuthProvider credentialWithIDToken:authentication.idToken
+//                                         accessToken:authentication.accessToken];
+//        // ...
+//    } else {
+//        // ...
+//    }
     // ...
 }
 - (void)signIn:(GIDSignIn *)signIn
@@ -201,6 +201,17 @@ didDisconnectWithUser:(GIDGoogleUser *)user
      withError:(NSError *)error {
     // Perform any operations when the user disconnects from app here.
     // ...
+    NSError *signOutError;
+    
+    BOOL status = [[FIRAuth auth] signOut:&signOutError];
+    
+    if (!status) {
+        
+        NSLog(@"Error signing out: %@", signOutError);
+        
+        return;
+        
+    }
 }
 #pragma mark - Core Data stack
 

@@ -247,7 +247,7 @@
         self.timer.type = self.device.type;
         self.timer.topic = self.device.topic;
     }
-    if (self.device.type == DeviceTypeLightOnOff) {
+    if (self.device.type == DeviceTypeLightOnOff || self.device.type == DeviceTypeTouchSwitch) {
         self.timer.status = !self.statusButton.selected;
 
     }else if (self.device.type == DeviceTypeCurtain){

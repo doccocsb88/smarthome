@@ -385,6 +385,7 @@
 
             };
         }else{
+            cell.isLoading = self.isProcessing;
             [cell setContentView:device type:self.scene? 1 : 0 ];
             cell.controlHandler = ^{
                 wSelf.isProcessing = true;

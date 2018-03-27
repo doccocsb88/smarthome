@@ -64,7 +64,6 @@
         LoginViewController *vc = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
         [self.navigationController pushViewController:vc animated:YES];
     }
-    [self.view bringSubviewToFront:self.stageView];
     self.navigationController.navigationBarHidden = NO;
     
 
@@ -77,6 +76,8 @@
 //    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
     if (self.firstTime) {
         self.firstTime = false;
+        [self.view bringSubviewToFront:self.stageView];
+
         [MQTTService sharedInstance];
         [[FirebaseHelper sharedInstance] getProfileInfo:^(FIRUser *user, Boolean isNew) {
             

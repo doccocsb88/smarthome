@@ -8,7 +8,9 @@
 
 #import "LoginViewController.h"
 #import "WellComeViewController.h"
-@interface LoginViewController ()<GIDSignInUIDelegate,GIDSignInDelegate,QRCodeReaderDelegate,RequestPopupDelegate>
+@import SafariServices;
+
+@interface LoginViewController ()<GIDSignInUIDelegate,GIDSignInDelegate,QRCodeReaderDelegate,RequestPopupDelegate,SFSafariViewControllerDelegate>
 @property (assign, nonatomic) Boolean isNew;
 @end
 
@@ -22,6 +24,7 @@
     [signIn setDelegate:self];
     [signIn setUiDelegate:self];
     signIn.shouldFetchBasicProfile = YES;
+
 //    [GIDSignIn sharedInstance].uiDelegate = self;
 //    [GIDSignIn sharedInstance].delegate = self;
 
@@ -168,7 +171,7 @@ didDisconnectWithUser:(GIDGoogleUser *)user
 presentViewController:(UIViewController *)viewController {
     NSLog(@"presentViewController");
 
-//    [self presentViewController:viewController animated:YES completion:nil];
+    [self presentViewController:viewController animated:YES completion:nil];
 }
 
 // Dismiss the "Sign in with Google" view
@@ -183,9 +186,11 @@ dismissViewController:(UIViewController *)viewController {
 
 
 - (IBAction)pressedSigninGoogle:(id)sender {
-    [[GIDSignIn sharedInstance] signOut];
+    SFSafariViewController *logoutViewController = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:@"https://www.google.com/accounts/Logout"]];
+    logoutViewController.delegate = self;
+    [self presentViewController:logoutViewController animated:YES completion:nil];
 
-    [[GIDSignIn sharedInstance] signIn];
+//    [[GIDSignIn sharedInstance] signIn];
 
 }
 - (IBAction)pressedSigninFacebook:(id)sender {
@@ -212,6 +217,11 @@ dismissViewController:(UIViewController *)viewController {
              
          }
      }];
+}
+-(void)safariViewController:(SFSafariViewController *)controller didCompleteInitialLoad:(BOOL)didLoadSuccessfully {
+    [controller dismissViewControllerAnimated:NO completion:^{
+        [[GIDSignIn sharedInstance] signIn];
+    }];
 }
 -(void)openWellComeScreen{
     WellComeViewController *popupContent = [WellComeViewController new];

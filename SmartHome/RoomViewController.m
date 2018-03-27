@@ -42,6 +42,7 @@
 //@property (strong, nonatomic) MQTTSession *session;
 @property (strong, nonatomic) KLCPopup *controlPopup;
 @property (strong, nonatomic) ListControlViewController *popupContent;
+@property (strong, nonatomic) SmartConfigViewController *smartconfigViewController;
 @end
 
 @implementation RoomViewController
@@ -940,20 +941,10 @@
     __weak RoomViewController *wSelf = self;
 
     if (info && info.count == 2 && [info[0] isEqualToString:@"controller"]){
-        NSString *topic = info[1];
 //    [Utils setTopic:qrcode];
-    Controller *controller = [[CoredataHelper sharedInstance] getControllerById:topic];
-    if (!controller) {
-        [[CoredataHelper sharedInstance] addNewController:topic name:topic order:0 type:DeviceTypeLightOnOff code:@"" key:@"" complete:^(BOOL complete, Controller *newController) {
-            if (newController) {
-                [[FirebaseHelper sharedInstance] addController:newController];
-            }
-            wSelf.lastQRCode = nil;
-            [wSelf showMessageView:@"" message:@"Đã thêm bộ điều khiển" autoHide:YES complete:^(NSInteger index) {
-                
-            }];
-        }];
-    }
+        [self showSmartConfig:qrcode];
+
+  
     }else{
         wSelf.lastQRCode = nil;
 
@@ -990,13 +981,17 @@
                 [wSelf showListTopicPopup:topic type:type];
                 
             }else if (type == DeviceTypeTouchSwitch){
-                [self addNewDevice:topic topic:topic type:type];
+//                [self addNewDevice:topic topic:topic type:type];
+                [self showSmartConfig:message];
+
 
             }else if (type == DeviceTypeCurtain){
-                NSString *mqttId = [topic componentsSeparatedByString:@"-"][1];
-                [self addNewDevice:mqttId topic:topic type:type];
+//                NSString *mqttId = [topic componentsSeparatedByString:@"-"][1];
+//                [self addNewDevice:mqttId topic:topic type:type];
+                [self showSmartConfig:message];
             }
             //end if (type == DeviceTypeLightOnOff) {
+            
         }
     }
 }
@@ -1037,8 +1032,10 @@
             }
             displayArray = [dataArray mutableCopy];
 //            self.addDevice = nil;
-//            [self.tableView reloadData];
             [[MQTTService sharedInstance] subscribeToTopic:device];
+            if(device.type != DeviceTypeLightOnOff){
+               [self.tableView reloadData];
+            }
 
         }
         
@@ -1107,6 +1104,52 @@
     [alert addAction:okAction];
     //    [alert addAction:cancelAction];
     [self presentViewController:alert animated:true completion:nil];
+}
+
+
+-(void)showSmartConfig:(NSString *)qrcodeString{
+    __weak RoomViewController *wSelf = self;
+    if(!self.smartconfigViewController){
+        self.smartconfigViewController = [[SmartConfigViewController alloc] initWithNibName:@"SmartConfigViewController" bundle:nil];
+    }
+    self.smartconfigViewController.qrCodeString = qrcodeString;
+    self.smartconfigViewController.handleAddControl = ^(NSString *qrcode) {
+        NSArray *info = [qrcode componentsSeparatedByString:@";"];
+        if ([info[0] isEqualToString:@"controller"]) {
+            NSString *topic = info[1];
+            Controller *controller = [[CoredataHelper sharedInstance] getControllerById:topic];
+            
+            if (!controller) {
+                [[CoredataHelper sharedInstance] addNewController:topic name:topic order:0 type:DeviceTypeLightOnOff code:@"" key:@"" complete:^(BOOL complete, Controller *newController) {
+                    if (newController) {
+                        [[FirebaseHelper sharedInstance] addController:newController];
+                    }
+                    wSelf.lastQRCode = nil;
+                    [wSelf showMessageView:@"" message:@"Đã thêm bộ điều khiển" autoHide:YES complete:^(NSInteger index) {
+                        
+                    }];
+                }];
+            }else{
+                wSelf.lastQRCode = nil;
+
+                [wSelf showMessageView:@"" message:@"Đã thêm bộ điều khiển" autoHide:YES complete:nil];
+                
+            }
+        }else if([info[0] isNumber]){
+            NSInteger type = [info[0] integerValue];
+            NSString *topic = [info[1] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+            if (type == DeviceTypeTouchSwitch){
+                [wSelf addNewDevice:topic topic:topic type:type];
+                
+            }else if (type == DeviceTypeCurtain){
+                NSString *mqttId = [topic componentsSeparatedByString:@"-"][1];
+                [wSelf addNewDevice:mqttId topic:topic type:type];
+            }
+   
+        }
+       
+    };
+    [self.navigationController pushViewController:self.smartconfigViewController                                                                                                                                    animated:YES];
 }
 - (IBAction)longPressGestureRecognized:(id)sender {
     

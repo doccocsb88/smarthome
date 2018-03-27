@@ -22,6 +22,7 @@
 #import "ListTimerViewController.h"
 #import "FirebaseHelper.h"
 #import "User.h"
+#import "SmartConfigViewController.h"
 @interface RoomViewController : BaseViewController
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIScrollView *filterView;

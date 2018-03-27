@@ -364,7 +364,7 @@ static MQTTService *instance = nil;
 }
 -(void) setTimer:(SHTimer *)timer{
     NSString *msg = [timer getCommandString:DeviceTypeUnknow goto:timer.isSlide];
-
+    NSLog(@"setTimer : %@",msg);
     [_session publishData:[msg dataUsingEncoding:NSUTF8StringEncoding] onTopic:timer.topic retain:NO qos:REQUEST_QOS publishHandler:^(NSError *error) {
         
         if (error) {
@@ -374,6 +374,11 @@ static MQTTService *instance = nil;
             }
         }
     }];
+//    id='WT3-0000000004/1' cmd='SETTIMER' value='0,1,13:39,0,01111100'
+//    id='WT3-0000000004/1' cmd='SETTIMER' value='1,1,13:41,0,01111110'
+//    id='WT3-0000000004/3' cmd='SETTIMER' value='1,1,13:47,1,01110110'
+
+
 }
 
 -(void)addMQTTDevice:(Device *)device{

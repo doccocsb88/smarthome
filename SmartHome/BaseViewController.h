@@ -12,9 +12,12 @@
 #import "NSString+Utils.h"
 #import "SCSkypeActivityIndicatorView.h"
 #import "MDCActivityIndicator.h"
+//#import "ESPTouchDelegate.h"
 
 #define LOADING_SIZE 100
-
+//@interface EspTouchDelegateImpl : NSObject<ESPTouchDelegate>
+//
+//@end
 @interface BaseViewController : UIViewController
 @property (nonatomic) __strong UIButton *rightButton;
 @property (strong, nonatomic)  UIButton *leftButton;

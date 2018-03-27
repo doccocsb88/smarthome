@@ -34,7 +34,9 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillDisappear:animated];
     if ( [[MQTTService sharedInstance] isConnected] == false) {
-        [self showLoadingView];
+        if(dataArray.count > 0){
+            [self showLoadingView];
+        }
         
         [[MQTTService sharedInstance] conect];
     }else{

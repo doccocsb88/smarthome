@@ -50,6 +50,8 @@
 		188E61DA204E365C008DD7DD /* TouchSwitchViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 188E61D8204E365C008DD7DD /* TouchSwitchViewCell.xib */; };
 		188E61DE204E78EE008DD7DD /* ChannelViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 188E61DC204E78EE008DD7DD /* ChannelViewCell.m */; };
 		188E61DF204E78EE008DD7DD /* ChannelViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 188E61DD204E78EE008DD7DD /* ChannelViewCell.xib */; };
+		18902FB8206A83D0003D182F /* SmartConfigViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18902FB6206A83D0003D182F /* SmartConfigViewController.m */; };
+		18902FB9206A83D0003D182F /* SmartConfigViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18902FB7206A83D0003D182F /* SmartConfigViewController.xib */; };
 		18AD101E2004D2CF000DC410 /* ShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AD101C2004D2CF000DC410 /* ShareViewController.m */; };
 		18AD101F2004D2CF000DC410 /* ShareViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18AD101D2004D2CF000DC410 /* ShareViewController.xib */; };
 		18AD102620052D1B000DC410 /* FirebaseTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AD102420052D1B000DC410 /* FirebaseTestViewController.m */; };
@@ -201,6 +203,9 @@
 		188E61DB204E78EE008DD7DD /* ChannelViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChannelViewCell.h; sourceTree = "<group>"; };
 		188E61DC204E78EE008DD7DD /* ChannelViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChannelViewCell.m; sourceTree = "<group>"; };
 		188E61DD204E78EE008DD7DD /* ChannelViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChannelViewCell.xib; sourceTree = "<group>"; };
+		18902FB5206A83D0003D182F /* SmartConfigViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SmartConfigViewController.h; sourceTree = "<group>"; };
+		18902FB6206A83D0003D182F /* SmartConfigViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SmartConfigViewController.m; sourceTree = "<group>"; };
+		18902FB7206A83D0003D182F /* SmartConfigViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SmartConfigViewController.xib; sourceTree = "<group>"; };
 		18AD101B2004D2CF000DC410 /* ShareViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShareViewController.h; sourceTree = "<group>"; };
 		18AD101C2004D2CF000DC410 /* ShareViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShareViewController.m; sourceTree = "<group>"; };
 		18AD101D2004D2CF000DC410 /* ShareViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShareViewController.xib; sourceTree = "<group>"; };
@@ -593,6 +598,9 @@
 				18EC416C20615C6F00388B1A /* ListControlViewController.h */,
 				18EC416D20615C6F00388B1A /* ListControlViewController.m */,
 				18EC416E20615C6F00388B1A /* ListControlViewController.xib */,
+				18902FB5206A83D0003D182F /* SmartConfigViewController.h */,
+				18902FB6206A83D0003D182F /* SmartConfigViewController.m */,
+				18902FB7206A83D0003D182F /* SmartConfigViewController.xib */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -901,6 +909,7 @@
 				18CBD2C51E87B383002635D8 /* RemViewCell.xib in Resources */,
 				18B6DD381F6046BA00225B32 /* Assets.xcassets in Resources */,
 				188E61DA204E365C008DD7DD /* TouchSwitchViewCell.xib in Resources */,
+				18902FB9206A83D0003D182F /* SmartConfigViewController.xib in Resources */,
 				18AD102720052D1B000DC410 /* FirebaseTestViewController.xib in Resources */,
 				18AD101F2004D2CF000DC410 /* ShareViewController.xib in Resources */,
 				18EFAD701E756F8900637669 /* Main.storyboard in Resources */,
@@ -1036,6 +1045,7 @@
 				1813662F1E8A9C3A0075CA93 /* GalleryViewController.m in Sources */,
 				18F467FC1E8017E1001CF694 /* RoomViewController.m in Sources */,
 				18EC41782061656300388B1A /* Controller.m in Sources */,
+				18902FB8206A83D0003D182F /* SmartConfigViewController.m in Sources */,
 				181885CE1E9019D500F5609D /* ESP_NetUtil.m in Sources */,
 				5F52A44E1F1355E000A0819C /* NSString+Utils.m in Sources */,
 				5FF960921F2A4A4F00B210C6 /* ListTimerViewController.m in Sources */,
