@@ -283,7 +283,7 @@
   
 }
 -(void)mqttBecomeActive{
-    NSLog(@"becomeActive");
+    NSLog(@"becomeActive 1");
     if ([MQTTService sharedInstance].isConnect == false && _retry == 0) {
         _retry = 1;
         [self showLoadingView];

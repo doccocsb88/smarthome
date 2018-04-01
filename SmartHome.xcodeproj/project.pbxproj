@@ -689,8 +689,6 @@
 				18CBD2BA1E87A2E2002635D8 /* EditDeviceMenuViewController.m */,
 				18CBD2BC1E87B223002635D8 /* ListDeviceViewController.h */,
 				18CBD2BD1E87B223002635D8 /* ListDeviceViewController.m */,
-				1813662D1E8A9C3A0075CA93 /* GalleryViewController.h */,
-				1813662E1E8A9C3A0075CA93 /* GalleryViewController.m */,
 				18E4E6F71E8D5036001CCED3 /* BaseTabbarViewController.h */,
 				18E4E6F81E8D5036001CCED3 /* BaseTabbarViewController.m */,
 				5F09E9651F2360EA00B3AD47 /* SortRoomViewController.h */,
@@ -784,6 +782,8 @@
 				18E3186C2009FDBE002015BA /* LoginViewController.h */,
 				18E3186D2009FDBE002015BA /* LoginViewController.m */,
 				18E3186E2009FDBE002015BA /* LoginViewController.xib */,
+				1813662D1E8A9C3A0075CA93 /* GalleryViewController.h */,
+				1813662E1E8A9C3A0075CA93 /* GalleryViewController.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";

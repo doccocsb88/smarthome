@@ -335,22 +335,29 @@
             NSInteger index = 0;
             NSMutableArray *arrs = [[NSMutableArray alloc] init];
             for (Device *device in [room.devices allObjects]) {
-                if (device.control) {
+                if (device.type == DeviceTypeTouchSwitch){
                     [arrs addObject:device];
+                }else{
+                    if (device.control) {
+                        [arrs addObject:device];
+                    }
                 }
             }
             //            [[MQTTService sharedInstance] setListDevices:arrs];
             index = 0;
             for (Device *device in arrs) {
-                if ([device numberOfSwitchChannel] > 0) {
+                if (device.type == DeviceTypeTouchSwitch) {
                     for (int i = 1; i <= [device numberOfSwitchChannel]; i++) {
-                        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, index * 0.5 * NSEC_PER_SEC);
-
-                        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                        if ([device isAutoControl:i]) {
+                            dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, index * 0.5 * NSEC_PER_SEC);
                             
-                            [[MQTTService sharedInstance] publishControl:device.requestId topic:device.topic message:[device switchChancelMessage:(int)i status:true] type:device.type count:0];
-                        });
-                        index ++;
+                            dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                                
+                                [[MQTTService sharedInstance] publishControl:device.requestId topic:device.topic message:[device switchChancelMessage:(int)i status:true] type:device.type count:0];
+                            });
+                            index ++;
+                        }
+                       
                     }
                 }else{
                     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, index * 0.5 * NSEC_PER_SEC);

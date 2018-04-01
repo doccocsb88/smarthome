@@ -297,6 +297,7 @@
                     NSInteger order = [[info objectForKey:@"device_order"] integerValue];
                     NSInteger roomId = [[info objectForKey:@"deviceId"] integerValue];
                     NSString *chanelInfo = [info objectForKey:@"chanelInfo"];
+                    Room *room = [[CoredataHelper sharedInstance] getRoomByid:roomId];
 
                     if(![[CoredataHelper sharedInstance] hasDevice:mqttId]){
     
@@ -305,7 +306,6 @@
                                 
                             }];
                         }
-                        Room *room = [[CoredataHelper sharedInstance] getRoomByid:roomId];
                         [[CoredataHelper sharedInstance] addNewDevice:topic name:name deviceId:deviceId topic:topic control:control state:status value:value mqttId:mqttId type:type order:order complete:^(Device *device) {
                             if (device) {
                                 NSLog(@"AddDeviceFromFireBase : %@",device.name);
@@ -324,8 +324,12 @@
                             device.control = control;
                             device.chanelInfo = chanelInfo?chanelInfo:@"";
 
-                            [[CoredataHelper sharedInstance] save];
                         }
+                        if (room && [room hasDevice:mqttId] == false) {
+                            [room addDevicesObject:device];
+                        }
+                        [[CoredataHelper sharedInstance] save];
+
                     }
                 }
                 //                    deviceId = 1;
@@ -582,13 +586,13 @@
 /**/
 -(void)addRoom:(Room *)room{
     NSString *key = [[[[self.ref child:@"users"] child:self.user.uid] child:@"rooms"] childByAutoId].key;
-    NSDictionary *dic = @{@"id":[NSString stringWithFormat:@"%ld",room.id],@"room_code":room.code,@"room_name":room.name,@"room_order":[NSString stringWithFormat:@"%ld",room.order]};
+    NSDictionary *dic = @{@"id":[NSString stringWithFormat:@"%ld",room.id],@"room_code":room.code,@"room_name":room.name,@"room_thumb":room.image,@"room_order":[NSString stringWithFormat:@"%ld",room.order]};
     NSDictionary *childUpdates = @{[NSString stringWithFormat:@"/users/%@/rooms/%@", self.user.uid, key]: dic};
     room.key = key;
     [_ref updateChildValues:childUpdates];
 }
 -(void)updateRoom:(Room *)room{
-    NSDictionary *dic = @{@"id":[NSString stringWithFormat:@"%ld",room.id],@"room_code":room.code,@"room_name":room.name,@"room_order":[NSString stringWithFormat:@"%ld",room.order]};
+    NSDictionary *dic = @{@"id":[NSString stringWithFormat:@"%ld",room.id],@"room_code":room.code,@"room_name":room.name,@"room_thumb":room.image,@"room_order":[NSString stringWithFormat:@"%ld",room.order]};
     NSDictionary *childUpdates = @{[NSString stringWithFormat:@"/users/%@/rooms/%@", self.user.uid, room.key]: dic};
     [_ref updateChildValues:childUpdates];
 }
@@ -787,13 +791,17 @@ NSDictionary *dic = @{@"accept":[NSNumber numberWithInteger:status],
     [self.ref updateChildValues:childUpdates];
 }
 -(void)clearData{
+    NSString *controllerPath  = [NSString stringWithFormat:@"/users/%@/controller/",self.user.uid];
+
     NSString *devicesPath  = [NSString stringWithFormat:@"/users/%@/devices/",self.user.uid];
     NSString *roomsPath  = [NSString stringWithFormat:@"/users/%@/rooms/",self.user.uid];
     NSString *scenePath  = [NSString stringWithFormat:@"/users/%@/scenes/",self.user.uid];
     NSString *sceneDetailPath  = [NSString stringWithFormat:@"/users/%@/scene_details/",self.user.uid];
     NSString *timersPath  = [NSString stringWithFormat:@"/users/%@/timers/",self.user.uid];
     NSString *membersPath  = [NSString stringWithFormat:@"/users/%@/members/",self.user.uid];
-
+    
+    
+    [[self.ref child:controllerPath] removeValue];
     [[self.ref child:devicesPath] removeValue];
     [[self.ref child:roomsPath] removeValue];
     [[self.ref child:scenePath] removeValue];

@@ -85,19 +85,8 @@
         [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(mqttBecomeActive) name:@"mqttapplicationDidBecomeActive" object:nil];
         [SVProgressHUD setDefaultStyle:SVProgressHUDStyleDark];
         [SVProgressHUD showWithStatus:@"Đang xử lý"];
-//        [SVProgressHUD setRingRadius:50];
         [SVProgressHUD dismissWithDelay:3];
-        
-//        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//            // time-consuming task
-//            dispatch_async(dispatch_get_main_queue(), ^{
-//                [SVProgressHUD dismiss];
-//            });
-//        });
-//        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//            [SVProgressHUD dismiss];
-//
-//        });
+
     }
  
     self.navigationController.navigationBarHidden = NO;
@@ -345,7 +334,7 @@
         //        <#code#>
         UITextField *tf = alert.textFields.firstObject;
         NSString *roomName = tf.text;
-        [[CoredataHelper sharedInstance] addNewRoom:[NSString stringWithFormat:@"%ld",dataArray.count] name:roomName parentId:nil complete:^(BOOL complete,Room *room) {
+        [[CoredataHelper sharedInstance] addNewRoom:[NSString stringWithFormat:@"%ld",dataArray.count + 1] name:roomName parentId:nil complete:^(BOOL complete,Room *room) {
             if (complete && room) {
                 [[FirebaseHelper sharedInstance] addRoom:room];
             }
@@ -445,13 +434,16 @@
 #pragma mark - SortRoomDelegate
 
 -(void)mqttBecomeActive{
-    NSLog(@"becomeActive");
-    if ([MQTTService sharedInstance].isConnect == false && [MQTTService sharedInstance].isConnecting == false) {
-        [MQTTService sharedInstance].isConnecting = true;
-        [[MQTTService sharedInstance] conect];
-    }
-    [[MQTTService sharedInstance] clearPublishDevice];
-    [[MQTTService sharedInstance] clearRequestStatusDevice];
+    NSLog(@"becomeActive 2");
+
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+        if ([MQTTService sharedInstance].isConnect == false && [MQTTService sharedInstance].isConnecting == false) {
+            [MQTTService sharedInstance].isConnecting = true;
+            [[MQTTService sharedInstance] conect];
+        }
+        [[MQTTService sharedInstance] clearPublishDevice];
+        [[MQTTService sharedInstance] clearRequestStatusDevice];
+    });
 }
 -(void)handleMqttConnectEvent:(NSNotification *)notification{
     NSDictionary *info = notification.userInfo;

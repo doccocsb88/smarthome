@@ -22,4 +22,13 @@
     }
     return count;
 }
+-(BOOL)hasDevice:(NSString *)mqttId{
+    for(Device *device in [self.devices allObjects]){
+        if ([device.requestId isEqualToString:mqttId]){
+            return true;
+        }
+    }
+    return false;
+
+}
 @end

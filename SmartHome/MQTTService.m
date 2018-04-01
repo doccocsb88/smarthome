@@ -66,6 +66,11 @@ static MQTTService *instance = nil;
 //        [_session disconnect];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"kMqttConnectToServer" object:nil userInfo:@{@"result":@"0"}];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(conect) name:kReachabilityChangedNotification object:nil];
+//        __weak MQTTService *wSelf = self;
+//        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//            [wSelf conect];
+//
+//        });
 
     }
 
@@ -91,11 +96,11 @@ static MQTTService *instance = nil;
                 
                 [self.dataArray removeObject:d];
 
-                if (topic && topic.length > 0) {
-                    [_session unsubscribeTopic:topic unsubscribeHandler:^(NSError *error) {
-                        
-                    }];
-                }
+//                if (topic && topic.length > 0) {
+//                    [_session unsubscribeTopic:topic unsubscribeHandler:^(NSError *error) {
+//
+//                    }];
+//                }
                
             }
         }
@@ -525,7 +530,7 @@ static MQTTService *instance = nil;
         [self.delegate mqttDisConnect];
     }
     [[NSNotificationCenter defaultCenter] postNotificationName:@"kMqttConnectToServer" object:nil userInfo:@{@"result":@"3"}];
-    [self conect];
+//    [self conect];
 
 }
 -(void)handleMQTTConnectionSucess{

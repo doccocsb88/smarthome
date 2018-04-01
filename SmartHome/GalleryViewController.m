@@ -81,6 +81,8 @@
 }
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     self.room.image = [NSString stringWithFormat:@"ic_room_%ld",indexPath.row];
+    [[CoredataHelper sharedInstance] save];
+    [[FirebaseHelper sharedInstance] updateRoom:self.room];
     if ([self.delegate respondsToSelector:@selector(didChangeThumbnail)]) {
         [self.delegate didChangeThumbnail];
     }

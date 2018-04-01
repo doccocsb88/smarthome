@@ -292,24 +292,24 @@ didDisconnectWithUser:(GIDGoogleUser *)user
 }
 
 -(void)initData{
-    NSError* err = nil;
-    NSString* dataPath = [[NSBundle mainBundle] pathForResource:@"SmartHome" ofType:@"json"];
-    NSArray* rooms = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:dataPath]
-                                                     options:kNilOptions
-                                                       error:&err];
-    NSManagedObjectContext *context = self.persistentContainer.viewContext;
-
-    [rooms enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        [[CoredataHelper sharedInstance] addNewRoom:[NSString stringWithFormat:@"%ld",idx + 1] name:[obj objectForKey:@"name"] parentId:[obj objectForKey:@"parentid"] complete:^(BOOL complete,Room *room) {
-            
-        }];
-        NSError *error;
-        if (![context save:&error]) {
-            NSLog(@"Whoops, couldn't save: %@", [error localizedDescription]);
-        }
-    }];
-    NSUserDefaults *pref = [NSUserDefaults standardUserDefaults];
-    [pref setBool:true forKey:@"init"];
+//    NSError* err = nil;
+//    NSString* dataPath = [[NSBundle mainBundle] pathForResource:@"SmartHome" ofType:@"json"];
+//    NSArray* rooms = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:dataPath]
+//                                                     options:kNilOptions
+//                                                       error:&err];
+//    NSManagedObjectContext *context = self.persistentContainer.viewContext;
+//
+//    [rooms enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+//        [[CoredataHelper sharedInstance] addNewRoom:[NSString stringWithFormat:@"%ld",idx + 1] name:[obj objectForKey:@"name"] parentId:[obj objectForKey:@"parentid"] complete:^(BOOL complete,Room *room) {
+//            
+//        }];
+//        NSError *error;
+//        if (![context save:&error]) {
+//            NSLog(@"Whoops, couldn't save: %@", [error localizedDescription]);
+//        }
+//    }];
+//    NSUserDefaults *pref = [NSUserDefaults standardUserDefaults];
+//    [pref setBool:true forKey:@"init"];
 }
 -(void) checkNetworkStatus:(NSNotification *)notice{
     NetworkStatus internetStatus = [internetReachable currentReachabilityStatus];
@@ -345,21 +345,21 @@ didDisconnectWithUser:(GIDGoogleUser *)user
         {
             NSLog(@"A gateway to the host server is down.");
             self.hostActive = NO;
-            
+
             break;
         }
         case ReachableViaWiFi:
         {
             NSLog(@"A gateway to the host server is working via WIFI.");
             self.hostActive = YES;
-            
+
             break;
         }
         case ReachableViaWWAN:
         {
             NSLog(@"A gateway to the host server is working via WWAN.");
             self.hostActive = YES;
-            
+
             break;
         }
     }

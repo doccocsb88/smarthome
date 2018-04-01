@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "BaseViewController.h"
 #import "Room+CoreDataClass.h"
+#import "FirebaseHelper.h"
 @protocol GalleryDelegate <NSObject>
 -(void)didChangeThumbnail;
 @end

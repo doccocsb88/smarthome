@@ -23,21 +23,21 @@
     return sharedInstance;
 }
 -(void)initRoomData{
-    NSError* err = nil;
-    NSString* dataPath = [[NSBundle mainBundle] pathForResource:@"SmartHome" ofType:@"json"];
-    NSArray* rooms = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:dataPath]
-                                                     options:kNilOptions
-                                                       error:&err];
-    
-    [rooms enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        [[CoredataHelper sharedInstance] addNewRoom:[NSString stringWithFormat:@"%ld",idx] name:[obj objectForKey:@"name"] parentId:[obj objectForKey:@"parentid"] complete:^(BOOL complete,Room *room) {
-            
-        }];
-        NSError *error;
-        if (![self.context save:&error]) {
-            NSLog(@"Whoops, couldn't save: %@", [error localizedDescription]);
-        }
-    }];
+//    NSError* err = nil;
+//    NSString* dataPath = [[NSBundle mainBundle] pathForResource:@"SmartHome" ofType:@"json"];
+//    NSArray* rooms = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:dataPath]
+//                                                     options:kNilOptions
+//                                                       error:&err];
+//    
+//    [rooms enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+//        [[CoredataHelper sharedInstance] addNewRoom:[NSString stringWithFormat:@"%ld",idx] name:[obj objectForKey:@"name"] parentId:[obj objectForKey:@"parentid"] complete:^(BOOL complete,Room *room) {
+//            
+//        }];
+//        NSError *error;
+//        if (![self.context save:&error]) {
+//            NSLog(@"Whoops, couldn't save: %@", [error localizedDescription]);
+//        }
+//    }];
 }
 
 -(void)addNewController:(NSString *)controllerId name:(NSString *)name order:(NSInteger)order type:(NSInteger)type code:(NSString *)code key:(NSString *)key complete:(void(^)(BOOL complete, Controller * room))complete{
