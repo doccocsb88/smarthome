@@ -139,6 +139,7 @@
     }
     cell.controlButton.tag = tag;
     [cell.controlButton addTarget:self action:@selector(didPressedControl:) forControlEvents:UIControlEventTouchUpInside];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{

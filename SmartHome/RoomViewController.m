@@ -390,6 +390,8 @@
             wself.isProcessing = true;
             wCell.isLoading = true;
         };
+        cell.selectionStyle = UITableViewRowActionStyleDefault;
+
         return cell;
     }
     
@@ -815,9 +817,11 @@
 -(void)mqttConnected{
     [self.activityIndicatorView stopAnimating];
     self.activityIndicatorView.hidden = YES;
-    [[MQTTService sharedInstance] setListDevices:dataArray];
     [self setTitle:self.room.name connected:YES];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [[MQTTService sharedInstance] setListDevices:dataArray];
 
+    });
 }
 
 -(void)mqttDisConnect{
