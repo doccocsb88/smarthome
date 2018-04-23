@@ -66,12 +66,14 @@
 }
 
 -(void)hideLoadingView{
-    self.isProcessing = NO;
+//    self.isProcessing = NO;//
 
     if (self.activityIndicatorView) {
-        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.75 * NSEC_PER_SEC);
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, LOADING_TIME * NSEC_PER_SEC);
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
             //code to be executed on the main queue after delay
+            self.isProcessing = false;
+
             [self.activityIndicatorView stopAnimating];
             self.activityIndicatorView.hidden = YES;
         });

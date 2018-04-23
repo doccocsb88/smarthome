@@ -15,6 +15,8 @@
 //#import "ESPTouchDelegate.h"
 
 #define LOADING_SIZE 100
+#define LOADING_TIME 0.5
+
 //@interface EspTouchDelegateImpl : NSObject<ESPTouchDelegate>
 //
 //@end

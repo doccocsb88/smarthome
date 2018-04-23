@@ -882,23 +882,31 @@
 }
 
 -(void)mqttPublishFail:(NSString *)mqttId{
+    self.isProcessing = false;
+
     [self hideLoadingView];
     [self showMessageView:nil message:@"Thiết bị không phản hồi" autoHide:YES complete:nil];
     [self.tableView reloadData];
 }
 -(void)mqttSetStateValueForDevice:(NSString *)topic value:(float)value{
-    self.isProcessing = false;
-
-    [self setStateValueForDevice:topic value:value];
     [self hideLoadingView];
+
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(LOADING_TIME * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        self.isProcessing = false;
+        
+    });
+    [self setStateValueForDevice:topic value:value];
     
 }
 -(void)mqttSetStateValueForLight:(NSString *)message{
-    self.isProcessing = false;
-
-//    [self setStateValueForLight:message];
     [self hideLoadingView];
-    [self.tableView reloadData];
+
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)( LOADING_TIME  * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        self.isProcessing = false;
+        [self.tableView reloadData];
+
+    });
+//    [self setStateValueForLight:message];
 }
 
 

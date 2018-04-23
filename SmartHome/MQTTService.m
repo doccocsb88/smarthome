@@ -49,13 +49,16 @@ static MQTTService *instance = nil;
 - (void)setUP {
     if (_isInit == false) {
         MQTTCFSocketTransport *transport = [[MQTTCFSocketTransport alloc] init];
-        transport.host = @"quocanhtest.dyndns.tv";
+        transport.host = @"mqtt.rollertech.vn";//@"quocanhtest.dyndns.tv";
         transport.port = 1883;
+    
 //        transport.sho
         _session = [[MQTTSession alloc] init];
         _session.transport = transport;
         _session.keepAliveInterval = 120;
         _session.delegate = self;
+        _session.userName = @"hardone";
+        _session.password = @"-m>5p}VzxT^>S&2L";
         _isConnecting = true;
 //        [self conect];
         NSLog(@"aabbccddeeff");
