@@ -44,7 +44,6 @@
 		185E78701E95FB680048B450 /* SceneDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 185E786F1E95FB680048B450 /* SceneDetailViewController.m */; };
 		185E78731E96A8C50048B450 /* SceneDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 185E78721E96A8C50048B450 /* SceneDetail.m */; };
 		186DADFC1EAB503A00D00206 /* UIImage+Color.m in Sources */ = {isa = PBXBuildFile; fileRef = 186DADFB1EAB503A00D00206 /* UIImage+Color.m */; };
-		188A92AA2007EE2300143E26 /* KLCPopup.m in Sources */ = {isa = PBXBuildFile; fileRef = 188A92A82007EE2200143E26 /* KLCPopup.m */; };
 		188CF321205FA47C0099B630 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 188CF320205FA47C0099B630 /* SystemConfiguration.framework */; };
 		188E61D9204E365C008DD7DD /* TouchSwitchViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 188E61D6204E365C008DD7DD /* TouchSwitchViewCell.m */; };
 		188E61DA204E365C008DD7DD /* TouchSwitchViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 188E61D8204E365C008DD7DD /* TouchSwitchViewCell.xib */; };
@@ -99,7 +98,6 @@
 		18EFAD781E756F8900637669 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18EFAD761E756F8900637669 /* LaunchScreen.storyboard */; };
 		18EFAD831E75791C00637669 /* FavoriteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EFAD821E75791C00637669 /* FavoriteViewController.m */; };
 		18F133612001DBF9008A5E55 /* FirebaseHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F133602001DBF9008A5E55 /* FirebaseHelper.m */; };
-		18F133632001DE80008A5E55 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 18F133622001DE80008A5E55 /* GoogleService-Info.plist */; };
 		18F1336C2001E73E008A5E55 /* AccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F1336A2001E73E008A5E55 /* AccountViewController.m */; };
 		18F1336D2001E73E008A5E55 /* AccountViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18F1336B2001E73E008A5E55 /* AccountViewController.xib */; };
 		18F467FC1E8017E1001CF694 /* RoomViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F467FB1E8017E1001CF694 /* RoomViewController.m */; };
@@ -119,6 +117,8 @@
 		5F5B2C811F2466E60081CD4B /* ControlRoomPopup.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F5B2C801F2466E60081CD4B /* ControlRoomPopup.m */; };
 		5FF9608F1F2A3E2E00B210C6 /* AddTimerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FF9608E1F2A3E2E00B210C6 /* AddTimerViewController.m */; };
 		5FF960921F2A4A4F00B210C6 /* ListTimerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FF960911F2A4A4F00B210C6 /* ListTimerViewController.m */; };
+		880D061B208ECA6B002E8D0B /* KLCPopup.m in Sources */ = {isa = PBXBuildFile; fileRef = 880D0619208ECA6A002E8D0B /* KLCPopup.m */; };
+		88F01CA6208F290D0004FF9E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 88F01CA5208F290C0004FF9E /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -194,8 +194,6 @@
 		185E78721E96A8C50048B450 /* SceneDetail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SceneDetail.m; sourceTree = "<group>"; };
 		186DADFA1EAB503A00D00206 /* UIImage+Color.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Color.h"; sourceTree = "<group>"; };
 		186DADFB1EAB503A00D00206 /* UIImage+Color.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Color.m"; sourceTree = "<group>"; };
-		188A92A82007EE2200143E26 /* KLCPopup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KLCPopup.m; path = "../../../Downloads/KLCPopup-master/KLCPopup/KLCPopup.m"; sourceTree = "<group>"; };
-		188A92A92007EE2300143E26 /* KLCPopup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KLCPopup.h; path = "../../../Downloads/KLCPopup-master/KLCPopup/KLCPopup.h"; sourceTree = "<group>"; };
 		188CF320205FA47C0099B630 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		188E61D6204E365C008DD7DD /* TouchSwitchViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TouchSwitchViewCell.m; sourceTree = "<group>"; };
 		188E61D7204E365C008DD7DD /* TouchSwitchViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchSwitchViewCell.h; sourceTree = "<group>"; };
@@ -284,7 +282,6 @@
 		18EFAD821E75791C00637669 /* FavoriteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoriteViewController.m; sourceTree = "<group>"; };
 		18F1335F2001DBF9008A5E55 /* FirebaseHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FirebaseHelper.h; sourceTree = "<group>"; };
 		18F133602001DBF9008A5E55 /* FirebaseHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FirebaseHelper.m; sourceTree = "<group>"; };
-		18F133622001DE80008A5E55 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		18F133692001E73E008A5E55 /* AccountViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AccountViewController.h; sourceTree = "<group>"; };
 		18F1336A2001E73E008A5E55 /* AccountViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AccountViewController.m; sourceTree = "<group>"; };
 		18F1336B2001E73E008A5E55 /* AccountViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AccountViewController.xib; sourceTree = "<group>"; };
@@ -333,6 +330,9 @@
 		5FF960901F2A4A4F00B210C6 /* ListTimerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListTimerViewController.h; sourceTree = "<group>"; };
 		5FF960911F2A4A4F00B210C6 /* ListTimerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListTimerViewController.m; sourceTree = "<group>"; };
 		700169DFD2338627CDDD4235 /* Pods-SmartHome.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartHome.release.xcconfig"; path = "Pods/Target Support Files/Pods-SmartHome/Pods-SmartHome.release.xcconfig"; sourceTree = "<group>"; };
+		880D0619208ECA6A002E8D0B /* KLCPopup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KLCPopup.m; path = "../../../../../Downloads/KLCPopup-master/KLCPopup/KLCPopup.m"; sourceTree = "<group>"; };
+		880D061A208ECA6B002E8D0B /* KLCPopup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KLCPopup.h; path = "../../../../../Downloads/KLCPopup-master/KLCPopup/KLCPopup.h"; sourceTree = "<group>"; };
+		88F01CA5208F290C0004FF9E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CCD3503CE72DAC2AF3B5F99A /* Pods-SmartHome.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartHome.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SmartHome/Pods-SmartHome.debug.xcconfig"; sourceTree = "<group>"; };
 		DA6FD98E423E87777FA74F6A /* libPods-SmartHome.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SmartHome.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -561,8 +561,8 @@
 		188A92A12007EDCD00143E26 /* Popup */ = {
 			isa = PBXGroup;
 			children = (
-				188A92A92007EE2300143E26 /* KLCPopup.h */,
-				188A92A82007EE2200143E26 /* KLCPopup.m */,
+				880D061A208ECA6B002E8D0B /* KLCPopup.h */,
+				880D0619208ECA6A002E8D0B /* KLCPopup.m */,
 			);
 			name = Popup;
 			sourceTree = "<group>";
@@ -739,7 +739,7 @@
 				18EFAD761E756F8900637669 /* LaunchScreen.storyboard */,
 				18B6DD371F6046BA00225B32 /* Assets.xcassets */,
 				18EFAD791E756F8900637669 /* Info.plist */,
-				18F133622001DE80008A5E55 /* GoogleService-Info.plist */,
+				88F01CA5208F290C0004FF9E /* GoogleService-Info.plist */,
 				18EFAD711E756F8900637669 /* SmartHome.xcdatamodeld */,
 				18C8DFD51E896CBC00DC5330 /* SmartHome.json */,
 				18EFAD651E756F8900637669 /* Supporting Files */,
@@ -916,7 +916,7 @@
 				18EC417020615C6F00388B1A /* ListControlViewController.xib in Resources */,
 				18CBD2C31E87B36C002635D8 /* LightOnOffViewCell.xib in Resources */,
 				181885D41E9019D500F5609D /* EspTouchDemo-Info.plist in Resources */,
-				18F133632001DE80008A5E55 /* GoogleService-Info.plist in Resources */,
+				88F01CA6208F290D0004FF9E /* GoogleService-Info.plist in Resources */,
 				183F556C2003308000B072A9 /* MemberDetailViewController.xib in Resources */,
 				188E61DF204E78EE008DD7DD /* ChannelViewCell.xib in Resources */,
 				18C8DFD61E896CBC00DC5330 /* SmartHome.json in Resources */,
@@ -1009,6 +1009,7 @@
 				18AD102620052D1B000DC410 /* FirebaseTestViewController.m in Sources */,
 				185E786D1E95E9150048B450 /* AbtractObject.m in Sources */,
 				188E61DE204E78EE008DD7DD /* ChannelViewCell.m in Sources */,
+				880D061B208ECA6B002E8D0B /* KLCPopup.m in Sources */,
 				181885D11E9019D500F5609D /* ESPDataCode.m in Sources */,
 				18EFAD831E75791C00637669 /* FavoriteViewController.m in Sources */,
 				18CBD2BE1E87B223002635D8 /* ListDeviceViewController.m in Sources */,
@@ -1080,7 +1081,6 @@
 				183F556B2003308000B072A9 /* MemberDetailViewController.m in Sources */,
 				183F556720032D1800B072A9 /* SHMember.m in Sources */,
 				183F5570200330D000B072A9 /* MemberDetailViewCell.m in Sources */,
-				188A92AA2007EE2300143E26 /* KLCPopup.m in Sources */,
 				184000A11E841B6E000A7ECB /* AddMenuViewCell.m in Sources */,
 				18F1336C2001E73E008A5E55 /* AccountViewController.m in Sources */,
 				18E3186A2009FBE3002015BA /* WellComeViewController.m in Sources */,
@@ -1213,7 +1213,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.hai.SmartHome;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mole.smarthome;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1234,7 +1234,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.hai.SmartHome;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mole.smarthome;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
