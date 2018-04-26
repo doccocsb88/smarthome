@@ -135,7 +135,7 @@
     NSInteger value = self.slider.value / 10;
     //self.valueLabel.text = [NSString stringWithFormat:@"%ld %@",value,@"%"];
     NSString *name = [NSString stringWithFormat:@"icon_curtain2_%ld0ldpi",value];
-    NSLog(@"name ____ : %@",name);
+//    NSLog(@"name ____ : %@",name);
         self.thumbnail.image = [UIImage imageNamed:name];
  
 

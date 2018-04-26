@@ -598,19 +598,19 @@
                     break;
                 }else if([value containsString:@"W"]){
                     //touch switch
-                    NSString *chanel = @"";
-                    if([tmp[1] containsString:@"/"]){
-                        chanel = [tmp[1] componentsSeparatedByString:@"/"][1];
-                    }
-                    if (chanel.length > 0 && [chanel isNumber]) {
-                        int numberIndex = [chanel intValue];
-                        [device updateStatusForChanel:numberIndex value:value];
-                        
-                    }
-                    [[CoredataHelper sharedInstance] save];
-                    [self.tableView reloadData];
-                    
-                    break;
+//                    NSString *chanel = @"";
+//                    if([tmp[1] containsString:@"/"]){
+//                        chanel = [tmp[1] componentsSeparatedByString:@"/"][1];
+//                    }
+//                    if (chanel.length > 0 && [chanel isNumber]) {
+//                        int numberIndex = [chanel intValue];
+//                        [device updateStatusForChanel:numberIndex value:value];
+//                        
+//                    }
+//                    [[CoredataHelper sharedInstance] save];
+//                    [self.tableView reloadData];
+//                    
+//                    break;
                 }else if([value isNumber]){
                     //rem
                     
@@ -883,30 +883,30 @@
 
 -(void)mqttPublishFail:(NSString *)mqttId{
     self.isProcessing = false;
-
+    
     [self hideLoadingView];
     [self showMessageView:nil message:@"Thiết bị không phản hồi" autoHide:YES complete:nil];
     [self.tableView reloadData];
 }
 -(void)mqttSetStateValueForDevice:(NSString *)topic value:(float)value{
     [self hideLoadingView];
-
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(LOADING_TIME * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        self.isProcessing = false;
-        
-    });
+    
+    self.isProcessing = false;
+    
+    
     [self setStateValueForDevice:topic value:value];
     
 }
 -(void)mqttSetStateValueForLight:(NSString *)message{
     [self hideLoadingView];
-
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)( LOADING_TIME  * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    
+//    self.isProcessing = false;
+    [self.tableView reloadData];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         self.isProcessing = false;
         [self.tableView reloadData];
-
     });
-//    [self setStateValueForLight:message];
+    
 }
 
 

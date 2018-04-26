@@ -402,6 +402,9 @@
                 if ([info objectForKey:@"timer_code"]) {
                     timer.code = [info objectForKey:@"timer_code"];
                 }
+                if ([info objectForKey:@"requestId"]) {
+                    timer.requestId = [info objectForKey:@"requestId"];
+                }
                 [timer resetRepeat];
                 NSArray *days = [[info objectForKey:@"days"] componentsSeparatedByString:@":"];
                 for (int i = 0; i < days.count;i++) {
@@ -736,6 +739,7 @@
                           @"value":[NSNumber numberWithInteger:timer.value],
                           @"time":timer.timer,
                           @"days":[timer getDays],
+                          @"requestId":timer.requestId,
                           @"timer_code":timer.code
                           };
     NSDictionary *childUpdates = @{[NSString stringWithFormat:@"/users/%@/timers/%@", self.user.uid, key]: dic};

@@ -130,7 +130,7 @@
     NSData *data = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
     id json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
     
-    NSLog(@"change touch switch name  : %@", jsonString);
+//    NSLog(@"change touch switch name  : %@", jsonString);
     NSString *name = [json objectForKey:nameKey];
     if (name && name.length > 0) {
         cell.nameLabel.text = name;
@@ -152,7 +152,6 @@
 }
 /**/
 -(void)didPressedOnOff:(UIButton *)sender{
-    NSLog(@"TouchSwitchViewCell : ");
     NSInteger tag = sender.tag;
     self.value = self.device.value;
     BOOL isSelected = true;
@@ -163,6 +162,8 @@
     }
     if (tag > 0) {
 //        id=’WT3-0000000003/1’ cmd=’ON’ value=’W3,2,1’
+        NSLog(@"updateStatusForChanel ::::: %ld",tag);
+
         BOOL cmd = false;
         if (tag == 1) {
             //chenal 1

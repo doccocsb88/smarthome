@@ -68,7 +68,7 @@
 
 -(void)updateStatusForChanel:(int)chanel value :(NSString *)value{
     NSArray * values = [value componentsSeparatedByString:@","];
-    NSLog(@"updateStatusForChanel 1 %f",self.value);
+    NSLog(@"updateStatusForChanel %@ %d %f",self.requestId,chanel,self.value);
     Boolean isON = [values.lastObject intValue] == 1;
     if (isON) {
         //        id=’WT3-0000000003/1’ cmd=’ON’ value=’W3,2,1’
@@ -122,7 +122,7 @@
     }else if (self.value > maxPoint){
         self.value = maxPoint;
     }
-    NSLog(@"updateStatusForChanel 2 %f",self.value);
+//    NSLog(@"updateStatusForChanel 2 %f",self.value);
 
 }
 

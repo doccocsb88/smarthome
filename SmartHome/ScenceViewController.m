@@ -207,7 +207,7 @@
                     NSString *message = [device switchChancelMessage:(int)chanel status:[detail isChanelOn:chanel]];
                     NSInteger type = device.type;
                     NSDictionary *userInfo  = @{@"requestId":requestId,@"topic":device.topic, @"message":message,@"type":@(type)};
-                    NSLog(@"tư : 1 : %@",message);
+                    NSLog(@"tw : 1 : %@",message);
 //                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.25*i * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 //                          [[MQTTService sharedInstance] publishControl:device.requestId message:[device switchChancelMessage:i status:[detail isChanelOn:i]] type:device.type count:1];
 //                    });
@@ -455,7 +455,7 @@
     NSString *topic = [userInfo objectForKey:@"topic"];
     NSString *message = [userInfo objectForKey:@"message"];
     NSInteger type = [[userInfo objectForKey:@"type"] integerValue];
-    NSLog(@"tư : 2 : %@",message);
+    NSLog(@"tw : 2 : %@",message);
 
     [[MQTTService sharedInstance] publishControl:requestId topic:topic message:message  type:type count:1];
     

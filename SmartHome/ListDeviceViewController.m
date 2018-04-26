@@ -327,8 +327,9 @@
         device = detail.device;
     }else{
         Room *room = [dataArray objectAtIndex:indexPath.section];
+        NSArray *devicesInRoom = [self getSharedDevice:room];
         NSSortDescriptor *imageSort = [NSSortDescriptor sortDescriptorWithKey:@"order" ascending:NO];
-        NSArray *devices = [room.devices.allObjects sortedArrayUsingDescriptors:@[imageSort]];
+        NSArray *devices = [devicesInRoom sortedArrayUsingDescriptors:@[imageSort]];
         device = [devices objectAtIndex:indexPath.row];
     }
     if(device.type  == DeviceTypeLightAdjust){
