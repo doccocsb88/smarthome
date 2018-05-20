@@ -44,6 +44,7 @@
 		185E78701E95FB680048B450 /* SceneDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 185E786F1E95FB680048B450 /* SceneDetailViewController.m */; };
 		185E78731E96A8C50048B450 /* SceneDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 185E78721E96A8C50048B450 /* SceneDetail.m */; };
 		186DADFC1EAB503A00D00206 /* UIImage+Color.m in Sources */ = {isa = PBXBuildFile; fileRef = 186DADFB1EAB503A00D00206 /* UIImage+Color.m */; };
+		187398442099E22B00B6FB79 /* KLCPopup.m in Sources */ = {isa = PBXBuildFile; fileRef = 187398432099E22A00B6FB79 /* KLCPopup.m */; };
 		188CF321205FA47C0099B630 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 188CF320205FA47C0099B630 /* SystemConfiguration.framework */; };
 		188E61D9204E365C008DD7DD /* TouchSwitchViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 188E61D6204E365C008DD7DD /* TouchSwitchViewCell.m */; };
 		188E61DA204E365C008DD7DD /* TouchSwitchViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 188E61D8204E365C008DD7DD /* TouchSwitchViewCell.xib */; };
@@ -117,7 +118,6 @@
 		5F5B2C811F2466E60081CD4B /* ControlRoomPopup.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F5B2C801F2466E60081CD4B /* ControlRoomPopup.m */; };
 		5FF9608F1F2A3E2E00B210C6 /* AddTimerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FF9608E1F2A3E2E00B210C6 /* AddTimerViewController.m */; };
 		5FF960921F2A4A4F00B210C6 /* ListTimerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FF960911F2A4A4F00B210C6 /* ListTimerViewController.m */; };
-		880D061B208ECA6B002E8D0B /* KLCPopup.m in Sources */ = {isa = PBXBuildFile; fileRef = 880D0619208ECA6A002E8D0B /* KLCPopup.m */; };
 		88F01CA6208F290D0004FF9E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 88F01CA5208F290C0004FF9E /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
@@ -194,6 +194,8 @@
 		185E78721E96A8C50048B450 /* SceneDetail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SceneDetail.m; sourceTree = "<group>"; };
 		186DADFA1EAB503A00D00206 /* UIImage+Color.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Color.h"; sourceTree = "<group>"; };
 		186DADFB1EAB503A00D00206 /* UIImage+Color.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Color.m"; sourceTree = "<group>"; };
+		187398422099E22A00B6FB79 /* KLCPopup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLCPopup.h; sourceTree = "<group>"; };
+		187398432099E22A00B6FB79 /* KLCPopup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KLCPopup.m; sourceTree = "<group>"; };
 		188CF320205FA47C0099B630 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		188E61D6204E365C008DD7DD /* TouchSwitchViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TouchSwitchViewCell.m; sourceTree = "<group>"; };
 		188E61D7204E365C008DD7DD /* TouchSwitchViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchSwitchViewCell.h; sourceTree = "<group>"; };
@@ -330,8 +332,6 @@
 		5FF960901F2A4A4F00B210C6 /* ListTimerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListTimerViewController.h; sourceTree = "<group>"; };
 		5FF960911F2A4A4F00B210C6 /* ListTimerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListTimerViewController.m; sourceTree = "<group>"; };
 		700169DFD2338627CDDD4235 /* Pods-SmartHome.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartHome.release.xcconfig"; path = "Pods/Target Support Files/Pods-SmartHome/Pods-SmartHome.release.xcconfig"; sourceTree = "<group>"; };
-		880D0619208ECA6A002E8D0B /* KLCPopup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KLCPopup.m; path = "../../../../../Downloads/KLCPopup-master/KLCPopup/KLCPopup.m"; sourceTree = "<group>"; };
-		880D061A208ECA6B002E8D0B /* KLCPopup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KLCPopup.h; path = "../../../../../Downloads/KLCPopup-master/KLCPopup/KLCPopup.h"; sourceTree = "<group>"; };
 		88F01CA5208F290C0004FF9E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CCD3503CE72DAC2AF3B5F99A /* Pods-SmartHome.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartHome.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SmartHome/Pods-SmartHome.debug.xcconfig"; sourceTree = "<group>"; };
 		DA6FD98E423E87777FA74F6A /* libPods-SmartHome.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SmartHome.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -561,8 +561,8 @@
 		188A92A12007EDCD00143E26 /* Popup */ = {
 			isa = PBXGroup;
 			children = (
-				880D061A208ECA6B002E8D0B /* KLCPopup.h */,
-				880D0619208ECA6A002E8D0B /* KLCPopup.m */,
+				187398422099E22A00B6FB79 /* KLCPopup.h */,
+				187398432099E22A00B6FB79 /* KLCPopup.m */,
 			);
 			name = Popup;
 			sourceTree = "<group>";
@@ -1009,7 +1009,7 @@
 				18AD102620052D1B000DC410 /* FirebaseTestViewController.m in Sources */,
 				185E786D1E95E9150048B450 /* AbtractObject.m in Sources */,
 				188E61DE204E78EE008DD7DD /* ChannelViewCell.m in Sources */,
-				880D061B208ECA6B002E8D0B /* KLCPopup.m in Sources */,
+				187398442099E22B00B6FB79 /* KLCPopup.m in Sources */,
 				181885D11E9019D500F5609D /* ESPDataCode.m in Sources */,
 				18EFAD831E75791C00637669 /* FavoriteViewController.m in Sources */,
 				18CBD2BE1E87B223002635D8 /* ListDeviceViewController.m in Sources */,

@@ -264,11 +264,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartHome/ScenceViewController.m"
-            timestampString = "543832899.125104"
+            timestampString = "547182000.059809"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "251"
-            endingLineNumber = "251"
+            startingLineNumber = "258"
+            endingLineNumber = "258"
             landmarkName = "-didSelectedDevce:"
             landmarkType = "7">
          </BreakpointContent>
@@ -392,7 +392,7 @@
                   moduleName = "SmartHome"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/apple/Dropbox/smarthome-master/SmartHome/AccountViewController.m"
-                  timestampString = "544370350.304961"
+                  timestampString = "547181826.065997"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "170"
@@ -407,7 +407,7 @@
                   moduleName = "SmartHome"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/apple/Dropbox/smarthome-master/SmartHome/AccountViewController.m"
-                  timestampString = "544370350.306636"
+                  timestampString = "547181826.067498"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "170"
@@ -424,11 +424,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartHome/MQTTService.m"
-            timestampString = "546184006.821498"
+            timestampString = "547182000.060285"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "63"
-            endingLineNumber = "63"
+            startingLineNumber = "65"
+            endingLineNumber = "65"
             landmarkName = "-setUP"
             landmarkType = "7">
          </BreakpointContent>
@@ -495,6 +495,53 @@
             endingLineNumber = "781"
             landmarkName = "-shareDevice:forUser:"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__47-[FirebaseHelper hasDeviceInSystem:completion:]_block_invoke"
+                  moduleName = "SmartHome"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/apple/Dropbox/smarthome-master/SmartHome/FirebaseHelper.m"
+                  timestampString = "547181826.078127"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "781"
+                  endingLineNumber = "781"
+                  offsetFromSymbolStart = "360">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__copy_helper_block_.703"
+                  moduleName = "SmartHome"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/apple/Dropbox/smarthome-master/SmartHome/FirebaseHelper.m"
+                  timestampString = "547181826.079833"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "781"
+                  endingLineNumber = "781"
+                  offsetFromSymbolStart = "56">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__destroy_helper_block_.704"
+                  moduleName = "SmartHome"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/apple/Dropbox/smarthome-master/SmartHome/FirebaseHelper.m"
+                  timestampString = "547181826.081249"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "781"
+                  endingLineNumber = "781"
+                  offsetFromSymbolStart = "36">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -975,38 +1022,6 @@
             endingLineNumber = "616"
             landmarkName = "-deleteScene:"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[FirebaseHelper deleteScene:]"
-                  moduleName = "SmartHome"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/apple/Dropbox/smarthome-master/SmartHome/FirebaseHelper.m"
-                  timestampString = "544370350.434122"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "616"
-                  endingLineNumber = "616"
-                  offsetFromSymbolStart = "212">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__30-[FirebaseHelper deleteScene:]_block_invoke"
-                  moduleName = "SmartHome"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/apple/Dropbox/smarthome-master/SmartHome/FirebaseHelper.m"
-                  timestampString = "544370350.435674"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "617"
-                  endingLineNumber = "617"
-                  offsetFromSymbolStart = "84">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1023,38 +1038,6 @@
             endingLineNumber = "618"
             landmarkName = "-deleteScene:"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__30-[FirebaseHelper deleteScene:]_block_invoke"
-                  moduleName = "SmartHome"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/apple/Dropbox/smarthome-master/SmartHome/FirebaseHelper.m"
-                  timestampString = "544370350.440464"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "618"
-                  endingLineNumber = "618"
-                  offsetFromSymbolStart = "144">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__30-[FirebaseHelper deleteScene:]_block_invoke"
-                  moduleName = "SmartHome"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/apple/Dropbox/smarthome-master/SmartHome/FirebaseHelper.m"
-                  timestampString = "544370350.4420739"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "618"
-                  endingLineNumber = "618"
-                  offsetFromSymbolStart = "160">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1071,6 +1054,38 @@
             endingLineNumber = "619"
             landmarkName = "-deleteScene:"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[FirebaseHelper deleteScene:]"
+                  moduleName = "SmartHome"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/apple/Dropbox/smarthome-master/SmartHome/FirebaseHelper.m"
+                  timestampString = "547181826.16803"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "619"
+                  endingLineNumber = "619"
+                  offsetFromSymbolStart = "212">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__30-[FirebaseHelper deleteScene:]_block_invoke"
+                  moduleName = "SmartHome"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/apple/Dropbox/smarthome-master/SmartHome/FirebaseHelper.m"
+                  timestampString = "547181826.169904"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "620"
+                  endingLineNumber = "620"
+                  offsetFromSymbolStart = "84">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1256,7 +1271,7 @@
                   moduleName = "SmartHome"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/apple/Dropbox/smarthome-master/SmartHome/SceneDetailViewController.m"
-                  timestampString = "544370350.478114"
+                  timestampString = "547181826.193899"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "154"
@@ -1271,7 +1286,7 @@
                   moduleName = "SmartHome"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/apple/Dropbox/smarthome-master/SmartHome/SceneDetailViewController.m"
-                  timestampString = "544370350.480999"
+                  timestampString = "547181826.195343"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "154"
@@ -1288,11 +1303,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartHome/ScenceViewController.m"
-            timestampString = "543832899.127408"
+            timestampString = "547182000.0608"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "369"
-            endingLineNumber = "369"
+            startingLineNumber = "376"
+            endingLineNumber = "376"
             landmarkName = "-showListDeviceScreen"
             landmarkType = "7">
          </BreakpointContent>
@@ -1496,12 +1511,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartHome/MQTTService.m"
-            timestampString = "546184006.822741"
+            timestampString = "547182000.061139"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "493"
-            endingLineNumber = "493"
-            landmarkName = "-handleEvent:event:error:"
+            startingLineNumber = "505"
+            endingLineNumber = "505"
+            landmarkName = "-connectionError:error:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1720,11 +1735,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartHome/ScenceViewController.m"
-            timestampString = "543832899.128484"
+            timestampString = "547182000.061301"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "282"
-            endingLineNumber = "282"
+            startingLineNumber = "289"
+            endingLineNumber = "289"
             landmarkName = "-didSelectedListDevces:"
             landmarkType = "7">
          </BreakpointContent>
@@ -1736,11 +1751,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartHome/ScenceViewController.m"
-            timestampString = "543832899.128534"
+            timestampString = "547182000.061518"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "287"
-            endingLineNumber = "287"
+            startingLineNumber = "294"
+            endingLineNumber = "294"
             landmarkName = "-didSelectedListDevces:"
             landmarkType = "7">
          </BreakpointContent>
@@ -1864,13 +1879,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartHome/MQTTService.m"
-            timestampString = "546184006.823055"
+            timestampString = "547182000.061801"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "489"
-            endingLineNumber = "489"
-            landmarkName = "MQTTService"
-            landmarkType = "3">
+            startingLineNumber = "501"
+            endingLineNumber = "501"
+            landmarkName = "-connectionClosed:"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1912,11 +1927,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartHome/MQTTService.m"
-            timestampString = "546184006.823136"
+            timestampString = "547182000.06187"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "142"
-            endingLineNumber = "142"
+            startingLineNumber = "144"
+            endingLineNumber = "144"
             landmarkName = "-setListDevices:"
             landmarkType = "7">
          </BreakpointContent>
@@ -1928,45 +1943,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartHome/MQTTService.m"
-            timestampString = "546184006.823185"
+            timestampString = "547182000.061913"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "311"
-            endingLineNumber = "311"
+            startingLineNumber = "320"
+            endingLineNumber = "320"
             landmarkName = "-publishControl:topic:message:type:count:"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[MQTTService publishControl:topic:message:type:count:]"
-                  moduleName = "SmartHome"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/apple/Dropbox/smarthome-master/SmartHome/MQTTService.m"
-                  timestampString = "544370350.615607"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "311"
-                  endingLineNumber = "311"
-                  offsetFromSymbolStart = "972">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__55-[MQTTService publishControl:topic:message:type:count:]_block_invoke"
-                  moduleName = "SmartHome"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/apple/Dropbox/smarthome-master/SmartHome/MQTTService.m"
-                  timestampString = "544370350.618835"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "313"
-                  endingLineNumber = "313"
-                  offsetFromSymbolStart = "56">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2024,41 +2007,41 @@
                   moduleName = "SmartHome"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/apple/Dropbox/smarthome-master/SmartHome/RoomViewController.m"
-                  timestampString = "544370350.640137"
+                  timestampString = "547181826.2931401"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1295"
-                  endingLineNumber = "1295"
+                  startingLineNumber = "1303"
+                  endingLineNumber = "1303"
                   offsetFromSymbolStart = "180">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "__copy_helper_block_.894"
+                  symbolName = "__copy_helper_block_.893"
                   moduleName = "SmartHome"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/apple/Dropbox/smarthome-master/SmartHome/RoomViewController.m"
-                  timestampString = "544370350.643015"
+                  timestampString = "547181826.294572"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1295"
-                  endingLineNumber = "1295"
+                  startingLineNumber = "1303"
+                  endingLineNumber = "1303"
                   offsetFromSymbolStart = "52">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "__destroy_helper_block_.895"
+                  symbolName = "__destroy_helper_block_.894"
                   moduleName = "SmartHome"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/apple/Dropbox/smarthome-master/SmartHome/RoomViewController.m"
-                  timestampString = "544370350.645985"
+                  timestampString = "547181826.296288"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1295"
-                  endingLineNumber = "1295"
+                  startingLineNumber = "1303"
+                  endingLineNumber = "1303"
                   offsetFromSymbolStart = "28">
                </Location>
             </Locations>
@@ -2087,11 +2070,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartHome/MQTTService.m"
-            timestampString = "546184006.8234299"
+            timestampString = "547182000.062011"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "310"
-            endingLineNumber = "310"
+            startingLineNumber = "319"
+            endingLineNumber = "319"
             landmarkName = "-publishControl:topic:message:type:count:"
             landmarkType = "7">
          </BreakpointContent>
@@ -2103,11 +2086,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartHome/MQTTService.m"
-            timestampString = "546184006.823476"
+            timestampString = "547182000.062059"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "597"
-            endingLineNumber = "597"
+            startingLineNumber = "613"
+            endingLineNumber = "613"
             landmarkName = "-newMessage:data:onTopic:qos:retained:mid:"
             landmarkType = "7">
          </BreakpointContent>
@@ -2119,11 +2102,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartHome/MQTTService.m"
-            timestampString = "546184006.823521"
+            timestampString = "547182000.062133"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "596"
-            endingLineNumber = "596"
+            startingLineNumber = "608"
+            endingLineNumber = "608"
             landmarkName = "-newMessage:data:onTopic:qos:retained:mid:"
             landmarkType = "7">
          </BreakpointContent>
@@ -2135,27 +2118,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartHome/MQTTService.m"
-            timestampString = "546184006.823566"
+            timestampString = "547182000.062178"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "595"
-            endingLineNumber = "595"
-            landmarkName = "-newMessage:data:onTopic:qos:retained:mid:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "SmartHome/MQTTService.m"
-            timestampString = "546184006.8236181"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "585"
-            endingLineNumber = "585"
+            startingLineNumber = "607"
+            endingLineNumber = "607"
             landmarkName = "-newMessage:data:onTopic:qos:retained:mid:"
             landmarkType = "7">
          </BreakpointContent>
@@ -2183,11 +2150,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartHome/ScenceViewController.m"
-            timestampString = "543832899.129972"
+            timestampString = "547182000.0622391"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "209"
-            endingLineNumber = "209"
+            startingLineNumber = "216"
+            endingLineNumber = "216"
             landmarkName = "-tableView:didSelectRowAtIndexPath:"
             landmarkType = "7">
          </BreakpointContent>
@@ -2295,11 +2262,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartHome/ScenceViewController.m"
-            timestampString = "543832899.1300859"
+            timestampString = "547182000.062555"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "204"
-            endingLineNumber = "204"
+            startingLineNumber = "211"
+            endingLineNumber = "211"
             landmarkName = "-tableView:didSelectRowAtIndexPath:"
             landmarkType = "7">
          </BreakpointContent>
@@ -2311,11 +2278,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartHome/ScenceViewController.m"
-            timestampString = "543832899.130128"
+            timestampString = "547182000.062786"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "206"
-            endingLineNumber = "206"
+            startingLineNumber = "213"
+            endingLineNumber = "213"
             landmarkName = "-tableView:didSelectRowAtIndexPath:"
             landmarkType = "7">
          </BreakpointContent>
@@ -2375,45 +2342,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartHome/MQTTService.m"
-            timestampString = "546184006.8238"
+            timestampString = "547182000.06305"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "373"
-            endingLineNumber = "373"
-            landmarkName = "-setTimer:"
+            startingLineNumber = "382"
+            endingLineNumber = "382"
+            landmarkName = "-requestStatusTimer:"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[MQTTService setTimer:]"
-                  moduleName = "SmartHome"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/apple/Dropbox/smarthome-master/SmartHome/MQTTService.m"
-                  timestampString = "544370350.729467"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "373"
-                  endingLineNumber = "373"
-                  offsetFromSymbolStart = "172">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__24-[MQTTService setTimer:]_block_invoke"
-                  moduleName = "SmartHome"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/apple/Dropbox/smarthome-master/SmartHome/MQTTService.m"
-                  timestampString = "544370350.731544"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "375"
-                  endingLineNumber = "375"
-                  offsetFromSymbolStart = "48">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2455,7 +2390,7 @@
                   moduleName = "SmartHome"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/apple/Dropbox/smarthome-master/SmartHome/SmartConfigViewController.m"
-                  timestampString = "544370350.742718"
+                  timestampString = "547181826.357143"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "143"
@@ -2470,7 +2405,7 @@
                   moduleName = "SmartHome"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/apple/Dropbox/smarthome-master/SmartHome/SmartConfigViewController.m"
-                  timestampString = "544370350.744428"
+                  timestampString = "547181826.358551"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "144"
@@ -2631,7 +2566,7 @@
                   moduleName = "SmartHome"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/apple/Dropbox/smarthome-master/SmartHome/APPChildViewController.m"
-                  timestampString = "544370350.784215"
+                  timestampString = "547181826.38478"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "303"
@@ -2646,7 +2581,7 @@
                   moduleName = "SmartHome"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/apple/Dropbox/smarthome-master/SmartHome/APPChildViewController.m"
-                  timestampString = "544370350.788325"
+                  timestampString = "547181826.386237"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "303"
@@ -2695,11 +2630,27 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartHome/MQTTService.m"
-            timestampString = "546184006.824062"
+            timestampString = "547182000.063246"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "556"
-            endingLineNumber = "556"
+            startingLineNumber = "568"
+            endingLineNumber = "568"
+            landmarkName = "-handleMQTTConnectionSucess"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SmartHome/MQTTService.m"
+            timestampString = "547182000.063295"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "618"
+            endingLineNumber = "618"
             landmarkName = "-newMessage:data:onTopic:qos:retained:mid:"
             landmarkType = "7">
          </BreakpointContent>
@@ -2711,11 +2662,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartHome/MQTTService.m"
-            timestampString = "546184006.824106"
+            timestampString = "547182000.0633481"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "569"
-            endingLineNumber = "569"
+            startingLineNumber = "626"
+            endingLineNumber = "626"
             landmarkName = "-newMessage:data:onTopic:qos:retained:mid:"
             landmarkType = "7">
          </BreakpointContent>
@@ -2727,107 +2678,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartHome/MQTTService.m"
-            timestampString = "546184006.8241481"
+            timestampString = "547182000.0633889"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "571"
-            endingLineNumber = "571"
-            landmarkName = "-newMessage:data:onTopic:qos:retained:mid:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "SmartHome/MQTTService.m"
-            timestampString = "546184006.8241889"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "577"
-            endingLineNumber = "577"
-            landmarkName = "-newMessage:data:onTopic:qos:retained:mid:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "SmartHome/MQTTService.m"
-            timestampString = "546184006.824229"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "578"
-            endingLineNumber = "578"
-            landmarkName = "-newMessage:data:onTopic:qos:retained:mid:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "SmartHome/MQTTService.m"
-            timestampString = "546184006.82427"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "581"
-            endingLineNumber = "581"
-            landmarkName = "-newMessage:data:onTopic:qos:retained:mid:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "SmartHome/MQTTService.m"
-            timestampString = "546184006.8243099"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "602"
-            endingLineNumber = "602"
-            landmarkName = "-newMessage:data:onTopic:qos:retained:mid:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "SmartHome/MQTTService.m"
-            timestampString = "546184006.824351"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "610"
-            endingLineNumber = "610"
-            landmarkName = "-newMessage:data:onTopic:qos:retained:mid:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "SmartHome/MQTTService.m"
-            timestampString = "546184006.8243901"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "126"
-            endingLineNumber = "126"
+            startingLineNumber = "128"
+            endingLineNumber = "128"
             landmarkName = "-setListDevices:"
             landmarkType = "7">
          </BreakpointContent>
@@ -2839,11 +2694,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartHome/MQTTService.m"
-            timestampString = "546184006.824434"
+            timestampString = "547182000.063428"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "81"
-            endingLineNumber = "81"
+            startingLineNumber = "83"
+            endingLineNumber = "83"
             landmarkName = "-setUP"
             landmarkType = "7">
          </BreakpointContent>
@@ -2855,27 +2710,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartHome/MQTTService.m"
-            timestampString = "546184006.824474"
+            timestampString = "547182000.063467"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "524"
-            endingLineNumber = "524"
-            landmarkName = "-handleMQTTConnectionError"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "SmartHome/MQTTService.m"
-            timestampString = "546184006.824515"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "507"
-            endingLineNumber = "507"
+            startingLineNumber = "536"
+            endingLineNumber = "536"
             landmarkName = "-connectionRefused:error:"
             landmarkType = "7">
          </BreakpointContent>
@@ -2887,12 +2726,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartHome/MQTTService.m"
-            timestampString = "546184006.824555"
+            timestampString = "547182000.0635051"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "504"
-            endingLineNumber = "504"
-            landmarkName = "-connectionRefused:error:"
+            startingLineNumber = "519"
+            endingLineNumber = "519"
+            landmarkName = "-handleEvent:event:error:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -2903,11 +2742,27 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartHome/MQTTService.m"
-            timestampString = "546184006.824596"
+            timestampString = "547182000.063543"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "241"
-            endingLineNumber = "241"
+            startingLineNumber = "516"
+            endingLineNumber = "516"
+            landmarkName = "-handleEvent:event:error:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SmartHome/MQTTService.m"
+            timestampString = "547182000.063581"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "246"
+            endingLineNumber = "246"
             landmarkName = "-clearRequestStatusDevice"
             landmarkType = "7">
          </BreakpointContent>
@@ -2919,12 +2774,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartHome/MQTTService.m"
-            timestampString = "546184006.824636"
+            timestampString = "547182000.063619"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "128"
-            endingLineNumber = "128"
+            startingLineNumber = "130"
+            endingLineNumber = "130"
             landmarkName = "-setListDevices:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SmartHome/MQTTService.m"
+            timestampString = "547182000.063657"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "452"
+            endingLineNumber = "452"
+            landmarkName = "-checkPublishSucess:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

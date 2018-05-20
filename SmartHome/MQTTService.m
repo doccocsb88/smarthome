@@ -20,6 +20,8 @@ static MQTTService *instance = nil;
 
 @interface MQTTService() <MQTTSessionDelegate>
 @property (assign, nonatomic) NSInteger countProcess;
+@property (strong, nonatomic) NSTimer *sucessTimer;
+
 @end
 @implementation MQTTService
 + (instancetype)sharedInstance
@@ -233,6 +235,9 @@ static MQTTService *instance = nil;
         [self publicRequestStatus:device];
     }
 }
+-(BOOL)isSubcribeTopic:(Device *)device{
+    return [self.publishedTopic containsObject:device.topic];
+}
 -(void)clearPublishDevice{
     self.publishedTopic = [NSMutableArray new];
 }
@@ -302,7 +307,11 @@ static MQTTService *instance = nil;
     if ([self.publishingTopic containsObject:requestId] || self.publishingTopic.count > 0) {
         return;
     }
-    NSLog(@"publishControl xxx %@",topic);
+    if (self.sucessTimer) {
+        [self.sucessTimer invalidate];
+        self.sucessTimer = nil;
+    }
+    NSLog(@"publishControl xxx %@",requestId);
     if (type == DeviceTypeCurtain) {
         NSString *msg = [NSString stringWithFormat:@"id='%@' cmd='%@'",requestId,message];
         if ([message containsString:@"value"]) {
@@ -311,7 +320,7 @@ static MQTTService *instance = nil;
 
     
         [self.publishingTopic addObject:requestId];
-        [NSTimer scheduledTimerWithTimeInterval:CHECK_PUBLISH_TIME target:self selector:@selector(checkPublishSucess:) userInfo:@{@"mqttId":requestId,@"topic":topic,@"message":message,@"type":[NSString stringWithFormat:@"%ld",type],@"count":[NSString stringWithFormat:@"%d",count]} repeats:NO];
+        self.sucessTimer = [NSTimer scheduledTimerWithTimeInterval:CHECK_PUBLISH_TIME target:self selector:@selector(checkPublishSucess:) userInfo:@{@"mqttId":requestId,@"topic":topic,@"message":message,@"type":[NSString stringWithFormat:@"%ld",type],@"count":[NSString stringWithFormat:@"%d",count]} repeats:NO];
         [_session publishData:[msg dataUsingEncoding:NSUTF8StringEncoding] onTopic:topic retain:NO qos:REQUEST_QOS publishHandler:^(NSError *error) {
 
         }];
@@ -320,9 +329,9 @@ static MQTTService *instance = nil;
         NSString *tmp = info[1];
         NSLog(@"aaa: %@",tmp);
         if (info.count > 1 && [tmp containsString:@"WT"] == true && [tmp containsString:@"/"] == true) {
-            if ([self.publishedTopic containsObject:info[1]] == false) {
-                [self.publishingTopic addObject:info[1]];
-                [NSTimer scheduledTimerWithTimeInterval:CHECK_PUBLISH_TIME target:self selector:@selector(checkPublishSucess:) userInfo:@{@"mqttId":info[1],@"topic":topic,@"message":message,@"type":[NSString stringWithFormat:@"%ld",type],@"count":[NSString stringWithFormat:@"%d",count]} repeats:NO];
+            if ([self.publishedTopic containsObject:tmp] == false) {
+                [self.publishingTopic addObject:tmp];
+               self.sucessTimer = [NSTimer scheduledTimerWithTimeInterval:CHECK_PUBLISH_TIME target:self selector:@selector(checkPublishSucess:) userInfo:@{@"mqttId":tmp,@"topic":topic,@"message":message,@"type":[NSString stringWithFormat:@"%ld",type],@"count":[NSString stringWithFormat:@"%d",count]} repeats:NO];
                 NSLog(@"tw : 3 %@",message);
                 
                 [_session publishData:[message dataUsingEncoding:NSUTF8StringEncoding] onTopic:topic retain:NO qos:REQUEST_QOS publishHandler:^(NSError *error) {
@@ -342,7 +351,7 @@ static MQTTService *instance = nil;
         }
         if (msg && msg.length > 0) {
             [self.publishingTopic addObject:requestId];
-            [NSTimer scheduledTimerWithTimeInterval:CHECK_PUBLISH_TIME target:self selector:@selector(checkPublishSucess:) userInfo:@{@"mqttId":requestId,@"topic":topic,@"message":message,@"type":[NSString stringWithFormat:@"%ld",type],@"count":[NSString stringWithFormat:@"%d",count]} repeats:NO];
+            self.sucessTimer = [NSTimer scheduledTimerWithTimeInterval:CHECK_PUBLISH_TIME target:self selector:@selector(checkPublishSucess:) userInfo:@{@"mqttId":requestId,@"topic":topic,@"message":message,@"type":[NSString stringWithFormat:@"%ld",type],@"count":[NSString stringWithFormat:@"%d",count]} repeats:NO];
 
             [_session publishData:[msg dataUsingEncoding:NSUTF8StringEncoding] onTopic:topic retain:NO qos:REQUEST_QOS publishHandler:^(NSError *error) {
 
@@ -425,22 +434,25 @@ static MQTTService *instance = nil;
 
 -(void)checkPublishSucess:(NSTimer *)timer{
     NSDictionary *userInfo = timer.userInfo;
+    BOOL has = false;
     for (NSString *str in self.publishingTopic) {
         NSLog(@"checkPublishSucess : %@",str);
+        has = true;
 
     }
     if (userInfo) {
         NSString *mqttId = [userInfo objectForKey:@"mqttId"];
         NSString *topic = [userInfo objectForKey:@"topic"];
-        if (mqttId) {
+        if (mqttId && self.publishingTopic.count > 0) {
             if ([self.publishingTopic containsObject:mqttId]) {
                 NSString *message = [userInfo objectForKey:@"message"];
                 NSInteger type = [[userInfo objectForKey:@"type"] integerValue];
                 int count  = [[userInfo objectForKey:@"count"] intValue];
-                NSLog(@"publish failed message");
+                NSLog(@"publish failed message : %@",mqttId);
                 [self.publishingTopic removeObject:mqttId];
                 if (count < 3) {
                     count = count + 1;
+                    
                     [self publishControl:mqttId topic:topic message:message type:type count:count];
 
                 }else{
@@ -449,7 +461,7 @@ static MQTTService *instance = nil;
                     }
                 }
             }else{
-                NSLog(@"publish cmn roi");
+                NSLog(@"publish cmn roi : %@",mqttId);
             }
         }
     }
@@ -594,6 +606,10 @@ static MQTTService *instance = nil;
                         if ([value isEqualToString:@"1,2,0"] || [value isEqualToString:@"1,2,1"]) {
                             //den
                             [self.publishingTopic removeObject:mqttId];
+                            if (self.sucessTimer) {
+                                [self.sucessTimer invalidate];
+                                self.sucessTimer = nil;
+                            }
                             Device *getStatusDevice = [[CoredataHelper sharedInstance] getDeviceByTopic:mqttId type:DeviceTypeLightOnOff];
                             if (getStatusDevice != nil) {
                                 if ([value isEqualToString:@"1,2,1"]) {
@@ -617,6 +633,11 @@ static MQTTService *instance = nil;
                                 NSString *chanel = [tmp[1] componentsSeparatedByString:@"/"].lastObject;
                                 
                                 [self.publishingTopic removeObject:mqttId];
+                                if (self.sucessTimer) {
+                                    [self.sucessTimer invalidate];
+                                    self.sucessTimer = nil;
+                                }
+                                NSLog(@"publish cmn roi 2:%@",mqttId);
                                 Device *getStatusDevice = [self getDeviceByTopic:topic];
 
                                
@@ -636,6 +657,10 @@ static MQTTService *instance = nil;
                         }else if([value isNumber])
                         {
                             [self.publishingTopic removeObject:mqttId];
+                            if (self.sucessTimer) {
+                                [self.sucessTimer invalidate];
+                                self.sucessTimer = nil;
+                            }
                             Device *getStatusDevice = [self getDeviceByTopic:tmp[1]];
                             if (getStatusDevice) {
                                 getStatusDevice.isGetStatus = true;

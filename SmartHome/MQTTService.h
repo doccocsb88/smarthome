@@ -42,6 +42,7 @@
 @property (strong, nonatomic) NSMutableArray *dataArray;
 @property (strong, nonatomic) NSMutableArray *publishedTopic;
 @property (strong, nonatomic) NSMutableArray *publishingTopic;
+
 -(void)disconect;
 -(void)conect;
 -(BOOL)isConnected;
@@ -57,4 +58,5 @@
 -(void)delMQTTDevice:(Device *)device;
 -(void)clearPublishDevice;
 -(void)clearRequestStatusDevice;
+-(BOOL)isSubcribeTopic:(Device *)device;
 @end
