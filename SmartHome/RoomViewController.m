@@ -112,8 +112,19 @@
         if ([[User sharedInstance] isShared]) {
             NSLog(@"sharedDevices : %@",[User sharedInstance].devices);
             for(Device *dv in allDevices){
-                if ([[User sharedInstance].devices containsObject:dv.requestId] ) {
-                    [dataArray addObject:dv];
+                if (dv.type == DeviceTypeTouchSwitch) {
+                    for (int i = 0; i < [dv numberOfSwitchChannel]; i++) {
+                        int chanelIndex = i + 1;
+                        NSString *requestId = [NSString stringWithFormat:@"%@/%d",dv.requestId,chanelIndex];
+                        if ([[User sharedInstance].devices containsObject:requestId] ) {
+                            [dataArray addObject:dv];
+                            break;
+                        }
+                    }
+                }else{
+                    if ([[User sharedInstance].devices containsObject:dv.requestId] ) {
+                        [dataArray addObject:dv];
+                    }
                 }
             }
         }
@@ -331,7 +342,7 @@
     }else if (device.type == DeviceTypeCurtain){
         return 130.0;
     }else if (device.type == DeviceTypeTouchSwitch){
-        return 110 * [device numberOfSwitchChannel] + 30;
+        return 110 * [device numberofSharedChanel] + 30;
     }
     return 100;
 }

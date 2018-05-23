@@ -118,15 +118,34 @@
                         }];
                         [dataArray addObject:detail];
                     }else{
-                        if ([[User sharedInstance] isShared] && [[User sharedInstance].devices containsObject:device.requestId]) {
-                            SceneDetail *detail =[[CoredataHelper sharedInstance] addSceneDetail:1 value:1 status:ButtonTypeOpen device:device complete:^(SceneDetail *detail) {
-                                if (detail) {
+                        if ([[User sharedInstance] isShared] ) {
+                            if (device.type == DeviceTypeTouchSwitch) {
+                                for (int i = 1 ; i <= [device numberOfSwitchChannel]; i++) {
+                                    NSString *requestId = [NSString stringWithFormat:@"%@/%d",device.requestId,i];
+                                    if ([[User sharedInstance].devices containsObject:requestId]) {
+                                        SceneDetail *detail = [[CoredataHelper sharedInstance] addSceneDetail:1 value:1 status:ButtonTypeOpen device:device complete:^(SceneDetail *detail) {
+                                            if (detail) {
+                                                
+                                            }
+                                        }];
+                                        [dataArray addObject:detail];
+                                        break;
+                                    }
                                     
                                 }
-                            }];
-                            [dataArray addObject:detail];
+                            }else{
+                                if ([[User sharedInstance].devices containsObject:device.requestId]) {
+                                    SceneDetail *detail = [[CoredataHelper sharedInstance] addSceneDetail:1 value:1 status:ButtonTypeOpen device:device complete:^(SceneDetail *detail) {
+                                        if (detail) {
+                                            
+                                        }
+                                    }];
+                                    [dataArray addObject:detail];
+                                }
+                            }
                             
                             
+
                         }
                     }
                 }
@@ -237,7 +256,7 @@
     }else if (device.type == DeviceTypeCurtain){
         return 140.0;
     }else if (device.type == DeviceTypeTouchSwitch){
-        return 110 * [device numberOfSwitchChannel] + 30;
+        return 110 * [device numberofSharedChanel] + 30;
     }
     return 100;
 }
@@ -465,8 +484,18 @@
     }else{
         if ([[User sharedInstance] isShared]) {
             for (Device *device in sortedDevices) {
-                if ([[User sharedInstance].devices containsObject:device.requestId]) {
-                    [sharedDevices addObject:device];
+                if (device.type == DeviceTypeTouchSwitch) {
+                    for (int i = 1; i <= [device numberOfSwitchChannel]; i++) {
+                        NSString *requestId = [NSString stringWithFormat:@"%@/%d",device.requestId,i];
+                        if ([[User sharedInstance].devices containsObject:requestId]) {
+                            [sharedDevices addObject:device];
+                            break;
+                        }
+                    }
+                }else{
+                    if ([[User sharedInstance].devices containsObject:device.requestId]) {
+                        [sharedDevices addObject:device];
+                    }
                 }
             }
         }

@@ -6,17 +6,21 @@
 //
 
 #import "TouchSwitchViewCell.h"
+#import "User.h"
 @interface TouchSwitchViewCell()
 @property (assign, nonatomic) float value;
 @property (assign, nonatomic) NSInteger existChanel;
+@property (strong, nonatomic) NSMutableArray *requestIds;
 
 @end
 @implementation TouchSwitchViewCell 
 
 - (void)awakeFromNib {
     [super awakeFromNib];
+    self.requestIds = [NSMutableArray new];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    self.tableView.scrollEnabled = false;
       [self.tableView registerNib:[UINib nibWithNibName:@"ChannelViewCell" bundle:nil] forCellReuseIdentifier:@"ChannelViewCell"];
     self.myBackgroundView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.3];
     self.myBackgroundView.layer.cornerRadius = 5.0;
@@ -41,9 +45,19 @@
     self.myBackgroundView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.3];
 }
 -(void)setContentValue:(Device *)device{
+    self.requestIds = [NSMutableArray new];
     self.device = device;
     self.deviceNameLabel.text = self.device.name;
     [self.tableView reloadData];
+    for (int i = 0; i < [self.device numberOfSwitchChannel]; i++) {
+        int chanelIndex = i + 1;
+        NSString *requestId = [NSString stringWithFormat:@"%@/%d",self.device.requestId,chanelIndex];
+        if ([[User sharedInstance].devices containsObject:requestId] || [[User sharedInstance] isAdmin]) {
+        
+            [self.requestIds addObject:requestId];
+        }
+    }
+    NSLog(@"setContentValue : %ld",self.requestIds.count);
 }
 -(void)setContentView:(Device *)device type:(NSInteger)type{
     [self setContentValue:device];
@@ -67,11 +81,14 @@
         if (self.isEdit) {
             return [self.detail numberOfChanel];
         }else{
-            return [self.detail.device numberOfSwitchChannel];
+            return [self.detail.device numberofSharedChanel];
         }
         
     }
-    return [self.device numberOfSwitchChannel];
+
+    return [self.device numberofSharedChanel];
+    
+    
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -86,11 +103,14 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     ChannelViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ChannelViewCell" forIndexPath:indexPath];;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    NSInteger tag = indexPath.row + 1;
 
+    NSString *requestId = [self.requestIds objectAtIndex:indexPath.row];
+    NSString *chanelIndex = [requestId componentsSeparatedByString:@"/"][1];
+    NSInteger tag = [chanelIndex integerValue];
     [cell.onOffButton addTarget:self action:@selector(didPressedOnOff:) forControlEvents:UIControlEventTouchUpInside];
     float deviceValue = self.device.value;
     if (self.isScene) {
+        tag = indexPath.row;
         if (self.isEdit) {
             if ([self.detail getChanelIndex:indexPath.row] != NSNotFound){
                 tag = [self.detail getChanelIndex:indexPath.row];
@@ -100,6 +120,7 @@
         [cell setChanelSelected:[self.detail isChanelSelected:tag] && !self.isEdit];
     }else{
         [cell setChanelSelected:false];
+
     }
     cell.onOffButton.tag = tag;
 

@@ -10,6 +10,8 @@
 
 @interface ShareDevice : NSObject
 @property (strong, nonatomic) NSString *mqttId;
+@property (strong, nonatomic) NSString *name;
+
 @property (assign, nonatomic) BOOL isShare;
 
 @end

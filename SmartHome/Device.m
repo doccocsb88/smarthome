@@ -8,6 +8,7 @@
 
 #import "Device.h"
 #import "Utils.h"
+#import "User.h"
 @implementation Device
 @dynamic id;
 @dynamic name;
@@ -47,6 +48,19 @@
         
     }
     return 0;
+}
+-(NSInteger)numberofSharedChanel{
+    if ([[User sharedInstance] isAdmin]) {
+        return [self numberOfSwitchChannel];
+    }
+    NSInteger numberOfChanel = 0;
+    for (int i = 0; i < [self numberOfSwitchChannel]; i++) {
+        NSString *requestId = [NSString stringWithFormat:@"%@/%d",self.requestId,(i + 1)];
+        if ([[User sharedInstance].devices containsObject:requestId]) {
+            numberOfChanel ++;
+        }
+    }
+    return numberOfChanel;
 }
 -(NSString *)switchChancelMessage:(int)chanel status:(Boolean)status{
 //    id=’WT3-0000000003/1’ cmd=’ON’ value=’W3,2,1’
@@ -248,5 +262,16 @@
     } else {
         self.chanelInfo = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     }
+}
+
+-(NSString *)getChanelName:(int)chanel{
+    NSString *jsonString = self.chanelInfo;
+    NSData *data = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+    id json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+    NSString *nameKey = [NSString stringWithFormat:@"name%d",chanel];
+    if ([json objectForKey:nameKey]) {
+        return [json objectForKey:nameKey];
+    }
+    return [NSString stringWithFormat:@"Kênh %d",chanel];
 }
 @end

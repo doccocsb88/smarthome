@@ -36,7 +36,13 @@
     self.tableView.backgroundColor = [UIColor clearColor];
 }
 -(void)loadData{
-    roomArray = [[[CoredataHelper sharedInstance] getListRoom] mutableCopy];
+    NSArray *allRooms = [[[CoredataHelper sharedInstance] getListRoom] mutableCopy];
+    roomArray = [[NSMutableArray alloc] init];
+    for (Room *room in allRooms) {
+        if ([room getDeviceForShared].count > 0) {
+            [roomArray addObject:room];
+        }
+    }
     expenddict = [NSMutableDictionary new];
     for (Room *room in roomArray) {
         [expenddict setObject:[NSNumber numberWithBool:false] forKey:room.code];
@@ -69,6 +75,9 @@
     // Pass the selected object to the new view controller.
 }
 */
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    return 0.1;
+}
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     return kTableHeaderHight;
 }
@@ -85,13 +94,13 @@
     Room *room = [roomArray objectAtIndex:section];
     NSNumber *status = [expenddict objectForKey:room.code];
     if (status.boolValue) {
-        NSArray *device =  [room.devices allObjects];
-        if (device) {
-            
-            return device.count;
-        }
+        NSArray *shareDevices =  [room getDeviceForShared];
+        return shareDevices.count;
     }
     return 0;
+}
+-(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
+    return [UIView new];
 }
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     CGFloat width = [UIScreen mainScreen].bounds.size.width;
@@ -110,9 +119,9 @@
     [expandbutton setImage:[UIImage imageNamed:@"ic_checkbox"] forState:UIControlStateNormal];
     [expandbutton setImage:[UIImage imageNamed:@"ic_checkbox_selected"] forState:UIControlStateSelected];
     BOOL selected = [room.devices allObjects].count >0 ? true:false;
-    NSArray *devices = [room.devices allObjects];
-    for (Device *device in devices) {
-        if ([self.member.devices containsString:device.requestId] == false) {
+    NSArray *shareDevices = [room getDeviceForShared];
+    for (ShareDevice *device in shareDevices) {
+        if ([self.member.devices containsString:device.mqttId] == false) {
             selected = false;
             break;
         }
@@ -133,11 +142,11 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     Room *room = [roomArray objectAtIndex:indexPath.section];
 
-    NSArray *devices = [room.devices allObjects];
-    Device *device = [devices objectAtIndex:indexPath.row];
+    NSArray *shareDevices = [room getDeviceForShared];
+    ShareDevice *device = [shareDevices objectAtIndex:indexPath.row];
     MemberDetailViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MemberDetailViewCell" forIndexPath:indexPath];
     cell.nameLabel.text = device.name;
-    if ([self.member.devices containsString:device.requestId]) {
+    if ([self.member.devices containsString:device.mqttId]) {
         cell.sharebutton.on = true;
     }else{
         cell.sharebutton.on = false;
@@ -167,15 +176,15 @@
     if (index < roomArray.count) {
         Room *room = [roomArray objectAtIndex:index];
         //            NSString *deviceString = @"";
-        for (Device *device in [room.devices allObjects]) {
+        for (ShareDevice *device in [room getDeviceForShared]) {
             if (button.selected == true) {
                 
-                if ([deviceArr containsObject:device.requestId] == false) {
-                    [deviceArr addObject:device.requestId];
+                if ([deviceArr containsObject:device.mqttId] == false) {
+                    [deviceArr addObject:device.mqttId];
                 }
             }else{
-                if ([deviceArr containsObject:device.requestId]) {
-                    [deviceArr removeObject:device.requestId];
+                if ([deviceArr containsObject:device.mqttId]) {
+                    [deviceArr removeObject:device.mqttId];
                 }
             }
         }
@@ -194,12 +203,13 @@
     NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
     if (indexPath.section < roomArray.count) {
         Room *room = [roomArray objectAtIndex:indexPath.section];
-        if (indexPath.row < [room.devices allObjects].count) {
-            Device *device = [[room.devices allObjects] objectAtIndex:indexPath.row];
+        NSArray *shareDevices = [room getDeviceForShared];
+        if (indexPath.row < shareDevices.count) {
+            ShareDevice *device = [shareDevices objectAtIndex:indexPath.row];
             if (value) {
-                [self.member shareDevice:device.requestId];
+                [self.member shareDevice:device.mqttId];
             }else{
-                [self.member unShareDevice:device.requestId];
+                [self.member unShareDevice:device.mqttId];
             }
         }
         

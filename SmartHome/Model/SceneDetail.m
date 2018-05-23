@@ -91,7 +91,10 @@
 }
 
 -(BOOL)isChanelSelected:(NSInteger)chanel{
-    return  [self.chanelSelected containsObject:@(chanel)];
+    if (self.chanelSelected != NULL) {
+        return  [self.chanelSelected containsObject:@(chanel)];
+    }
+    return false;
 }
 
 -(BOOL)hasSelectedDevicel{
@@ -104,7 +107,9 @@
 -(NSInteger)getChanelIndex:(NSInteger)index{
     NSArray *arrs = [self.chanels componentsSeparatedByString:@";"];
     if (arrs && index < arrs.count) {
-        return [arrs[index] integerValue];
+        if (index < arrs.count) {
+            return [arrs[index] integerValue];
+        }
     }
     return NSNotFound;
 }

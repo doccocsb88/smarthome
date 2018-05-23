@@ -40,12 +40,13 @@ typedef enum:NSInteger{
 -(NSString *)getAddMessage;
 -(NSString *)getDelMessage;
 -(NSString *)getTopic;
--(NSInteger )numberOfSwitchChannel;
+-(NSInteger)numberOfSwitchChannel;
+-(NSInteger)numberofSharedChanel;
 -(NSString *)switchChancelMessage:(int)chanel status:(Boolean)status;
 -(void)updateStatusForChanel:(int)chanel value:(NSString *)value;
 -(BOOL)isChanelOn:(int)chanel;
 -(BOOL)isAutoControl:(int)chanel;
 -(void)updateAutoControlForChanel:(int)chanel status:(Boolean)status;
 -(void)updateNameForChanel:(int)chanel name:(NSString *)name;
-
+-(NSString *)getChanelName:(int)chanel;
 @end
