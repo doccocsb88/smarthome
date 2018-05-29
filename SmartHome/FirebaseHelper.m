@@ -296,7 +296,7 @@
                     NSInteger value = [[info objectForKey:@"device_value"] integerValue];
                     NSInteger order = [[info objectForKey:@"device_order"] integerValue];
                     NSInteger roomId = [[info objectForKey:@"deviceId"] integerValue];
-                    NSString *chanelInfo = [info objectForKey:@"chanelInfo"];
+                    NSString *chanelInfo = [info objectForKey:@"chanels"];
                     Room *room = [[CoredataHelper sharedInstance] getRoomByid:roomId];
 
                     if(![[CoredataHelper sharedInstance] hasDevice:mqttId]){
@@ -703,7 +703,7 @@
                           @"device_topic":device.topic?device.topic:@"",
                           @"device_type":[NSNumber numberWithInteger:device.type],
                           @"deviceId":[NSNumber numberWithInteger:roomId],
-                          @"chanelInfo":device.chanelInfo?device.chanelInfo:@""
+                          @"chanels":device.chanelInfo?device.chanelInfo:@""
                           };
     NSDictionary *childUpdates = @{[NSString stringWithFormat:@"/users/%@/devices/%@", self.user.uid, key]: dic};
     device.key = key;
@@ -722,7 +722,7 @@
                           @"device_topic":device.topic,
                           @"device_type":[NSNumber numberWithInteger:device.type],
                           @"deviceId":[NSNumber numberWithInteger:roomId],
-                          @"chanelInfo":device.chanelInfo?device.chanelInfo:@""
+                          @"chanels":device.chanelInfo?device.chanelInfo:@""
 
                           };
     NSDictionary *childUpdates = @{[NSString stringWithFormat:@"/users/%@/devices/%@", self.user.uid, key]: dic};
