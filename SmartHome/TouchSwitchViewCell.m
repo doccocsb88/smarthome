@@ -26,6 +26,14 @@
     self.myBackgroundView.layer.cornerRadius = 5.0;
     self.myBackgroundView.layer.masksToBounds = YES;
     // Initialization code
+    UIVisualEffect *blurEffect;
+    blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+    
+    self.visualEffectView = [[UIVisualEffectView alloc]initWithEffect:blurEffect];
+    self.visualEffectView.frame = self.tableView.bounds;
+    self.visualEffectView.alpha = 0.5;
+    self.visualEffectView.layer.cornerRadius = 5.0;
+    self.visualEffectView.layer.masksToBounds = true;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -58,6 +66,13 @@
         }
     }
     NSLog(@"setContentValue : %ld",self.requestIds.count);
+    if (self.visualEffectView) {
+        [self.visualEffectView removeFromSuperview];
+    }
+    if (self.device.isOnline == false) {
+        self.visualEffectView.frame = CGRectMake(10, 5, self.bounds.size.width - 20, self.bounds.size.height - 10);
+        [self addSubview:self.visualEffectView];
+    }
 }
 -(void)setContentView:(Device *)device type:(NSInteger)type{
     [self setContentValue:device];
@@ -110,13 +125,15 @@
     [cell.onOffButton addTarget:self action:@selector(didPressedOnOff:) forControlEvents:UIControlEventTouchUpInside];
     float deviceValue = self.device.value;
     if (self.isScene) {
-        tag = indexPath.row;
+        tag = indexPath.row + 1;
         if (self.isEdit) {
             if ([self.detail getChanelIndex:indexPath.row] != NSNotFound){
                 tag = [self.detail getChanelIndex:indexPath.row];
             }
+
         }
         deviceValue = self.detail.value;
+
         [cell setChanelSelected:[self.detail isChanelSelected:tag] && !self.isEdit];
     }else{
         [cell setChanelSelected:false];

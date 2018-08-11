@@ -23,8 +23,13 @@
 @dynamic control;
 @synthesize isSubcrible;
 @synthesize isGetStatus;
+@synthesize isOnline;
 @synthesize key;
 @dynamic chanelInfo;
+
+-(void)awakeFromFetch{
+    isOnline = false;
+}
 -(NSString *)getAddMessage{
     return [NSString stringWithFormat:@"id='%@' cmd='ADDDEV'",self.requestId];
 }
@@ -273,5 +278,10 @@
         return [json objectForKey:nameKey];
     }
     return [NSString stringWithFormat:@"Kênh %d",chanel];
+}
+-(void)reset{
+    isOnline = false;
+    isSubcrible = false;
+    isGetStatus = false;
 }
 @end

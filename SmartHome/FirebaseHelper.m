@@ -791,7 +791,7 @@ NSDictionary *dic = @{@"accept":[NSNumber numberWithInteger:status],
                           @"name":name,
                           @"uid":uid
                           };
-    NSDictionary *childUpdates = @{[NSString stringWithFormat:@"/users/%@/members/%@", uid, key]: dic};
+    NSDictionary *childUpdates = @{[NSString stringWithFormat:@"/users/%@/members/%@", [self getUid], key]: dic};
     [self.ref updateChildValues:childUpdates];
 }
 -(void)clearData{

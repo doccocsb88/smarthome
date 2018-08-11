@@ -42,7 +42,7 @@
     [[FirebaseHelper sharedInstance] shareDevice:self.devices forUser:self.key];
 }
 -(void)updateShareStatus{
-    [[FirebaseHelper sharedInstance] updateMemberShareStatus:self.accept name:self.displayname devices:self.devices uid:self.uid key:self.key];
+    [[FirebaseHelper sharedInstance] updateMemberShareStatus:self.accept name:self.displayname devices:self.accept? self.devices : @"" uid:self.uid key:self.key];
 
 }
 @end

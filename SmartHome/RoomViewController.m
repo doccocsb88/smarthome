@@ -299,7 +299,7 @@
         _retry = 1;
         [self showLoadingView];
         [[MQTTService sharedInstance] conect];
-    
+
     }else{
         if ([MQTTService sharedInstance].isConnect){
             [self requestStatusDevices];

@@ -61,6 +61,7 @@ static MQTTService *instance = nil;
         _session.delegate = self;
         _session.userName = @"hardone";
         _session.password = @"-m>5p}VzxT^>S&2L";
+        _session.clientId = [@"" randomStringWithLength:32];
         _isConnecting = true;
 //        [self conect];
         NSLog(@"aabbccddeeff");
@@ -112,6 +113,7 @@ static MQTTService *instance = nil;
     }
 }
 -(void)setListDevices:(NSArray *)devices{
+    NSLog(@"setListDevices %ld",devices.count);
     self.countProcess = 0;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         
@@ -146,18 +148,17 @@ static MQTTService *instance = nil;
             topic = device.topic;
             __weak MQTTService *wsekf = self;
             if ([self.publishedTopic containsObject:topic] == false) {
-                if (topic && topic.length > 0) {
+                if (topic && topic.length > 0 && device.isSubcrible == false) {
                     self.countProcess ++;
+                    device.isSubcrible = TRUE;
                     [_session subscribeToTopic:topic atLevel:REQUEST_QOS subscribeHandler:^(NSError *error, NSArray<NSNumber *> *gQoss){
                         if (error) {
                             NSLog(@"Subscription failed %@", error.localizedDescription);
                         } else {
-                            NSLog(@"Subscription sucessfull! Granted Qos: %@", gQoss);
+                            NSLog(@"Subscription sucessfull! Granted Qos: %@", topic);
                             [wsekf.publishedTopic addObject:topic];
-
                             self.countProcess --;
                             [self checkFinishedProcess];
-                            device.isSubcrible = TRUE;
                             double delayInSeconds = 0;
                             delayInSeconds  = index * REQUEST_STATUS_TIME;
                             dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
@@ -275,6 +276,7 @@ static MQTTService *instance = nil;
 //    Device *device = [self getDeviceByTopic:topic];
     NSLog(@"publicRequestStatus %@",device.topic);
     if (device && device.isGetStatus == false) {
+        device.isOnline = false;
         NSString *msg = @"";
         NSString *topic = device.topic;
         if (device.type == DeviceTypeCurtain || device.type == DeviceTypeTouchSwitch) {
@@ -304,7 +306,7 @@ static MQTTService *instance = nil;
 
 -(void)publishControl:(NSString *)requestId topic:(NSString *)topic message:(NSString *)message type:(NSInteger)type count:(int)count{
   
-    if ([self.publishingTopic containsObject:requestId] || self.publishingTopic.count > 0) {
+    if ([self.publishingTopic containsObject:requestId]) {
         return;
     }
     if (self.sucessTimer) {
@@ -327,7 +329,7 @@ static MQTTService *instance = nil;
     }else if (type == DeviceTypeTouchSwitch){
        NSArray *info = [message componentsSeparatedByString:@"'"];
         NSString *tmp = info[1];
-        NSLog(@"aaa: %@",tmp);
+        NSLog(@"tw : 2 :2 %@",tmp);
         if (info.count > 1 && [tmp containsString:@"WT"] == true && [tmp containsString:@"/"] == true) {
             if ([self.publishedTopic containsObject:tmp] == false) {
                 [self.publishingTopic addObject:tmp];
@@ -481,9 +483,10 @@ static MQTTService *instance = nil;
     return _isConnect;
 }
 -(void)disconect{
-//    if(_session){
-//        [_session disconnect];
-//    }
+    if(_session){
+        [_session disconnect];
+    }
+    [self resetData];
 }
 -(void)conect{
     AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
@@ -494,16 +497,18 @@ static MQTTService *instance = nil;
 }
 -(void)connected:(MQTTSession *)session{
     NSLog(@"connected");
-    [self handleMQTTConnectionSucess];
+//    [self handleMQTTConnectionSucess];
 }
 
 -(void)connectionClosed:(MQTTSession *)session{
     NSLog(@"connectionClosed");
+    [self resetData];
 
 }
 
 -(void)connectionError:(MQTTSession *)session error:(NSError *)error{
     NSLog(@"connectionError %@",error.description);
+    [self resetData];
     [self handleMQTTConnectionError];
 
 }
@@ -514,6 +519,7 @@ static MQTTService *instance = nil;
     }else if (eventCode == MQTTSessionEventConnectionClosed){
     
     }else{
+        [self resetData];
         [self handleMQTTConnectionError];
 
     }
@@ -521,15 +527,7 @@ static MQTTService *instance = nil;
 }
 -(void)connectionRefused:(MQTTSession *)session error:(NSError *)error{
     NSLog(@"connectionRefused");
-    _isConnect = false;
-    _isConnecting = false;
-
-    if (self.dataArray) {
-        [self.dataArray removeAllObjects];
-    }
-    if (self.publishedTopic) {
-        [self.publishedTopic removeAllObjects];
-    }
+    [self resetData];
     if (self.delegate && [self.delegate respondsToSelector:@selector(mqttDisConnect)]) {
         [self.delegate mqttDisConnect];
     }
@@ -537,19 +535,20 @@ static MQTTService *instance = nil;
 }
 
 -(void)connected:(MQTTSession *)session sessionPresent:(BOOL)sessionPresent{
-    [self handleMQTTConnectionSucess];
+//    [self handleMQTTConnectionSucess];
 }
 
 -(void)handleMQTTConnectionError{
-    _isConnect = false;
-    _isConnecting = false;
-    
-    if (self.dataArray) {
-        [self.dataArray removeAllObjects];
-    }
-    if (self.publishedTopic) {
-        [self.publishedTopic removeAllObjects];
-    }
+//    _isConnect = false;
+//    _isConnecting = false;
+//
+//    if (self.dataArray) {
+//        [self.dataArray removeAllObjects];
+//    }
+//    if (self.publishedTopic) {
+//        [self.publishedTopic removeAllObjects];
+//    }
+    [self resetData];
     if (self.delegate && [self.delegate respondsToSelector:@selector(mqttDisConnect)]) {
         [self.delegate mqttDisConnect];
     }
@@ -558,10 +557,12 @@ static MQTTService *instance = nil;
 
 }
 -(void)handleMQTTConnectionSucess{
+    NSLog(@"handleMQTTConnectionSucess");
     _isConnect = true;
     _isConnecting = false;
     
     if (self.delegate && [self.delegate respondsToSelector:@selector(mqttConnected)]) {
+        NSLog(@"setListDevices cc");
         [self.delegate mqttConnected];
     }
     [[NSNotificationCenter defaultCenter] postNotificationName:@"kMqttConnectToServer" object:nil userInfo:@{@"result":@"1"}];
@@ -582,6 +583,10 @@ static MQTTService *instance = nil;
     if ([message isNumber]) {
         if (controller && controller.type == DeviceTypeCurtain) {
             [self.publishingTopic removeObject:topic];
+            Device *getStatusDevice = [self getDeviceByTopic:topic];
+            if (getStatusDevice) {
+                getStatusDevice.isOnline = true;
+            }
             if (self.delegate && [self.delegate respondsToSelector:@selector(mqttSetStateValueForDevice:value:)]) {
                 isValue = true;
                 [self.delegate mqttSetStateValueForDevice:topic value:[message floatValue]];
@@ -619,6 +624,7 @@ static MQTTService *instance = nil;
                                     
                                 }
                                 getStatusDevice.isGetStatus = true;
+                                getStatusDevice.isOnline = true;
                                 [[CoredataHelper sharedInstance] save];
                             }
                             if (self.delegate && [self.delegate respondsToSelector:@selector(mqttSetStateValueForLight:)]) {
@@ -648,6 +654,7 @@ static MQTTService *instance = nil;
                                         
                                     }
                                     getStatusDevice.isGetStatus = true;
+                                    getStatusDevice.isOnline = true;
                                     [[CoredataHelper sharedInstance] save];
                                 }
                             }
@@ -664,6 +671,7 @@ static MQTTService *instance = nil;
                             Device *getStatusDevice = [self getDeviceByTopic:tmp[1]];
                             if (getStatusDevice) {
                                 getStatusDevice.isGetStatus = true;
+                                getStatusDevice.isOnline = true;
                                 getStatusDevice.value = [value floatValue];
                                 [[CoredataHelper sharedInstance] save];
                             }
@@ -674,10 +682,11 @@ static MQTTService *instance = nil;
                         }
                     }else{
                         //device is not respne
-                   
+                        NSLog(@"device is not response %@",tmp[1]);
                             Device *getStatusDevice = [self getDeviceByTopic:tmp[1]];
                             if (getStatusDevice) {
                                 getStatusDevice.isGetStatus = true;
+                                getStatusDevice.isOnline = false;
                                 [[CoredataHelper sharedInstance] save];
                             }
                         
@@ -715,5 +724,34 @@ static MQTTService *instance = nil;
         }
     }
 }
+-(void)clearPublishTopic:(NSString *)topic{
+    if (self.publishedTopic) {
+        [self.publishedTopic removeObject:topic];
+    }
+    if (self.publishingTopic) {
+        [self.publishingTopic removeObject:topic];
+    }
+}
 
+
+-(void)resetData{
+    _isConnect = false;
+    _isConnecting = false;
+
+    if (self.dataArray) {
+        for (Device *device in self.dataArray) {
+            [device reset];
+        }
+        [self.dataArray removeAllObjects];
+    }
+    if (self.publishedTopic) {
+        [self.publishedTopic removeAllObjects];
+    }
+    if (self.publishingTopic) {
+        [self.publishingTopic removeAllObjects];
+    }
+    
+    NSLog(@"resetData");
+    
+}
 @end

@@ -33,6 +33,7 @@
 @property (assign, nonatomic) NSInteger nuberOfPage;
 @property (assign, nonatomic) NSInteger curIndex;
 @property (assign, nonatomic) BOOL firstTime;
+@property (strong, nonatomic) NSMutableArray *timerArray;
 
 
 @end
@@ -51,6 +52,9 @@
     [self initPageViewController];
     [self setupPageControl];
     //
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillTerminate:) name:UIApplicationWillTerminateNotification object:nil];
+
 
 }
 - (void)didReceiveMemoryWarning {
@@ -86,7 +90,7 @@
         [SVProgressHUD setDefaultStyle:SVProgressHUDStyleDark];
         [SVProgressHUD showWithStatus:@"Đang xử lý"];
         [SVProgressHUD dismissWithDelay:3];
-
+//        [self requestAllDeviceStatus];
     }
  
     self.navigationController.navigationBarHidden = NO;
@@ -99,6 +103,7 @@
 }
 -(void)initData{
 //    dataArray = [[NSMutableArray alloc] init];
+    self.timerArray = [[NSMutableArray alloc] init];
     self.firstTime = true;
     self.selectedIndex = NSNotFound;
     vcs = [[NSMutableArray alloc] init];
@@ -130,6 +135,35 @@
     self.nuberOfPage = [self getNumberOfPage];
     NSLog(@"after %ld",dataArray .count);
 
+}
+
+-(void)requestAllDeviceStatus{
+    int index  = 0;
+    if (_timerArray) {
+        [_timerArray removeAllObjects];
+
+    }else{
+        _timerArray = [NSMutableArray new];
+    }
+    for (Room *room in dataArray) {
+        
+        NSArray *devices = [room.devices allObjects];
+        if (devices != NULL && devices.count > 0) {
+           NSTimer *timer =  [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(requestStatusDeviceInRoom:) userInfo:devices repeats:false];
+            index += devices.count;
+            [_timerArray addObject:timer];
+        }
+    }
+
+}
+
+-(void)requestStatusDeviceInRoom:(NSTimer *)timer{
+    NSArray *devices = timer.userInfo;
+    NSLog(@"requestStatusDeviceInRoom : %ld",devices.count);
+
+    [[MQTTService sharedInstance] setListDevices:devices];
+    
+    
 }
 -(void)setupUI{
     screenSize = [UIScreen mainScreen].bounds.size;
@@ -441,9 +475,8 @@
             [MQTTService sharedInstance].isConnecting = true;
             [[MQTTService sharedInstance] conect];
         }
-        [[MQTTService sharedInstance] clearPublishDevice];
-        [[MQTTService sharedInstance] clearRequestStatusDevice];
     });
+    [self requestAllDeviceStatus];
 }
 -(void)handleMqttConnectEvent:(NSNotification *)notification{
     NSDictionary *info = notification.userInfo;
@@ -511,5 +544,17 @@
 
 }
 
+-(void)appWillResignActive:(NSNotification*)note
+{
+    NSLog(@"appWillResignActive");
+    for (NSTimer *timer in _timerArray) {
+        [timer invalidate];
+    }
+}
+-(void)appWillTerminate:(NSNotification*)note
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillResignActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillTerminateNotification object:nil];
+}
 
 @end

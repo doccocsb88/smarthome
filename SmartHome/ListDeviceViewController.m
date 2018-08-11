@@ -116,6 +116,7 @@
                                 
                             }
                         }];
+                        detail.value = 0;
                         [dataArray addObject:detail];
                     }else{
                         if ([[User sharedInstance] isShared] ) {
@@ -128,6 +129,7 @@
                                                 
                                             }
                                         }];
+                                        detail.value = 0;
                                         [dataArray addObject:detail];
                                         break;
                                     }
@@ -140,6 +142,7 @@
                                             
                                         }
                                     }];
+                                    detail.value = 0;
                                     [dataArray addObject:detail];
                                 }
                             }
@@ -442,14 +445,15 @@
             selectedIndex = selectedIndex + [self tableView:tableView numberOfRowsInSection:index];
         }
         SceneDetail *detail = [dataArray objectAtIndex:selectedIndex + indexPath.row];
-        
-        detail.isSelected = !detail.isSelected;
-        if (detail.isSelected) {
-            [selectedArray addObject:detail];
-        }else{
-            [selectedArray removeObject:detail];
+        if (detail.device.isOnline) {
+            detail.isSelected = !detail.isSelected;
+            if (detail.isSelected) {
+                [selectedArray addObject:detail];
+            }else{
+                [selectedArray removeObject:detail];
+            }
+            [self handleAddDeviceToSceneDetail:indexPath];
         }
-        [self handleAddDeviceToSceneDetail:indexPath];
     }
     
 }

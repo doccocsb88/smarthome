@@ -22,6 +22,7 @@
 @property (assign, nonatomic) Boolean isScene;
 @property (assign, nonatomic) Boolean isLoading;
 @property (assign, nonatomic) Boolean isEdit;
+@property(strong, nonatomic) UIVisualEffectView *visualEffectView;
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UILabel *deviceNameLabel;

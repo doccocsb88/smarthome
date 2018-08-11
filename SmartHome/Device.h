@@ -32,6 +32,7 @@ typedef enum:NSInteger{
 @property (nonatomic, assign) float value;
 @property (nonatomic, assign) BOOL isSubcrible;
 @property (nonatomic, assign) BOOL isGetStatus;
+@property (nonatomic, assign) BOOL isOnline;
 
 @property (nonatomic, strong) NSString *key;
 @property (nonatomic, strong) NSString *chanelInfo;
@@ -49,4 +50,6 @@ typedef enum:NSInteger{
 -(void)updateAutoControlForChanel:(int)chanel status:(Boolean)status;
 -(void)updateNameForChanel:(int)chanel name:(NSString *)name;
 -(NSString *)getChanelName:(int)chanel;
+
+-(void)reset;
 @end

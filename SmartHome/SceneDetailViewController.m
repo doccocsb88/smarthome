@@ -173,6 +173,7 @@
     
 }
 -(void)didChangeCell:(NSInteger )deviceId value:(CGFloat )value{
+    int index  = 0;
     for (SceneDetail *detail in dataArray) {
         if (detail.device.id == deviceId) {
             detail.value = value;
@@ -188,13 +189,23 @@
 
 }
 -(void)didPressedButton:(NSInteger)deviceId value:(ButtonType)value{
+    int index = 0;
     for (SceneDetail *detail in dataArray) {
         if (detail.device.id == deviceId) {
             detail.status = value;
             [[FirebaseHelper sharedInstance] updateSceneDetail:detail sceneId:self.scene.id];
-            [self.tableView reloadData];
+            
+//            [self.tableView reloadData];
+            break;
         }
+        index++;
     }
+    
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
+    [self.tableView beginUpdates];
+    
+    [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+    [self.tableView endUpdates];
 }
 /*
 #pragma mark - Navigation

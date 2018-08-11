@@ -11,6 +11,10 @@
 #import "Device.h"
 #import "SceneDetail.h"
 @interface RemViewCell : BaseViewCell
+@property(strong, nonatomic) UIVisualEffectView *visualEffectView;
+
+@property (weak, nonatomic) IBOutlet UIView *containerCurtainView;
+
 @property (weak, nonatomic) IBOutlet UIView *_backgroundView;
 
 @property (weak, nonatomic) IBOutlet UIImageView *thumbnail;

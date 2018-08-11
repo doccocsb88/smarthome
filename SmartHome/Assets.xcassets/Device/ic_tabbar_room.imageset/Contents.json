@@ -6,11 +6,12 @@
     },
     {
       "idiom" : "universal",
-      "filename" : "Phòng.png",
+      "filename" : "Phòng-2.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
+      "filename" : "Phòng-1.png",
       "scale" : "3x"
     }
   ],

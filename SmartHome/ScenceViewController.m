@@ -463,7 +463,7 @@
     NSString *message = [userInfo objectForKey:@"message"];
     NSInteger type = [[userInfo objectForKey:@"type"] integerValue];
     NSLog(@"tw : 2 : %@",message);
-
+    [[MQTTService sharedInstance] clearPublishTopic:topic];
     [[MQTTService sharedInstance] publishControl:requestId topic:topic message:message  type:type count:3];
     
 }

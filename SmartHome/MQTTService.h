@@ -57,6 +57,7 @@
 -(void)addMQTTDevice:(Device *)device;
 -(void)delMQTTDevice:(Device *)device;
 -(void)clearPublishDevice;
+-(void)clearPublishTopic:(NSString *)topic;
 -(void)clearRequestStatusDevice;
 -(BOOL)isSubcribeTopic:(Device *)device;
 @end
