@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <CoreData/CoreData.h>
 
 @import Firebase;
 typedef enum AccountType:NSInteger{
@@ -33,5 +32,6 @@ typedef enum AccountType:NSInteger{
 -(BOOL)isAdmin;
 -(BOOL)isAuthentication;
 -(BOOL)canControlDevice:(NSString *)mqttId;
+-(void)loadObjectFromLocal;
 @end
 

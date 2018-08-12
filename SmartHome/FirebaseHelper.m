@@ -445,7 +445,8 @@
                 }
                 [[CoredataHelper sharedInstance] save];
                 if (!hasTimer && [[User sharedInstance] isAdmin]) {
-                    [[MQTTService sharedInstance] setTimer:timer];
+                    //will not call settimer when syn data from firebase
+                   // [[MQTTService sharedInstance] setTimer:timer];
                 }
             }
         }

@@ -97,7 +97,7 @@
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
 //    timer =  [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(disconnectMQTT) userInfo:nil repeats:false];
-    [self disconnectMQTT];
+//    [self disconnectMQTT];
 
 }
 
@@ -371,8 +371,8 @@ didDisconnectWithUser:(GIDGoogleUser *)user
 }
 
 -(void)disconnectMQTT{
-    NSLog(@"disconnectMQTT");
-    [[MQTTService sharedInstance] disconect];
+//    NSLog(@"disconnectMQTT");
+//    [[MQTTService sharedInstance] disconect];
 
 }
 @end

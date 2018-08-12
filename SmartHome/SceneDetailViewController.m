@@ -195,17 +195,17 @@
             detail.status = value;
             [[FirebaseHelper sharedInstance] updateSceneDetail:detail sceneId:self.scene.id];
             
-//            [self.tableView reloadData];
+            [self.tableView reloadData];
             break;
         }
         index++;
     }
     
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
-    [self.tableView beginUpdates];
-    
-    [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
-    [self.tableView endUpdates];
+//    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
+//    [self.tableView beginUpdates];
+//    
+//    [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+//    [self.tableView endUpdates];
 }
 /*
 #pragma mark - Navigation

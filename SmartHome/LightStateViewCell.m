@@ -85,7 +85,9 @@
     self.isScene = true;
     self.device = detail.device;
     self.onOffButton.tag = detail.id;
-    self.onOffButton.selected = true;
+    
+    self.onOffButton.selected = !(detail.status == ButtonTypeClose);
+    
     Boolean isSharedDevice = [[User sharedInstance] canControlDevice:self.device.requestId];
     self.onOffButton.userInteractionEnabled = isSharedDevice;
     self.thumbnail.userInteractionEnabled = isSharedDevice;
@@ -96,12 +98,13 @@
     }else{
         self._backgroundView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.3];
     }
-//    if (self.visualEffectView) {
-//        [self.visualEffectView removeFromSuperview];
-//    }
-//    if (self.device.isOnline == NO) {
-//        [self.cantainerLightView addSubview:self.visualEffectView];
-//    }
+    if (self.visualEffectView) {
+        [self.visualEffectView removeFromSuperview];
+    }
+    if (self.device.isOnline == NO) {
+        self.visualEffectView.frame = CGRectMake(0, 0, self.bounds.size.width - 20, self.bounds.size.height - 10);
+        [self.cantainerLightView addSubview:self.visualEffectView];
+    }
 
 }
 -(void)setContentView:(Device *)device type:(NSInteger)type{
@@ -118,12 +121,13 @@
         self.lbDeviceName.text = device.requestId;
         
     }
-//    if (self.visualEffectView) {
-//        [self.visualEffectView removeFromSuperview];
-//    }
-//    if (self.device.isOnline == NO) {
-//        [self.cantainerLightView addSubview:self.visualEffectView];
-//    }
+    if (self.visualEffectView) {
+        [self.visualEffectView removeFromSuperview];
+    }
+    if (self.device.isOnline == NO) {
+        self.visualEffectView.frame = CGRectMake(0, 0, self.bounds.size.width - 20, self.bounds.size.height - 10);
+        [self.cantainerLightView addSubview:self.visualEffectView];
+    }
 
 }
 -(void)setContentView:(Device *)device type:(NSInteger)type selected:(BOOL)selected{
@@ -132,6 +136,13 @@
         self._backgroundView.backgroundColor = [UIColor redColor];
     }else{
         self._backgroundView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.3];
+    }
+    if (self.visualEffectView) {
+        [self.visualEffectView removeFromSuperview];
+    }
+    if (self.device.isOnline == NO) {
+        self.visualEffectView.frame = CGRectMake(0, 0, self.bounds.size.width - 20, self.bounds.size.height - 10);
+        [self.cantainerLightView addSubview:self.visualEffectView];
     }
 
 }

@@ -343,7 +343,7 @@
         UITextField *tf = alert.textFields.firstObject;
         NSString *roomName = tf.text;
         if (self.selectedIndex == NSNotFound) {
-            [[CoredataHelper sharedInstance] addNewScene:dataArray.count+1 name:roomName complete:^(Scene *scene) {
+            [[CoredataHelper sharedInstance] addNewScene:[self getMaxScenceId] name:roomName complete:^(Scene *scene) {
                 if (scene) {
                     [[FirebaseHelper sharedInstance] addScene:scene];
                 }
@@ -375,10 +375,6 @@
 
     if (scene && scene.sceneDetail) {
         NSArray *arr = [scene.sceneDetail allObjects];
-//        for (SceneDetail *detail in arr) {
-//            
-//            [arrs addObject:detail.device];
-//        }
         vc.existDevice = arr;
 
     }
@@ -466,5 +462,15 @@
     [[MQTTService sharedInstance] clearPublishTopic:topic];
     [[MQTTService sharedInstance] publishControl:requestId topic:topic message:message  type:type count:3];
     
+}
+
+-(NSInteger)getMaxScenceId{
+    NSInteger max = dataArray.count;
+    for (Scene *scene in dataArray) {
+        if (scene.id > max) {
+            max = scene.id;
+        }
+    }
+    return max + 1;
 }
 @end

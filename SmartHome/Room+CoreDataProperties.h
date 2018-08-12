@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) NSInteger id;
 @property (nullable, nonatomic, copy) NSString *image;
 @property (nullable, nonatomic, copy) NSString *name;
-    @property (nullable, nonatomic, copy) NSString *code;
+@property (nullable, nonatomic, copy) NSString *code;
 @property (nullable, nonatomic, copy) NSString *key;
 
 @property (nonatomic) NSInteger order;

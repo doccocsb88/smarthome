@@ -28,7 +28,9 @@
 @dynamic chanelInfo;
 
 -(void)awakeFromFetch{
-    isOnline = false;
+    isOnline = true;
+    NSLog(@"cleardata 2");
+
 }
 -(NSString *)getAddMessage{
     return [NSString stringWithFormat:@"id='%@' cmd='ADDDEV'",self.requestId];

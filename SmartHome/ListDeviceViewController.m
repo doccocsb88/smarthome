@@ -117,6 +117,7 @@
                             }
                         }];
                         detail.value = 0;
+                        detail.status = ButtonTypeOpen;
                         [dataArray addObject:detail];
                     }else{
                         if ([[User sharedInstance] isShared] ) {
@@ -130,6 +131,7 @@
                                             }
                                         }];
                                         detail.value = 0;
+                                        detail.status = ButtonTypeOpen;
                                         [dataArray addObject:detail];
                                         break;
                                     }
@@ -143,6 +145,7 @@
                                         }
                                     }];
                                     detail.value = 0;
+                                    detail.status = ButtonTypeOpen;
                                     [dataArray addObject:detail];
                                 }
                             }

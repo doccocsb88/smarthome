@@ -241,7 +241,6 @@
     if (!arr) {
         // This is a serious error
         // Handle accordingly
-        NSLog(@"Failed to load colors from disk");
         return nil;
     }
     return [arr firstObject];
@@ -259,7 +258,6 @@
     if (!arr) {
         // This is a serious error
         // Handle accordingly
-        NSLog(@"Failed to load colors from disk");
         return nil;
     }
     return [arr firstObject];

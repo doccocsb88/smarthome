@@ -25,9 +25,57 @@
     dispatch_once(&onceToken, ^{
         sharedInstance = [[User alloc] init];
         // Do any other initialisation stuff here
-        
     });
     return sharedInstance;
+}
+-(void)loadObjectFromLocal{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSData *encodedObject = [defaults objectForKey:@"user_local"];
+    id object =    [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
+    if (object != NULL && [object isKindOfClass:self.class]) {
+        User *localUser = ((User *)object);
+        self.username = ((User *)object).username;
+        self.password = ((User *)object).password;
+        self.displayName = localUser.displayName;
+        self.isShared = localUser.isShared;
+        self.active = localUser.active;
+        self.devices = localUser.devices;
+        self.node = localUser.node;
+        self.email = localUser.email;
+        self.accountType = localUser.accountType;
+    }
+}
+- (void)encodeWithCoder:(NSCoder *)encoder {
+    //Encode properties, other class variables, etc
+    [encoder encodeObject:[NSNumber numberWithBool:self.isShared] forKey:@"isShared"];
+    [encoder encodeObject:[NSNumber numberWithBool:self.active] forKey:@"active"];
+
+    [encoder encodeObject:self.devices forKey:@"devices"];
+    [encoder encodeObject:self.username forKey:@"username"];
+    [encoder encodeObject:self.password forKey:@"password"];
+
+    [encoder encodeObject:self.email forKey:@"email"];
+    [encoder encodeObject:self.displayName forKey:@"displayName"];
+    [encoder encodeObject:self.node forKey:@"node"];
+    [encoder encodeObject:[NSNumber numberWithInt:self.accountType] forKey:@"accountType"];
+
+
+}
+- (id)initWithCoder:(NSCoder *)decoder {
+    if((self = [super init])) {
+        //decode properties, other class vars
+        self.isShared = [[decoder decodeObjectForKey:@"isShared"] boolValue];
+        self.active = [[decoder decodeObjectForKey:@"active"] boolValue];
+        self.devices = [decoder decodeObjectForKey:@"devices"];
+        self.username = [decoder decodeObjectForKey:@"username"];
+        self.password = [decoder decodeObjectForKey:@"password"];
+        self.email = [decoder decodeObjectForKey:@"email"];
+        self.displayName = [decoder decodeObjectForKey:@"displayName"];
+        self.node = [decoder decodeObjectForKey:@"node"];
+        self.accountType = [[decoder decodeObjectForKey:@"accountType"] intValue];
+
+    }
+    return self;
 }
 
 
@@ -67,7 +115,11 @@
         if([info objectForKey:@"node"]){
             self.node = [info objectForKey:@"node"];
         }
-        
+        NSData *encodedObject = [NSKeyedArchiver archivedDataWithRootObject:self];
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        [defaults setObject:encodedObject forKey:@"user_local"];
+        [defaults synchronize];
+
     }
 }
 -(void)setDataWithGoogle:(User *)snapshot{
@@ -84,6 +136,11 @@
     if([dict objectForKey:@"accept"]){
         self.isShared = [[dict objectForKey:@"accept"] boolValue];
     }
+    NSData *encodedObject = [NSKeyedArchiver archivedDataWithRootObject:self];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:encodedObject forKey:@"user_local"];
+    [defaults synchronize];
+
 }
 -(BOOL)isAdmin{
     if (self.accountType == AccountTypeAdmin) {

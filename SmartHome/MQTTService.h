@@ -42,6 +42,7 @@
 @property (strong, nonatomic) NSMutableArray *dataArray;
 @property (strong, nonatomic) NSMutableArray *publishedTopic;
 @property (strong, nonatomic) NSMutableArray *publishingTopic;
+@property (assign, nonatomic) NSInteger curroomId;;
 
 -(void)disconect;
 -(void)conect;
@@ -60,4 +61,5 @@
 -(void)clearPublishTopic:(NSString *)topic;
 -(void)clearRequestStatusDevice;
 -(BOOL)isSubcribeTopic:(Device *)device;
+-(void)requestStatus:    (NSArray *)devices;
 @end

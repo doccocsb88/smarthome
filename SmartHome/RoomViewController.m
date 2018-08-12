@@ -97,6 +97,7 @@
         wSelf.isProcessing = false;
         [wSelf hideLoadingView];
     });
+    [MQTTService sharedInstance].curroomId = self.room.id;
 }
 
 -(void)loadData{
@@ -295,16 +296,16 @@
 }
 -(void)mqttBecomeActive{
     NSLog(@"becomeActive 1");
-    if ([MQTTService sharedInstance].isConnect == false && _retry == 0) {
-        _retry = 1;
-        [self showLoadingView];
-        [[MQTTService sharedInstance] conect];
-
-    }else{
-        if ([MQTTService sharedInstance].isConnect){
-            [self requestStatusDevices];
-        }
-    }
+//    if ([MQTTService sharedInstance].isConnect == false && _retry == 0) {
+//        _retry = 1;
+//        [self showLoadingView];
+//        [[MQTTService sharedInstance] conect];
+//
+//    }else{
+//        if ([MQTTService sharedInstance].isConnect){
+//            [self requestStatusDevices];
+//        }
+//    }
 }
     
     -(void)requestStatusDevices{
@@ -829,10 +830,13 @@
     [self.activityIndicatorView stopAnimating];
     self.activityIndicatorView.hidden = YES;
     [self setTitle:self.room.name connected:YES];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [[MQTTService sharedInstance] setListDevices:dataArray];
-
-    });
+    [[MQTTService sharedInstance]requestStatus:dataArray];
+    NSLog(@"mqttConnected : %ld",dataArray.count);
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//        [self showLoadingView];
+//        [[MQTTService sharedInstance] setListDevices:dataArray];
+//
+//    });
 }
 
 -(void)mqttDisConnect{

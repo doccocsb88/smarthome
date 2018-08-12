@@ -77,7 +77,7 @@
 }
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    [MQTTService sharedInstance].curroomId = NSNotFound;
     if (self.firstTime) {
         self.firstTime = false;
         [self.view bringSubviewToFront:self.stageView];
@@ -91,9 +91,10 @@
         [SVProgressHUD showWithStatus:@"Đang xử lý"];
         [SVProgressHUD dismissWithDelay:3];
 //        [self requestAllDeviceStatus];
+
     }
- 
     self.navigationController.navigationBarHidden = NO;
+    NSLog(@"Home viewDidAppear");
 }
 -(void)initNotification{
     [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(handleMqttConnectEvent:) name:@"kMqttConnectToServer" object:nil];
@@ -109,10 +110,20 @@
     vcs = [[NSMutableArray alloc] init];
     [self loadRoomFromDB];
     
+    [[User sharedInstance] loadObjectFromLocal];
+    
 //    reader = [QRCodeReader readerWithMetadataObjectTypes:@[AVMetadataObjectTypeQRCode]];
 //
 //    // Instantiate the view controller
 //    vc = [QRCodeReaderViewController readerWithCancelButtonTitle:@"Cancel" codeReader:reader startScanningAtLoad:YES showSwitchCameraButton:YES showTorchButton:YES];
+//    - (void)saveCustomObject:(MyObject *)object key:(NSString *)key {
+//        NSData *encodedObject = [NSKeyedArchiver archivedDataWithRootObject:object];
+//        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+//        [defaults setObject:encodedObject forKey:key];
+//        [defaults synchronize];
+//
+//    }
+    
 
 }
 
@@ -125,13 +136,13 @@
         NSLog(@"before %ld",0);
 
     }
-    if (_roomname == 0){
+//    if (_roomname == 0){
+//        dataArray = [[[CoredataHelper sharedInstance] getListRoom] mutableCopy];
+//        //        NSLog(@"numberOfRoom: %d",data.count);
+//
+//    }else if (_roomtype == 1){
         dataArray = [[[CoredataHelper sharedInstance] getListRoom] mutableCopy];
-        //        NSLog(@"numberOfRoom: %d",data.count);
-        
-    }else if (_roomtype == 1){
-        dataArray = [[[CoredataHelper sharedInstance] getListRoom] mutableCopy];
-    }
+//    }
     self.nuberOfPage = [self getNumberOfPage];
     NSLog(@"after %ld",dataArray .count);
 
@@ -148,8 +159,8 @@
     for (Room *room in dataArray) {
         
         NSArray *devices = [room.devices allObjects];
-        if (devices != NULL && devices.count > 0) {
-           NSTimer *timer =  [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(requestStatusDeviceInRoom:) userInfo:devices repeats:false];
+        if (devices != NULL && devices.count > 0 && [MQTTService sharedInstance].curroomId != room.id) {
+           NSTimer *timer =  [NSTimer scheduledTimerWithTimeInterval:index target:self selector:@selector(requestStatusDeviceInRoom:) userInfo:devices repeats:false];
             index += devices.count;
             [_timerArray addObject:timer];
         }
@@ -472,7 +483,6 @@
 
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         if ([MQTTService sharedInstance].isConnect == false && [MQTTService sharedInstance].isConnecting == false) {
-            [MQTTService sharedInstance].isConnecting = true;
             [[MQTTService sharedInstance] conect];
         }
     });
@@ -550,6 +560,7 @@
     for (NSTimer *timer in _timerArray) {
         [timer invalidate];
     }
+    [[MQTTService sharedInstance] disconect];
 }
 -(void)appWillTerminate:(NSNotification*)note
 {
