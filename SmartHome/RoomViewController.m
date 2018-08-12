@@ -900,7 +900,10 @@
     self.isProcessing = false;
     
     [self hideLoadingView];
-    [self showMessageView:nil message:@"Thiết bị không phản hồi" autoHide:YES complete:nil];
+    if (mqttId != NULL && mqttId.length > 0) {
+        [self showMessageView:nil message:@"Thiết bị không phản hồi" autoHide:YES complete:nil];
+
+    }
     [self.tableView reloadData];
 }
 -(void)mqttSetStateValueForDevice:(NSString *)topic value:(float)value{

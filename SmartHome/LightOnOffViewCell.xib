@@ -78,19 +78,31 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IaE-iT-DWj">
+                                <rect key="frame" x="-0.5" y="0.0" width="355" height="100"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="nSc-I3-ZOI">
+                                    <rect key="frame" x="0.0" y="0.0" width="355" height="100"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                </view>
+                                <blurEffect style="light"/>
+                            </visualEffectView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="IaE-iT-DWj" firstAttribute="centerY" secondItem="vcx-bU-aLe" secondAttribute="centerY" id="1Rr-ZX-otT"/>
+                            <constraint firstItem="IaE-iT-DWj" firstAttribute="width" secondItem="vcx-bU-aLe" secondAttribute="width" id="6Zr-gr-IZt"/>
                             <constraint firstItem="vcx-bU-aLe" firstAttribute="leading" secondItem="NZL-Zo-dOW" secondAttribute="leading" id="IJ0-om-pl1"/>
                             <constraint firstAttribute="trailing" secondItem="vcx-bU-aLe" secondAttribute="trailing" id="Lg9-pk-8PU"/>
                             <constraint firstAttribute="trailing" secondItem="Z83-l1-gg7" secondAttribute="trailing" constant="20" id="Pyv-GS-GFD"/>
                             <constraint firstItem="Z83-l1-gg7" firstAttribute="centerY" secondItem="NZL-Zo-dOW" secondAttribute="centerY" constant="5" id="SKi-yR-If4"/>
+                            <constraint firstItem="IaE-iT-DWj" firstAttribute="height" secondItem="vcx-bU-aLe" secondAttribute="height" id="WD6-Wo-1Ec"/>
                             <constraint firstAttribute="bottom" secondItem="vcx-bU-aLe" secondAttribute="bottom" id="aEV-LZ-beN"/>
                             <constraint firstItem="JMc-2x-SaQ" firstAttribute="centerX" secondItem="vcx-bU-aLe" secondAttribute="centerX" id="awE-sY-WNH"/>
                             <constraint firstItem="JMc-2x-SaQ" firstAttribute="height" secondItem="vcx-bU-aLe" secondAttribute="height" id="bf9-ZY-b9O"/>
                             <constraint firstItem="JMc-2x-SaQ" firstAttribute="width" secondItem="vcx-bU-aLe" secondAttribute="width" id="eoZ-Jl-QN1"/>
                             <constraint firstItem="cYx-P5-pBK" firstAttribute="leading" secondItem="NZL-Zo-dOW" secondAttribute="leading" constant="10" id="g3v-TP-48c"/>
+                            <constraint firstItem="IaE-iT-DWj" firstAttribute="centerX" secondItem="vcx-bU-aLe" secondAttribute="centerX" id="jrB-b4-Dfg"/>
                             <constraint firstItem="cYx-P5-pBK" firstAttribute="centerY" secondItem="NZL-Zo-dOW" secondAttribute="centerY" id="l7S-ux-6DW"/>
                             <constraint firstItem="JMc-2x-SaQ" firstAttribute="centerY" secondItem="vcx-bU-aLe" secondAttribute="centerY" id="nNl-hf-pgE"/>
                             <constraint firstItem="vcx-bU-aLe" firstAttribute="top" secondItem="NZL-Zo-dOW" secondAttribute="top" id="ow2-dN-Pgh"/>
@@ -117,6 +129,7 @@
                 <outlet property="onOffButton" destination="Z83-l1-gg7" id="dre-ku-MLf"/>
                 <outlet property="thumbnail" destination="cYx-P5-pBK" id="bnJ-jx-av1"/>
                 <outlet property="valueLabel" destination="iqz-CL-czt" id="WN9-Z3-sla"/>
+                <outlet property="visualEffectView" destination="IaE-iT-DWj" id="Ewz-sg-vl1"/>
             </connections>
             <point key="canvasLocation" x="32.5" y="53.5"/>
         </tableViewCell>
