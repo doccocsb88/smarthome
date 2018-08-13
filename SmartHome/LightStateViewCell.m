@@ -26,16 +26,11 @@
         //bgzView.image = xx;
         
     }
-    UIVisualEffect *blurEffect;
-    blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
-    
-    self.visualEffectView = [[UIVisualEffectView alloc]initWithEffect:blurEffect];
-    self.visualEffectView.frame = self.cantainerLightView.bounds;
     self.visualEffectView.alpha = 0.5;
     self.visualEffectView.layer.cornerRadius = 5.0;
     self.visualEffectView.layer.masksToBounds = true;
 
-
+    self.visualEffectView.hidden = true;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -98,12 +93,11 @@
     }else{
         self._backgroundView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.3];
     }
-    if (self.visualEffectView) {
-        [self.visualEffectView removeFromSuperview];
-    }
-    if (self.device.isOnline == NO) {
-        self.visualEffectView.frame = CGRectMake(0, 0, self.bounds.size.width - 20, self.bounds.size.height - 10);
-        [self.cantainerLightView addSubview:self.visualEffectView];
+    if (self.device.isOnline == false) {
+        self.visualEffectView.hidden = false;
+        
+    }else{
+        self.visualEffectView.hidden = true;
     }
 
 }
@@ -121,12 +115,14 @@
         self.lbDeviceName.text = device.requestId;
         
     }
-    if (self.visualEffectView) {
-        [self.visualEffectView removeFromSuperview];
-    }
-    if (self.device.isOnline == NO) {
-        self.visualEffectView.frame = CGRectMake(0, 0, self.bounds.size.width - 20, self.bounds.size.height - 10);
-        [self.cantainerLightView addSubview:self.visualEffectView];
+    if (self.device.isOnline == false) {
+        NSLog(@"show visualview");
+        self.visualEffectView.hidden = false;
+    }else{
+        
+        NSLog(@"hide visualview");
+
+        self.visualEffectView.hidden = true;
     }
 
 }
@@ -137,12 +133,11 @@
     }else{
         self._backgroundView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.3];
     }
-    if (self.visualEffectView) {
-        [self.visualEffectView removeFromSuperview];
-    }
-    if (self.device.isOnline == NO) {
-        self.visualEffectView.frame = CGRectMake(0, 0, self.bounds.size.width - 20, self.bounds.size.height - 10);
-        [self.cantainerLightView addSubview:self.visualEffectView];
+    if (self.device.isOnline == false) {
+        self.visualEffectView.hidden = false;
+        
+    }else{
+        self.visualEffectView.hidden = true;
     }
 
 }

@@ -12,7 +12,7 @@
 #import "BaseViewCell.h"
 #import "User.h"
 @interface LightStateViewCell : BaseViewCell
-@property(strong, nonatomic) UIVisualEffectView *visualEffectView;
+@property(weak, nonatomic)  IBOutlet UIVisualEffectView *visualEffectView;
 @property (weak, nonatomic) IBOutlet UIView *cantainerLightView;
 
 @property (weak, nonatomic) IBOutlet UIView *_backgroundView;

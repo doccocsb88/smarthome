@@ -282,7 +282,7 @@
     return [NSString stringWithFormat:@"Kênh %d",chanel];
 }
 -(void)reset{
-    isOnline = false;
+//    isOnline = true;
     isSubcrible = false;
     isGetStatus = false;
 }
