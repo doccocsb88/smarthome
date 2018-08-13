@@ -119,7 +119,7 @@ static MQTTService *instance = nil;
         }
         NSLog(@"setListDevices : %ld - %ld",self.dataArray.count,arr.count);
         [self.dataArray addObjectsFromArray:arr];
-        NSMutableArray *arrCopy = [self.dataArray copy];
+        NSMutableArray *arrCopy = [devices copy];
         NSInteger index = 1;
         for (Device *device in arrCopy) {
             NSString *topic = @"";
